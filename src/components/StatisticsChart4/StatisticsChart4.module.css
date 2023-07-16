@@ -1,0 +1,392 @@
+.chartContainer1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 20px;
+  position: relative;
+
+  
+}
+
+.dateFilter {
+  margin-bottom: 30px;
+  border: none;
+  background: #006994;
+  padding: 7px;
+  font-weight: 500;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+  align-items: center;
+  gap: 10px;
+
+}
+
+.dateFilter label {
+  color: black;
+}
+
+.dateFilter input[type="date"] {
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--orange-gradient);
+}
+
+.dateFilter button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #006994; /* Updated background color */
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.dateFilter button:hover {
+  background-color: #3367d6;
+  border: none;
+}
+
+.chart {
+  width: 100%;
+  max-width: 1500px;
+ 
+}
+
+.download-button {
+  margin-left: auto;
+  padding: 10px 10px;
+  position: relative;
+  top: -70px; 
+  background-color: var(--orange);
+  color: #0a0000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.download-button:hover {
+  background-color: #fd2626;
+}
+
+.lightMode {
+  background: rgba(255, 255, 255, 0);
+  color: #000;
+}
+
+.lightMode .dateFilter {
+  background: #239dab;
+  color: white;
+  display: flex;
+  position: relative;
+  top: 2px;
+  left: 10px;
+  align-items: center;
+  border: 2px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.lightMode .dateFilter input[type="date"] {
+  padding: 5px;
+  border: rgb(255, 255, 255);
+  border-radius: 5px;
+  background-color: #239dab;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+.lightMode .dateFilter label {
+  color: white;
+
+}
+
+.lightMode .officefilter {
+  background: #239dab;
+  display: flex;
+  padding: 10px;
+  top: -72px;
+  border-radius: 10px;
+  padding-left: 10px;
+  position:relative;
+  bottom: 10px;
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.lightMode .officefilter select {
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: 3px;
+  margin-left: 10px;
+  border: rgb(255, 255, 255);
+  border-radius: 5px;
+  background-color: #239dab;
+  color: white;
+  cursor: pointer;
+}
+
+.lightMode .officefilter select option {
+  background-color: white;
+  color: #000;
+  cursor: pointer;
+}
+
+.topConatiner{
+  display: flex;
+
+}
+
+/* Dark mode styles */
+.darkMode {
+  background-color: rgba(0, 0, 0, 0);
+  color: #fff;
+}
+
+
+.darkMode .dateFilter {
+  background-color: #239dab;
+  color: #fff;
+  border: 2px solid white;
+  display: flex;
+  position: relative;
+  top: 2px;
+  left: 10px;
+  align-items: center;
+  cursor: pointer;
+ 
+}
+
+.darkMode .dateFilter input[type="date"] {
+  padding: 5px;
+  border: rgb(255, 255, 255);
+  border-radius: 5px;
+  background-color: #239dab;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.darkMode .dateFilter label {
+  color: rgb(0, 0, 0);
+
+}
+
+.darkMode .officefilter {
+  background: #239dab;
+  display: flex;
+  padding: 10px;
+  top: -72px;
+  border-radius: 10px;
+  padding-left: 10px;
+  position:relative;
+  bottom: 10px;
+  color: rgb(0, 0, 0);
+  border: 2px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.darkMode .officefilter select {
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: 3px;
+  margin-left: 10px;
+  border: rgb(255, 255, 255);
+  border-radius: 5px;
+  background-color: #239dab;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.darkMode .officefilter select option {
+  background-color: rgb(0, 0, 0);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+
+
+.iconsContainer {
+  margin-left: auto;
+  padding: 10px 10px;
+  position: relative;
+  top: 0px; 
+  background-color: #239dab;
+  border: 2px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  cursor: pointer;
+  
+ 
+}
+
+.lightMode .icon {
+  cursor: pointer;
+  color: #fcfcfc;/* Adjust the color as needed */
+}
+
+.darkMode .icon {
+  cursor: pointer;
+  color: #000000;/* Adjust the color as needed */
+}
+
+.lightMode .exportOptions {
+position: absolute;
+background-color: white;
+border: 1px solid #ccc;
+border-radius: 4px;
+padding: 10px;
+top: 40px;
+right: 20px;
+z-index: 1;
+width: 180px;
+
+}
+
+.lightMode .exportOption {
+display: flex;
+align-items: center;
+margin-bottom: 0px;
+cursor: pointer;
+
+}
+
+.lightMode .exportOption:not(:last-child) {
+margin-bottom: 15px;
+
+}
+
+.lightMode .exportOption:not(:last-child)::after {
+content: "";
+display: block;
+width: 100px; /* Subtract left and right padding from width */
+height: 1px;
+background-color: #ccc; /* Line separator color */
+margin-right: 0px; /* Left padding */
+margin-bottom: -40px;
+margin-left: -105px;
+margin-top: 0px;
+}
+
+.lightMode .exportOption span {
+margin-left: 10px;
+
+}
+.darkMode  .exportOptions {
+position: absolute;
+background-color: rgb(0, 0, 0);
+border: 1px solid #ccc;
+border-radius: 4px;
+padding: 10px;
+top: 40px;
+right: 20px;
+z-index: 1;
+width: 180px;
+
+}
+
+.darkMode  .exportOption {
+display: flex;
+align-items: center;
+margin-bottom: 0px;
+cursor: pointer;
+
+}
+
+.darkMode  .exportOption:not(:last-child) {
+margin-bottom: 15px;
+
+}
+
+.darkMode .exportOption:not(:last-child)::after {
+content: "";
+display: block;
+width: 100px; /* Subtract left and right padding from width */
+height: 1px;
+background-color: #ccc; /* Line separator color */
+margin-right: 0px; /* Left padding */
+margin-bottom: -40px;
+margin-left: -105px;
+margin-top: 0px;
+}
+
+.darkMode .exportOption span {
+margin-left: 10px;
+
+}
+
+.tableContainer {
+max-height: 550px;
+overflow-y: auto;
+margin-top: 10px;
+}
+
+.table {
+width: 100%;
+border-collapse: collapse;
+}
+
+.table th,
+.table td {
+border: 1px solid #ddd;
+padding: 8px;
+}
+
+/* Light Mode */
+.lightMode .table th {
+background-color: #fefefe;
+}
+
+/* Dark Mode */
+.darkMode .table th {
+background-color: black;
+color: white;
+}
+
+
+.closeButton {
+margin-top: 10px;
+padding: '8px 16px';
+border: 'none';
+width: 65px;
+height: 35px;
+font-size: 16px;
+border-radius: 10px;
+cursor: pointer;
+background-color: #239dab;
+color: white;
+border: 2px solid white;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.tableWrapper {
+margin-top: 20px;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0);
+  z-index: 999;
+}
+
+.loadingSpinner {
+  font-size: 2rem;
+  top: 50px;
+  position: relative; /* Increase the font size */
+}
+

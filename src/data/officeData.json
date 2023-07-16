@@ -1,0 +1,33 @@
+[
+    {
+     "OfficeId": "46A1C7B7-6885-4F74-7ADE-08DAFE23C727",
+     "OfficeName": "Deep Lubricants",
+     "OfficeTypeName": "Company"
+    },
+
+    {
+
+     "OfficeId": "C50DBAA3-FA99-4BF8-7ADF-08DAFE23C727",
+     "OfficeName": "Varanasi Pump",
+     "OfficeTypeName": "Retail Pumps"
+
+    },
+    {
+
+     "OfficeId": "8496841D-D292-4E51-4C72-08DB2523436A",
+     "OfficeName": "SMS shop",
+     "OfficeTypeName": "Retail Pumps"
+    },
+    {
+
+     "OfficeId": "43FE68E8-C233-4F4E-4C73-08DB2523436A",
+     "OfficeName": "DIVOL PETRO CHEM",
+     "OfficeTypeName": "Company"
+    },
+    {
+
+     "OfficeId": "D5CDA415-8955-4816-775D-08DB46684854",
+     "OfficeName": "Ashok Urea filling station",
+     "OfficeTypeName": "Wholesale Pumps"
+    }
+   ]

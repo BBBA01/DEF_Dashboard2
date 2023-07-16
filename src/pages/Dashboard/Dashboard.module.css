@@ -1,0 +1,296 @@
+.container {
+  width: 100%;
+  height: 100%;
+  max-width: 150rem;
+  padding: 0rem 4rem;
+  display: flex;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0rem 0rem;
+  }
+
+  .lightMode .cards{
+    margin-left: 10%;
+  }
+  .darkMode .cards{
+    margin-left: 10%;
+  }
+
+  
+}
+
+.dashboard {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dashboardHead {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dashboardHead > .head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.head > :nth-child(1) {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.durationButton > select {
+  border: none;
+  background: var(--orange-gradient);
+  padding: 10px;
+  font-weight: 500;
+  border-radius: 10px;
+  font-size: 0.8rem;
+}
+
+.lightMode .cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  
+  
+  
+}
+
+.darkMode .cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  background-color: #00000000;
+  
+}
+
+.lightMode .card1 {
+  width: 20rem;
+  background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
+  color: #fff;
+}
+.lightMode .card2 {
+  width: 20rem;
+  background: linear-gradient(195deg, rgb(41 179 195), rgb(34 142 155));
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
+  color: #fff;
+}
+.lightMode .card3 {
+  width: 20rem;
+  background: linear-gradient(195deg, rgb(102, 187, 106), rgb(67, 160, 71));
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
+  color: #fff;
+}
+.lightMode .card4 {
+  width: 20rem;
+  background: linear-gradient(195deg, rgb(223, 104, 104), rgb(232, 26, 26));
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
+  color: #fff;
+  
+}
+
+.lightMode .card1:hover {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    cursor: pointer;
+    transition: all 0.5s ease;
+    transform: scale(1.1);
+
+}
+.lightMode .card2:hover {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    cursor: pointer;
+    transition: all 0.5s ease;
+    transform: scale(1.1);
+
+}
+.lightMode .card3:hover {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    cursor: pointer;
+    transition: all 0.5s ease;
+    transform: scale(1.1);
+
+}
+.lightMode .card4:hover {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    cursor: pointer;
+    transition: all 0.5s ease;
+    transform: scale(1.1);
+
+}
+
+
+.lightMode .cardHead {
+  font-size: 1.3rem;
+  display: flex;
+  margin-bottom: 10px ;
+  align-items: center;
+  justify-content: space-between;
+  
+}
+
+.lightMode .cardHead > :nth-child(2) {
+  margin-left: 1.5rem;
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.216);
+  
+}
+
+.lightMode .cardAmount > :nth-child(1) {
+  font-size: 1rem;
+  position: relative;
+  bottom: 5px;
+  
+}
+
+.lightMode .cardAmount > :nth-child(2) {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 8px;
+  color: #fff;
+}
+
+
+
+
+.darkMode .card1 {
+  width: 20rem;
+  background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgb(0, 0, 0);
+  transition: box-shadow 0.3s ease;
+}
+.darkMode .card2 {
+  width: 20rem;
+  background: linear-gradient(195deg, rgb(41 179 195), rgb(34 142 155));
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+.darkMode .card3 {
+  width: 20rem;
+  background: linear-gradient(195deg, rgb(102, 187, 106), rgb(67, 160, 71));
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+.darkMode .card4 {
+  width: 20rem;
+  background: linear-gradient(195deg, rgb(223, 104, 104), rgb(232, 26, 26));
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.darkMode .card1:hover {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    cursor: pointer;
+    transition: all 0.5s ease;
+    transform: scale(1.1);
+
+}
+.darkMode .card2:hover {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    cursor: pointer;
+    transition: all 0.5s ease;
+    transform: scale(1.1);
+
+}
+.darkMode .card3:hover {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    cursor: pointer;
+    transition: all 0.5s ease;
+    transform: scale(1.1);
+
+}
+.darkMode .card4:hover {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+    cursor: pointer;
+    transition: all 0.5s ease;
+    transform: scale(1.1);
+
+}
+
+.darkMode .cardHead {
+  font-size: 1.1rem;
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.darkMode .cardHead > :nth-child(2) {
+  margin-left: 1.5rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.362);
+}
+
+.darkMode .cardAmount > :nth-child(1) {
+  font-size: 1rem;
+  position: relative;
+  bottom: 5px;
+  
+}
+
+.darkMode .cardAmount > :nth-child(2) {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+/* Light mode styles */
+.lightMode {
+  background-color: #f0f0f0dd;
+  color: #000;
+}
+
+/* Dark mode styles */
+.darkMode {
+  background-color: #272626;
+  color: #fff;
+}
+
+.cardHeadLight {
+  color: rgba(0, 0, 0, 0.835);
+}
+
+.cardAmountLight {
+  color: black;
+}
+
+.switchIcon {
+  margin-top: 4px;
+  padding-bottom: 7px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.scrollableContainer {
+  overflow-y: auto;
+  /* Adjust the max-height to your preference */
+}
