@@ -22,6 +22,22 @@ const Dashboard = () => {
   const [officeId, setOfficeId] = useState();
   const [roleName, setRoleName] = useState('');
   const [officeName, setOfficeName] = useState('');
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Function to update the window width state on window resize
+  const handleWindowResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    // Add a window resize event listener
+    window.addEventListener('resize', handleWindowResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
 
   
 

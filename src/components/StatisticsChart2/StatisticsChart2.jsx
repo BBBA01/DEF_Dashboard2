@@ -27,6 +27,22 @@ const StatisticsChart2 = ({ themeMode, selectedRange }) => {
   const [selectedOffice, setSelectedOffice] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Function to update the window width state on window resize
+  const handleWindowResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    // Add a window resize event listener
+    window.addEventListener('resize', handleWindowResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -110,22 +126,25 @@ const StatisticsChart2 = ({ themeMode, selectedRange }) => {
       text: "Total Sales by Office",
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: 25,
+        fontSize: windowWidth <= 768 ? 18 : 25,
       },
     },
     tooltip: {
       trigger: "axis",
       formatter: "<b>Office:</b> {b} <br> <b>Sales:</b> {c} ",
+      textStyle: {
+        fontSize: windowWidth <= 768 ? 10 : 14,
+      },
     },
     yAxis: {
       type: "category",
       name: "Office Name",
       nameLocation: "middle",
-      nameGap: 150,
+      nameGap: 65,
       nameTextStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
         fontWeight: "bold",
-        fontSize: 18,
+        fontSize: windowWidth <= 768 ? 14 : 20,
       },
       data: chartData.map((item) => item.officeName),
       axisLine: {
@@ -135,10 +154,16 @@ const StatisticsChart2 = ({ themeMode, selectedRange }) => {
       },
       axisLabel: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
+        fontSize: 12,
+        // Implement a custom formatter function to make the yAxis labels shorter
+        formatter: (value) => {
+          // Custom logic to make labels shorter, e.g., show only the first 10 characters
+          return value.length > 5 ? value.substring(0, 5) + "..." : value;
+        },
       },
     },
     grid: {
-      left: 170, // Adjust the left margin to give space for the y-axis labels
+      left: 85, // Adjust the left margin to give space for the y-axis labels
       right: 30,
       bottom: 50,
       top: 70,
@@ -151,7 +176,7 @@ const StatisticsChart2 = ({ themeMode, selectedRange }) => {
       nameTextStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
         fontWeight: "bold",
-        fontSize: 18,
+        fontSize: windowWidth <= 768 ? 14 : 20,
       },
       axisLine: {
         lineStyle: {
@@ -160,6 +185,13 @@ const StatisticsChart2 = ({ themeMode, selectedRange }) => {
       },
       axisLabel: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
+        formatter: (value) => {
+          if (value >= 10000) {
+            return (value / 1000) + "k";
+          } else {
+            return value;
+          }
+        },
       },
       splitLine: {
         show: true,
@@ -179,6 +211,8 @@ const StatisticsChart2 = ({ themeMode, selectedRange }) => {
       },
     ],
   };
+
+ 
 
   const arrayBufferToBase64 = (buffer) => {
     let binary = '';
@@ -678,7 +712,7 @@ totalSalesCell.alignment = { horizontal: "right" };
       )}
       <ReactECharts
         option={option}
-        style={{ height: "500px", width: "100%", maxWidth: "1500px", marginTop: "0px"  }}
+        style={{ height: "500px", width: "100%", maxWidth: "2300px", marginTop: "0px"  }}
         className={themeMode === "dark" ? css.darkMode : css.lightMode}
       />
     </div>

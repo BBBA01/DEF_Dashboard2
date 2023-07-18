@@ -5,25 +5,26 @@ import StatisticsChart2 from '../StatisticsChart2/StatisticsChart2';
 import StatisticsChart3 from '../StatisticsChart3/StatisticsChart3';
 import StatisticsChart4 from '../StatisticsChart4/StatisticsChart4';
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OrdersPieChart from '../OrdersPieChart/OrdersPieChart';
-import officeData from "../../data/officeData.json";
-
 import { DateRangePicker } from 'rsuite';
 
 const Statistics = ({ themeMode }) => {
   const [selectedChart, setSelectedChart] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const urlParams = new URLSearchParams(location.search);
   const [selectedRange, setSelectedRange] = useState([new Date('2023-01-01'), new Date('2023-06-01')]);
-
+  const [officeData, setOfficeData] = useState([]); // State to hold the fetched office data
   const [maxPrice, setMaxPrice] = useState(0);
   const [maxProfit, setMaxProfit] = useState(0);
   const [dailyAverage, setDailyAverage] = useState(0);
   const [selectedOffice, setSelectedOffice] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
+  const initialuserId = urlParams.get('userId');
+  const [userId, setUserId] = useState(initialuserId);
 
 
   useEffect(() => {
@@ -38,35 +39,30 @@ const Statistics = ({ themeMode }) => {
     }
   }, []);
 
+
+  useEffect(() => {
+  
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/v1/dashboard/dropdown_list/${userId}`);
+        const officeDataFromApi = response.data;
+
+        // Update the state with the fetched data
+        // Assuming the API response contains an array of office objects
+        // with properties: OfficeId, OfficeName, OfficeTypeName, OfficeTypeId
+        console.log(officeDataFromApi);
+        setOfficeData(officeDataFromApi); // You should define the state for officeData
+      } catch (error) {
+        console.error('Error fetching office data:', error);
+      }
+    };
+
+    fetchData();
+
+}, [userId]);
+
  
 
-  // useEffect(() => {
-  //   axios
-  //     .get('http://localhost:3000/orders') // Replace with the URL of your orders API
-  //     .then(response => {
-  //       const orderData = response.data;
-
-  //       // Calculate max profit
-  //       let maxProfit = 0;
-  //       for (const order of orderData) {
-  //         const profit = order.Sales - order.Quantity_Ordered * order.Price_Each;
-  //         if (profit > maxProfit) {
-  //           maxProfit = profit;
-  //         }
-  //       }
-
-  //       setMaxProfit(parseFloat(maxProfit).toFixed(2));
-
-  //       // Calculate daily average
-  //       const totalSales = orderData.reduce((sum, order) => sum + order.Sales, 0);
-  //       const days = new Set(orderData.map(order => order.Order_Date)).size;
-  //       const average = totalSales / days;
-  //       setDailyAverage(average.toFixed(2));
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching order data:', error);
-  //     });
-  // }, []);
 
   const handleChartSelection = event => {
     const selectedValue = event.target.value;
@@ -101,12 +97,8 @@ const Statistics = ({ themeMode }) => {
 
     setSelectedOffice(event.target.value);
     setIsAdmin(isAdmin);
-    console.log(selectedOption);
-
-    console.log(selectedOffice, isAdmin);
-
+    
    
-
 
   };
 
@@ -145,11 +137,11 @@ const Statistics = ({ themeMode }) => {
           >
              <label>Date Range:</label> 
             <DateRangePicker
-              style={{ width: 230, color: 'black' }}
+              style={{ color: 'black' }}
               value={selectedRange}
               onChange={handleDateRange}
-              appearance="subtle"
-              className="date-range-picker"
+              appearance="default"
+              className={`${css.dateRangePicker}`}
             /> 
           </div>
           <div
@@ -254,47 +246,6 @@ const Statistics = ({ themeMode }) => {
             </div>
           </div>
         </div>
-
-      {/* <div className={`${css.cards} ${themeMode === 'dark' ? 'grey-container' : 'silver-container'}`}> */}
-        {/* <div>
-          <div className={css.arrowIcon}>
-            <BsArrowUpShort style={{ color: themeMode === 'dark' ? 'black' : 'white' }} />
-          </div>
-
-          <div className={css.card}>
-            <span style={{ color: themeMode === 'light' ? 'black' : '#D3D3D3' }}>Top Product this month</span>
-            <span style={{ color: themeMode === 'light' ? 'black' : '#D3D3D3' }}>Office comps</span>
-          </div>
-        </div> */}
-
-        {/* <div className={css.card}>
-          <span style={{ color: themeMode === 'light' ? 'black' : '#D3D3D3' }}>Max Product Price</span>
-          <span style={{ color: themeMode === 'light' ? 'black' : '#D3D3D3' }}>₹1700</span>
-        </div>
-
-        <div className={css.card}>
-          <span style={{ color: themeMode === 'light' ? 'black' : '#D3D3D3' }}>Max Profit</span>
-          <span style={{ color: themeMode === 'light' ? 'black' : '#D3D3D3' }}>₹{maxProfit}</span>
-        </div>
-
-        <div className={css.card}>
-          <span style={{ color: themeMode === 'light' ? 'black' : '#D3D3D3' }}>Daily Average</span>
-          <span style={{ color: themeMode === 'light' ? 'black' : '#D3D3D3' }}>₹{dailyAverage}</span>
-        </div> */}
-      {/* </div> */}
-
-      {/* <div className={css.durationButton}>
-        <select value={selectedChart} onChange={handleChartSelection}>
-          <option value="">Select an option</option>
-          <option value="/">What is best Month for Sales?</option>
-          <option value="/chart2">Which City Sold Most Products?</option>
-          <option value="/chart3">Which Time to Sell Products?</option>
-          <option value="/chart4">Cross Sell of Products</option>
-          <option value="/chart5">Which Product Sold the Most?</option>
-          <option value="/chart6">Why that Product Sold the Most?</option>
-          <option value="/chart7">Average Purchase Value</option>
-        </select>
-      </div> */}
        
        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center',flexWrap:'wrap',justifyContent:'center',alignItems:'center'}}>
       <StatisticsChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} />

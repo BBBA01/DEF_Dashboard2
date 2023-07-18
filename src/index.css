@@ -40,6 +40,15 @@ body {
   padding: 2rem;
 }
 
+@media screen and (max-width: 480px) {
+  .theme-container {
+    padding: 1rem;
+  }
+  .theme2-container {
+    padding: 1rem;
+  }
+}
+
 .grey-container {
   border-top: 0.3px solid rgba(255, 255, 255, 0.185);
   border-bottom: 0.3px solid rgba(255, 255, 255, 0.185);

@@ -27,6 +27,22 @@ const StatisticsChart4 = ({ themeMode, selectedRange }) => {
   const [selectedOffice, setSelectedOffice] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Function to update the window width state on window resize
+  const handleWindowResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    // Add a window resize event listener
+    window.addEventListener('resize', handleWindowResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -37,7 +53,7 @@ const StatisticsChart4 = ({ themeMode, selectedRange }) => {
     const startDate = formatDate(selectedRange[0]);
     const endDate = formatDate(selectedRange[1]);
     axios
-      .get(`http://115.124.120.251:5059/api/Sales`)
+      .get("http://115.124.120.251:5059/api/Sales")
       .then((response) => {
         const { data } = response;
         console.log("API response data:", data);
@@ -48,23 +64,25 @@ const StatisticsChart4 = ({ themeMode, selectedRange }) => {
             .map((item) => ({
               rate: item.rate,
               invoiceDate: item.invoiceDate.split("T")[0], // Extract date portion
+              productTypeName: item.productTypeName, // Include the productTypeName
             }));
   
           setChartData(filteredData);
         } else {
           console.error("Invalid data format:", data);
-          // You can display an error message to the user or handle the error in an appropriate way
         }
       })
       .catch((error) => {
         console.error("Error fetching data:", error.response.data);
-        // You can display an error message to the user or handle the error in an appropriate way
       })
-
       .finally(() => {
-        setIsLoading(false); // Set loading state to false after the data is loaded or in case of an error
+        setIsLoading(false);
       });
   };
+  
+  
+  
+  
   
   
   
@@ -106,12 +124,21 @@ const StatisticsChart4 = ({ themeMode, selectedRange }) => {
       text: "Fuel Rate vs Date",
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: 25,
+        fontSize: windowWidth <= 768 ? 18 : 25,
       },
     },
     tooltip: {
       trigger: "axis",
-      formatter: "<b>Date:</b> {b} <br> <b>Fuel Rate:</b> {c}",
+      formatter: (params) => {
+        const data = params[0]?.data || {}; // Get the data point
+        const { name, value } = params[0]; // Get the date and fuel rate
+        const productTypeName = data.productTypeName || ""; // Get the productTypeName from the data point
+        return `<b>Date:</b> ${name} <br> <b>Fuel Rate:</b> ${value} <br> <b>Product Type Name:</b> ${productTypeName}`;
+      },
+      textStyle: {
+        fontSize: windowWidth <= 768 ? 10 : 14,
+      },
+      
     },
     xAxis: {
       type: "category",
@@ -121,7 +148,7 @@ const StatisticsChart4 = ({ themeMode, selectedRange }) => {
       nameTextStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
         fontWeight: "bold",
-        fontSize: 18,
+        fontSize: windowWidth <= 768 ? 14 : 20,
       },
       data: chartData.map((item) => item.invoiceDate), // Use invoiceDate for x-axis
       axisLine: {
@@ -138,11 +165,11 @@ const StatisticsChart4 = ({ themeMode, selectedRange }) => {
       type: "value",
       name: "Fuel Rate",
       nameLocation: "middle",
-      nameGap: 50,
+      nameGap: 30,
       nameTextStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
         fontWeight: "bold",
-        fontSize: 18,
+        fontSize: windowWidth <= 768 ? 14 : 20,
       },
       axisLine: {
         lineStyle: {
@@ -162,7 +189,7 @@ const StatisticsChart4 = ({ themeMode, selectedRange }) => {
       },
     },
     grid: {
-      left: 70,
+      left: 50,
       right: 30,
       bottom: 50,
       top: 70,
@@ -170,9 +197,10 @@ const StatisticsChart4 = ({ themeMode, selectedRange }) => {
     series: [
       {
         type: "line",
-        symbol: "circle",
-        symbolSize: 8,
-        data: chartData.map((item) => item.rate),
+        data: chartData.map((item) => ({
+          value: item.rate,
+          productTypeName: item.productTypeName, // Include the productTypeName for each data point
+        })),
       },
     ],
   };
@@ -670,7 +698,7 @@ const StatisticsChart4 = ({ themeMode, selectedRange }) => {
       )}
       <ReactECharts
         option={option}
-        style={{ height: "500px", width: "100%", maxWidth: "1500px", marginTop: "0px"  }}
+        style={{ height: "500px", width: "100%", maxWidth: "2300px", marginTop: "0px"  }}
         className={themeMode === "dark" ? css.darkMode : css.lightMode}
       />
     </div>

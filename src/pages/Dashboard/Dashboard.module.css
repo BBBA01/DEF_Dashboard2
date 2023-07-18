@@ -13,10 +13,10 @@
   }
 
   .lightMode .cards{
-    margin-left: 10%;
+    margin-left: 16%;
   }
   .darkMode .cards{
-    margin-left: 10%;
+    margin-left: 16%;
   }
 
   
@@ -47,6 +47,14 @@
   font-weight: 500;
 }
 
+@media (max-width: 768px) {
+  .head > :nth-child(1) {
+    font-size: 1.3rem; 
+  }
+
+  
+}
+
 .durationButton > select {
   border: none;
   background: var(--orange-gradient);
@@ -60,6 +68,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
+
   
   
   
@@ -172,6 +181,42 @@
 }
 
 
+@media screen and (max-width:768px) {
+
+  .lightMode .card1 {
+    width: 15rem;
+
+  }
+  .lightMode .card2 {
+    width: 15rem;
+  }
+  .lightMode .card3 {
+    width: 15rem;
+  }
+  .lightMode .card4 {
+    width: 15rem;
+  }
+
+  .lightMode .cardHead {
+    font-size: 1rem;
+  }
+
+  .lightMode .cardHead > span > svg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .lightMode .cardAmount > :nth-child(1) {
+    font-size: 0.8rem;
+  }
+  .lightMode .cardAmount > :nth-child(2) {
+    font-size: 1.1rem;
+  }
+
+
+}
+
+
 
 
 .darkMode .card1 {
@@ -263,6 +308,42 @@
   margin-left: 8px;
 }
 
+@media screen and (max-width:768px) {
+
+  .darkMode .card1 {
+    width: 15rem;
+
+  }
+  .darkMode .card2 {
+    width: 15rem;
+  }
+  .darkMode .card3 {
+    width: 15rem;
+  }
+  .darkMode .card4 {
+    width: 15rem;
+  }
+
+  .darkMode .cardHead {
+    font-size: 1rem;
+  }
+
+  .darkMode .cardHead > span > svg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .darkMode .cardAmount > :nth-child(1) {
+    font-size: 0.8rem;
+  }
+  .darkMode .cardAmount > :nth-child(2) {
+    font-size: 1.1rem;
+  }
+
+
+}
+
+
 /* Light mode styles */
 .lightMode {
   background-color: #f0f0f0dd;
@@ -294,3 +375,8 @@
   overflow-y: auto;
   /* Adjust the max-height to your preference */
 }
+
+.switchIcon{
+  color: rgb(255, 255, 255);
+}
+

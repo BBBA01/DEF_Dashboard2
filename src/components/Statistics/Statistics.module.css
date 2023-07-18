@@ -6,9 +6,15 @@
     /* justify-content: center; */
 }
 
-.title{
+.title {
     font-size: 1.2rem;
     font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .title > h4 {
+    font-size: 1.1rem; /* Adjust the font size as per your requirements */
+  }
 }
 
 .cards{
@@ -62,20 +68,6 @@
   }
 
 
-/* .lightMode {
-    background: rgba(255, 255, 255, 0.59);
-    color: #000;
-    border-radius: 20px;
-  }
-  
-  
-.darkMode {
-    background-color: rgba(0, 0, 0, 0.59);
-    border-radius: 20px;
-    color: #fff;
-  } */
-
-/* Dark mode styles */
 .lightMode {
    
     color: #ffffff;
@@ -93,12 +85,16 @@
     overflow: hidden;
     top: 2px;
     left: 450px;
-    padding: 2px;
+    padding: 6px;
     /* align-items: center; */
     border: 2px solid white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+
+ 
   }
+
+  
   
  .lightMode .dateFilter input[type="date"] {
    
@@ -113,16 +109,32 @@
   
 .lightMode .dateFilter label {
     color: white;
-    padding: 10px;
+    padding: 5px;
+    font-size: 16px;
   
+  }
+
+  @media (max-width: 768px) {
+    .lightMode .dateFilter label {
+      color: white;
+      padding: 2px;
+      font-size: 11px;
+    
+    }
+
+    .lightMode .dateFilter {
+      padding: 3px;
+    }
   }
   
 .lightMode .officefilter {
     background-color: #239dab;
     margin-bottom: 20px;
     display: flex;
-    padding: 10px;
-    width: 338px;
+   
+    
+    padding: 7px;
+    width: 330px;
     top: -72px;
     border-radius: 10px;
     padding-left: 10px;
@@ -134,17 +146,22 @@
     cursor: pointer;
   }
 
+
+
 .lightMode .officefilter label {
     top: 2px;
     position: relative;
+    font-size: 16px;
+    margin-top: 4px;
+    color: #fff;
   }
   
  .lightMode .officefilter select {
     display: flex;
     align-items: center;
     position: relative;
-    padding: 4px;
-    width: 270px;
+    padding: 8px;
+    width: 250px;
     top: 0px;
     margin-left: 5px;
     border: none;
@@ -153,15 +170,67 @@
     background-color: #239dab;
     color: white;
     cursor: pointer;
+    font-size: 16px;
+   
+  
+  
+    
   }
   
  .lightMode .officefilter select option {
-    background-color: white;
+    background-color: #f8f8f8;
     color: #000;
     cursor: pointer;
+    font-size: 16px;
 
    
   }
+  
+
+  
+
+  .boldOption {
+    font-weight: 800;
+   
+    
+  }
+  
+  .optionGroup {
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .lightMode .officefilter {
+      width: 210px;
+
+    }
+
+
+    .lightMode .officefilter select {
+      width: 150px;
+      font-size:11px;
+      padding: 2px;
+
+    }
+
+    .lightMode .officefilter label {
+      font-size: 11px;
+      margin-top: 0px;
+    }
+
+    .lightMode .officefilter select option {
+      background-color: rgb(253, 253, 253);
+      color: #000;
+      cursor: pointer;
+      padding: 10px;
+      font-size: 11px;
+     
+     
+    }
+
+  }
+
+  
   
   .topContainer{
     display: flex;
@@ -169,8 +238,6 @@
     flex-direction: 'row';
     align-items: flex-start;
     justify-content: flex-start;
-    
-   
    
   }
   
@@ -188,14 +255,14 @@
     background-color: #239dab;
     color: #fff;
     border: 2px solid white;
-    padding: 4px;
+    padding: 3px;
     display: flex;
-    padding: 2px;
     /* position: relative; */
     top: 2px;
     left: 450px;
     align-items: center;
     cursor: pointer;
+
    
   }
 
@@ -211,6 +278,7 @@
   .darkMode .dateFilter label {
     color: rgb(0, 0, 0);
     padding: 10px;
+    font-size: 16px;
   
   }
 
@@ -244,6 +312,7 @@
     background-color: #239dab;
     color: rgb(0, 0, 0);
     cursor: pointer;
+    font-size: 16px;
   }
   
   .darkMode .officefilter select option {
@@ -255,5 +324,83 @@
   .darkMode .officefilter label {
     top: 2px;
     position: relative;
+    font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+
+    .darkMode .dateFilter label {
+      padding: 2px;
+      font-size: 11px;
+    
+    }
+
+    .darkMode .dateFilter {
+      padding: 3px;
+    }
+
+   
+      .darkMode .officefilter {
+        width: 210px;
+        padding: 6px;
+  
+      }
+  
+  
+      .darkMode .officefilter select {
+        width: 150px;
+        font-size:11px;
+        padding: 2px;
+  
+      }
+  
+      .darkMode .officefilter label {
+        font-size: 11px;
+        margin-top: 0px;
+      }
+  
+      .darkMode .officefilter select option {
+       
+        
+        cursor: pointer;
+        padding: 10px;
+        font-size: 11px;
+        width: 50px;
+       
+       
+      }
+  
+  
+    .dateRangePicker {
+      width: 80px;
+      height: 35x;
+      
+     
+    }
+  }
+
+.rs-picker-toggle-value {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    font-size: 20px !important;
+}
+
+  @media (max-width: 768px) {
+    .rs-picker-toggle-value {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+      font-size: 8px!important;
+  }
+
+  .rs-picker-default .rs-picker-toggle.rs-btn {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
   }
   

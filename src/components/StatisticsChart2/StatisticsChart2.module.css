@@ -4,8 +4,28 @@
   align-items: flex-start;
   margin-top: 20px;
   position: relative;
+
   
 }
+
+/* styles.css (or any appropriate CSS file) */
+/* For screens with width up to 480px */
+@media screen and (max-width: 480px) {
+  .chart-container {
+    font-size: 10px; /* You can adjust the font size and other styles as needed */
+  }
+}
+
+/* For screens with width from 481px to 768px */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .chart-container {
+    font-size: 12px; /* You can adjust the font size and other styles as needed */
+  }
+}
+/* Add more media queries as needed for other screen sizes */
+
+
+
 
 .dateFilter {
   margin-bottom: 30px;
@@ -215,26 +235,40 @@
 
 .iconsContainer {
   margin-left: auto;
-  padding: 10px 10px;
-  position: relative;
-  top: 0px; 
+  padding: 12px 12px;
+  /* position: relative; */
+  top: 70px; 
   background-color: #239dab;
   border: 2px solid white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   cursor: pointer;
-  
- 
 }
 
 .lightMode .icon {
   cursor: pointer;
   color: #fcfcfc;/* Adjust the color as needed */
+  font-size: 18px;
 }
 
 .darkMode .icon {
   cursor: pointer;
   color: #000000;/* Adjust the color as needed */
+  font-size: 18px;
+}
+
+
+@media screen and (max-width:768px) {
+  .iconsContainer {
+    padding: 7px 7px;
+    top: 100px;
+  }
+  .lightMode .icon{
+    font-size: 12px;
+  }
+  .darkMode .icon{
+    font-size: 12px;
+  }
 }
 
 .lightMode .exportOptions {
@@ -246,9 +280,29 @@ padding: 10px;
 top: 40px;
 right: 20px;
 z-index: 1;
-width: 180px;
+width: 190px;
+font-size: 18px;
 
 }
+
+@media screen and (max-width:768px) {
+
+  .lightMode .exportOptions {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    top: 40px;
+    right: 20px;
+    z-index: 1;
+    width: 125px;
+    font-size: 11px;
+  
+  }
+
+}
+
 
 .lightMode .exportOption {
 display: flex;
@@ -279,16 +333,37 @@ margin-top: 0px;
 margin-left: 10px;
 
 }
+
 .darkMode  .exportOptions {
-position: absolute;
-background-color: rgb(0, 0, 0);
-border: 1px solid #ccc;
-border-radius: 4px;
-padding: 10px;
-top: 40px;
-right: 20px;
-z-index: 1;
-width: 180px;
+  position: absolute;
+  background-color: rgb(0, 0, 0);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  top: 40px;
+  right: 20px;
+  z-index: 1;
+  width: 190px;
+  font-size: 18px;
+
+}
+
+@media screen and (max-width:768px) {
+
+ 
+  .darkMode .exportOptions {
+    position: absolute;
+    background-color: rgb(0, 0, 0);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    top: 30px;
+    right: 20px;
+    z-index: 1;
+    width: 125px;
+    font-size: 11px;
+  
+  }
 
 }
 

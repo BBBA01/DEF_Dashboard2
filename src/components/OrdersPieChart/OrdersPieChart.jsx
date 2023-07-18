@@ -12,6 +12,7 @@ import {
   faFilePdf,
 } from '@fortawesome/free-solid-svg-icons';
 import css from './OrdersPieChart.module.css';
+import './scrollbar.css'; // Import the custom scrollbar styles
 
 
 const OrdersPieChart = ({ themeMode, selectedRange }) => {
@@ -21,6 +22,24 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
   const exportOptionsRef = useRef(null);
   const iconRef = useRef(null);
   const [showLegend, setShowLegend] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+
+
+  // Function to update the window width state on window resize
+  const handleWindowResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    // Add a window resize event listener
+    window.addEventListener('resize', handleWindowResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
 
   useEffect(() => {
     const startDate = formatDate(selectedRange[0]);
@@ -63,8 +82,9 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
   }, [selectedRange]);
 
   const toggleLegend = () => {
-    setShowLegend(!showLegend); // Toggle the state for showLegend
-  };
+  setShowLegend(!showLegend); // Toggle the state for showLegend
+ // Toggle the state for showScrollbar
+};
 
   const colors = [
     "#009AEE",
@@ -80,34 +100,55 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
     // Add more colors as needed
   ];
 
+  const legendFormatter = (value) => {
+    // Custom logic to make labels shorter, e.g., show only the first 5 characters
+    return windowWidth <= 1000 && value.length > 7 ? value.substring(0, 7) + '...' : value;
+  };
+
+
+
+  // Calculate the tooltip formatter based on the window width
+  
+  
+
   const option = {
     color: colors,
+   
 
     tooltip: {
       trigger: "item",
       formatter: "<b>{b}</b><br><b>Total Sales:</b> ₹{c}",
+      textStyle: {
+        fontSize: windowWidth <= 768 ? 10 : 14,
+      },
     },
     legend: {
       orient: 'vertical',
       left: '0px',
       top: '0px',
       show: showLegend,
-      itemGap: 5, // Adjust the itemGap to create a gap
+      itemGap: 8, // Adjust the itemGap to create a gap
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: window.innerWidth <= 480 ? 11 : 14,
+        fontSize: window.innerWidth <= 768 ? 10 : 16,
       },
-      formatter: "{name}",
+      formatter: legendFormatter,
+      type: 'scroll', // Set the type of scrollbar (can be 'scroll' or 'slider')
+      // You can also adjust other scrollbar properties here if needed
+      scroll: {
+        show: true,
+        orient: 'vertical', // Scroll orientation (can be 'vertical' or 'horizontal')
+      },
     },
 
     graphic: {
       type: "text",
-      // left: 'center',
-      // top: 'middle',
+      left: 'center',
+      top: 'middle',
       style: {
-        // text:"Product Wise Sales",
+       text:"Product Wise Sales",
         fill: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: 20,
+        fontSize: windowWidth <= 768 ? 10 : 20,
         fontWeight: "bold",
         heigth: "400px",
       },
@@ -117,7 +158,7 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
         name: "Product Sales",
         type: "pie",
         radius: ["40%", "60%"],
-        center: ["50%", "50%"],
+        center: ['50%', '50%'],
         selectedMode: "single",
         avoidLabelOverlap: false,
         label: {
@@ -132,9 +173,9 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
           },
         })),
         label: {
-          show: true,
+          show: false,
           textStyle: {
-            fontSize: window.innerWidth <= 480 ? 10 : 16,
+            fontSize: window.innerWidth <= 768 ? 10 : 16,
           },
           formatter: "{b}: {c}",
           color: themeMode === "dark" ? "#ffffff" : "#000000", // Set text color to white
@@ -483,7 +524,7 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
           <ReactECharts
             key={sellData.length}
             option={option}
-            style={{ marginTop: "10%", height: "500px", width: "100%" }}
+            style={{ marginTop: "1%", height: "500px", width: "100%", maxWidth: "2300px" }}
             className={css.piechart}
             // className={themeMode === "dark" ? css.darkMode : css.lightMode}
           />
