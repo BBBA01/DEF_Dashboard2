@@ -70,11 +70,6 @@ const StatisticsChart3 = ({ themeMode }) => {
             const capacity = item.godownProducts.reduce((total, godown) => total + godown.capacity, 0);
             const productTypeName = item.productTypeName; // Use a simple string variable to store the productTypeName
   
-            console.log(`Office: ${officeName}`);
-            console.log(`Current Stock: ${currentStock}`);
-            console.log(`Capacity: ${capacity}`);
-            console.log(`Product Type Name:`, productTypeName);
-  
             if (officeDataMap.has(officeName)) {
               const officeData = officeDataMap.get(officeName);
               officeData.currentStock += currentStock;

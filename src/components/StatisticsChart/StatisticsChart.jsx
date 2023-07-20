@@ -17,6 +17,9 @@ import logo from "../../logo.png";
 import officeData from "../../data/officeData.json";
 import { DateRangePicker } from 'rsuite';
 import "rsuite/dist/rsuite.css";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 
 const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) => {
   const [chartData, setChartData] = useState([]);
@@ -80,18 +83,23 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       });
   };
 
+  
+
   const nonZeroSalesData = chartData.filter((item) => item.sales > 0);
   const averageSales = (
     nonZeroSalesData.reduce((total, item) => total + item.sales, 0) /
     nonZeroSalesData.length
   ).toFixed(2);
 
+  const last7DaysData = chartData.slice(-7);
+  const remainingData = chartData.slice(0, -7);
+
  
 
   const option = {
     color: ["#FF7043", "#2979FF", "#FFC107"],
     title: {
-      text: "Sales-Expense",
+     
 
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
@@ -119,12 +127,12 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       data: ["Sales", "Expense", "Average Sales"],
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: windowWidth <= 768 ? 14 : 18,
+        fontSize: windowWidth <= 768 ? 12 : 18,
       }
     },
     grid: {
       left: windowWidth <= 768 ? '7%' : '3%',
-      right: "1%",
+      right: "3%",
       bottom: "15%",
       containLabel: true,
     },
@@ -138,7 +146,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
         fontWeight: "bold",
         fontSize: windowWidth <= 768 ? 14 : 20,
       },
-      boundaryGap: false,
+      boundaryGap: true,
       data: chartData.map((item) => item.requestedDate),
       axisLine: {
         lineStyle: {
@@ -154,7 +162,9 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
         type: "value",
         name: "Sales",
         nameLocation: "middle",
-        nameGap: 35,
+        nameGap: 42,
+        
+       
         nameTextStyle: {
           color: themeMode === "dark" ? "#ffffff" : "#000000",
           fontWeight: "bold",
@@ -195,16 +205,17 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     series: [
       {
         name: "Sales",
-        type: "line",
-        smooth: true,
-        data: chartData.map((item) => item.sales),
+        type: "bar",
+        barWidth: 20,
+        data: last7DaysData.map((item) => item.sales),
         yAxisIndex: 0,
       },
       {
         name: "Expense",
-        type: "line",
-        smooth: true,
-        data: chartData.map((item) => item.expense),
+        type: "bar",
+        barWidth: 20,
+        
+        data: last7DaysData.map((item) => item.expense),
         yAxisIndex: 0,
       },
       {
@@ -217,7 +228,33 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
           width: 2,
           type: "dashed",
         },
-        data: chartData.map(() => averageSales),
+        data: last7DaysData.map(() => averageSales),
+      },
+      {
+        name: "Sales",
+        type: "line",
+        smooth: true,
+        data: remainingData.map((item) => item.sales),
+        yAxisIndex: 0,
+      },
+      {
+        name: "Expense",
+        type: "line",
+        smooth: true,
+        data: remainingData.map((item) => item.expense),
+        yAxisIndex: 0,
+      },
+      {
+        name: "Average Sales",
+        type: "line",
+        yAxisIndex: 0,
+        smooth: true,
+        lineStyle: {
+          color: "#FFC107",
+          width: 2,
+          type: "dashed",
+        },
+        data: remainingData.map(() => averageSales),
       },
     ],
   };
@@ -611,8 +648,10 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
         themeMode === "dark" ? css.darkMode : css.lightMode
       }`}
     >
-     
-        <div className={css.iconsContainer} ref={iconContainerRef}>
+      
+      <Row className="text-left w-100">
+        <Col className="d-flex justify-content-start align-items-center fs-4" >Sales-Expense</Col>
+        <Col className="d-flex justify-content-end" ><div className={css.iconsContainer} ref={iconContainerRef}>
           {/* Data grid icon */}
           <div
             className={`${css.icon} ${
@@ -644,7 +683,11 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
               </div>
             </div>
           )}
-        </div>
+        </div></Col>
+      </Row>
+     
+     
+        
     
       {/* Loading spinner */}
       {isLoading && (

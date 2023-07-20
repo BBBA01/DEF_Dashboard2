@@ -15,7 +15,7 @@ import css from './OrdersPieChart.module.css';
 import './scrollbar.css'; // Import the custom scrollbar styles
 
 
-const OrdersPieChart = ({ themeMode, selectedRange }) => {
+const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) => {
   const [sellData, setSellData] = useState([]);
   const [showExportOptions, setShowExportOptions] = useState(false);
   const iconContainerRef = useRef(null);
@@ -47,11 +47,13 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
 
     axios
       .get(
-        `http://115.124.120.251:5059/api/Dashboard/DEFDashBoardGraphData/${startDate}/${endDate}/46A1C7B7-6885-4F74-7ADE-08DAFE23C727/6`
+        `http://115.124.120.251:5059/api/Dashboard/DEFDashBoardGraphData/${startDate}/${endDate}/${selectedOffice}/${isAdmin}`
       )
       .then((response) => {
         const data = response.data;
         const graph2Data = data.graph2;
+
+        console.log("Order <:", response.data);
 
         // Perform the desired operation on the fetched data
         const sell = graph2Data.reduce((result, item) => {
@@ -79,7 +81,7 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [selectedRange]);
+  }, [selectedRange, selectedOffice, isAdmin]);
 
   const toggleLegend = () => {
   setShowLegend(!showLegend); // Toggle the state for showLegend
@@ -130,9 +132,9 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
       itemGap: 8, // Adjust the itemGap to create a gap
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: window.innerWidth <= 768 ? 10 : 16,
+        fontSize: window.innerWidth <= 900 ? 10 : 16,
       },
-      formatter: legendFormatter,
+     
       type: 'scroll', // Set the type of scrollbar (can be 'scroll' or 'slider')
       // You can also adjust other scrollbar properties here if needed
       scroll: {
@@ -144,11 +146,11 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
     graphic: {
       type: "text",
       left: 'center',
-      top: 'middle',
+      top: 'top',
       style: {
        text:"Product Wise Sales",
         fill: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: windowWidth <= 768 ? 10 : 20,
+        fontSize: windowWidth <= 608 ? 15 : 25,
         fontWeight: "bold",
         heigth: "400px",
       },
@@ -157,8 +159,8 @@ const OrdersPieChart = ({ themeMode, selectedRange }) => {
       {
         name: "Product Sales",
         type: "pie",
-        radius: ["40%", "60%"],
-        center: ['50%', '50%'],
+        radius:["40%", "60%"],
+        center: windowWidth <= 768 ? ['75%', '50%'] : ["50%", "50%"],
         selectedMode: "single",
         avoidLabelOverlap: false,
         label: {

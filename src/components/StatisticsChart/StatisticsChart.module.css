@@ -234,10 +234,10 @@
 
 
   .iconsContainer {
-    margin-left: auto;
+   right: 0;
     padding: 12px 12px;
-    /* position: relative; */
-    top: 70px; 
+   
+    width: 50px;
     background-color: #239dab;
     border: 2px solid white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -478,3 +478,4 @@
 .rs-stack-item > span {
   color: #000!important;
 }
+

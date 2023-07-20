@@ -84,12 +84,14 @@
     /* position: relative; */
     overflow: hidden;
     top: 2px;
+    
     left: 450px;
-    padding: 6px;
+    padding: 9px;
     /* align-items: center; */
     border: 2px solid white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+    margin-bottom: 30px;
 
  
   }
@@ -119,10 +121,12 @@
       color: white;
       padding: 2px;
       font-size: 11px;
+
     
     }
 
     .lightMode .dateFilter {
+      
       padding: 3px;
     }
   }
@@ -144,6 +148,8 @@
     border: 2px solid white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+  
+
   }
 
 
@@ -201,13 +207,14 @@
 
   @media (max-width: 768px) {
     .lightMode .officefilter {
-      width: 210px;
+      width: 375px;
+      
 
     }
 
-
     .lightMode .officefilter select {
-      width: 150px;
+     
+      height: 25px;
       font-size:11px;
       padding: 2px;
 
@@ -215,7 +222,8 @@
 
     .lightMode .officefilter label {
       font-size: 11px;
-      margin-top: 0px;
+      margin-top: 2px;
+      margin-right: 5px;
     }
 
     .lightMode .officefilter select option {
@@ -255,13 +263,14 @@
     background-color: #239dab;
     color: #fff;
     border: 2px solid white;
-    padding: 3px;
+    padding: 4px;
     display: flex;
     /* position: relative; */
     top: 2px;
     left: 450px;
     align-items: center;
     cursor: pointer;
+    margin-bottom: 30px;
 
    
   }
@@ -336,23 +345,21 @@
     }
 
     .darkMode .dateFilter {
+      
       padding: 3px;
     }
 
    
       .darkMode .officefilter {
-        width: 210px;
-        padding: 6px;
-  
+        width: 375px;
       }
   
+    .darkMode .officefilter select {
+      width: 285px;
+      font-size: 11px;
+      padding: 2px;
   
-      .darkMode .officefilter select {
-        width: 150px;
-        font-size:11px;
-        padding: 2px;
-  
-      }
+    }
   
       .darkMode .officefilter label {
         font-size: 11px;
@@ -371,36 +378,12 @@
       }
   
   
-    .dateRangePicker {
-      width: 80px;
+   .dateRangePicker {
+      width: 300px;
       height: 35x;
       
      
     }
   }
 
-.rs-picker-toggle-value {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-    font-size: 20px !important;
-}
 
-  @media (max-width: 768px) {
-    .rs-picker-toggle-value {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
-      font-size: 8px!important;
-  }
-
-  .rs-picker-default .rs-picker-toggle.rs-btn {
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-  }
-  

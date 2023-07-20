@@ -9,14 +9,24 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OrdersPieChart from '../OrdersPieChart/OrdersPieChart';
-import { DateRangePicker } from 'rsuite';
+import {  DateRangePicker } from 'rsuite';
+import { subDays, toDate } from 'date-fns';
+
+
+
+
+
 
 const Statistics = ({ themeMode }) => {
   const [selectedChart, setSelectedChart] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const urlParams = new URLSearchParams(location.search);
-  const [selectedRange, setSelectedRange] = useState([new Date('2023-01-01'), new Date('2023-06-01')]);
+  const [selectedRange, setSelectedRange] = useState([
+    toDate(subDays(new Date(), 6)),
+    toDate(new Date())
+  ]);
+  
   const [officeData, setOfficeData] = useState([]); // State to hold the fetched office data
   const [maxPrice, setMaxPrice] = useState(0);
   const [maxProfit, setMaxProfit] = useState(0);
@@ -25,6 +35,18 @@ const Statistics = ({ themeMode }) => {
   const [isAdmin, setIsAdmin] = useState("");
   const initialuserId = urlParams.get('userId');
   const [userId, setUserId] = useState(initialuserId);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
   useEffect(() => {
@@ -118,6 +140,7 @@ const Statistics = ({ themeMode }) => {
   
 
   return (
+
     <div className={`${css.container} ${themeMode === 'dark' ? 'theme-container' : 'theme2-container'}`}>
       <span className={css.title}><h4>Overview Statistics</h4></span>
       <div className={`${css.topContainer} ${
@@ -130,6 +153,7 @@ const Statistics = ({ themeMode }) => {
               alignItems: "center",
               flexDirection: "row",
               marginRight: "7px",
+             
             }}
             className={`${css.dateFilter} ${
               themeMode === "dark" ? css.darkMode : css.lightMode
@@ -137,7 +161,8 @@ const Statistics = ({ themeMode }) => {
           >
              <label>Date Range:</label> 
             <DateRangePicker
-              style={{ color: 'black' }}
+              style={{ color: 'black'}}
+
               value={selectedRange}
               onChange={handleDateRange}
               appearance="default"
@@ -247,15 +272,16 @@ const Statistics = ({ themeMode }) => {
           </div>
         </div>
        
-       <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center',flexWrap:'wrap',justifyContent:'center',alignItems:'center'}}>
+       
       <StatisticsChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} />
-      <OrdersPieChart selectedRange={selectedRange} themeMode={themeMode}/>
-       </div>
-      <StatisticsChart2 selectedRange={selectedRange} themeMode={themeMode} />
+      <OrdersPieChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin}/>
+    
+      {/* <StatisticsChart2 selectedRange={selectedRange} themeMode={themeMode} />
       <StatisticsChart3 selectedRange={selectedRange} themeMode={themeMode} />
-      <StatisticsChart4 selectedRange={selectedRange} themeMode={themeMode} />
+      <StatisticsChart4 selectedRange={selectedRange} themeMode={themeMode} /> */}
       
     </div>
+  
   );
 };
 

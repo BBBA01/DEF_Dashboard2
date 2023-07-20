@@ -34,7 +34,8 @@
   margin-left: auto;
   padding: 12px 12px;
   /* position: relative; */
-  top: 70px; 
+ 
+  top: 10px; 
   background-color: #239dab;
   border: 2px solid white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -256,6 +257,8 @@
   color: #ffffff;
   font-size: 14px;
   border: none;
+  position: relative;
+  top: -30px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;

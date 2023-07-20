@@ -140,7 +140,7 @@ const StatisticsChart2 = ({ themeMode, selectedRange }) => {
       type: "category",
       name: "Office Name",
       nameLocation: "middle",
-      nameGap: 65,
+      nameGap: 100,
       nameTextStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
         fontWeight: "bold",
@@ -158,12 +158,12 @@ const StatisticsChart2 = ({ themeMode, selectedRange }) => {
         // Implement a custom formatter function to make the yAxis labels shorter
         formatter: (value) => {
           // Custom logic to make labels shorter, e.g., show only the first 10 characters
-          return value.length > 5 ? value.substring(0, 5) + "..." : value;
+          return value.length > 10 ? value.substring(0, 10) + "..." : value;
         },
       },
     },
     grid: {
-      left: 85, // Adjust the left margin to give space for the y-axis labels
+      left: 120, // Adjust the left margin to give space for the y-axis labels
       right: 30,
       bottom: 50,
       top: 70,
