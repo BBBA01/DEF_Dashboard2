@@ -12,7 +12,7 @@ import {
   faFilePdf,
 } from '@fortawesome/free-solid-svg-icons';
 import css from './OrdersPieChart.module.css';
-import './scrollbar.css'; // Import the custom scrollbar styles
+
 
 
 const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) => {
@@ -141,6 +141,8 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
         show: true,
         orient: 'vertical', // Scroll orientation (can be 'vertical' or 'horizontal')
       },
+
+      
     },
 
     graphic: {
@@ -186,6 +188,10 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
         labelLine: {
           length: 30,
           length2: 10,
+        },
+        itemStyle: {
+          borderWidth: 1, // Set the border width
+          borderColor: themeMode === "dark" ? "#ffffff" : "#000000", // Set the border color
         },
       },
     ],
@@ -526,7 +532,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
           <ReactECharts
             key={sellData.length}
             option={option}
-            style={{ marginTop: "1%", height: "500px", width: "100%", maxWidth: "2300px" }}
+            style={{ marginTop: "-2%", height: "500px", width: "100%", maxWidth: "2300px"}}
             className={css.piechart}
             // className={themeMode === "dark" ? css.darkMode : css.lightMode}
           />

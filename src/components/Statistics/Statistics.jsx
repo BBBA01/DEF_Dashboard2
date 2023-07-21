@@ -142,7 +142,7 @@ const Statistics = ({ themeMode }) => {
   return (
 
     <div className={`${css.container} ${themeMode === 'dark' ? 'theme-container' : 'theme2-container'}`}>
-      <span className={css.title}><h4>Overview Statistics</h4></span>
+      <span className={css.title}>Overview Statistics</span>
       <div className={`${css.topContainer} ${
         themeMode === "dark" ? css.darkMode : css.lightMode
       }`}>

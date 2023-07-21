@@ -199,6 +199,19 @@
   color: #fff;
 }
 
+.lightMode .card3 .cardAmount  {
+  margin-top: 50px;
+}
+.lightMode .card4 .cardAmount  {
+  margin-top: 50px;
+}
+.darkMode .card3 .cardAmount  {
+  margin-top: 50px;
+}
+.darkMode .card4 .cardAmount  {
+  margin-top: 50px;
+}
+
 
 @media screen and (max-width:768px) {
 

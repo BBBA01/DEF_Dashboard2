@@ -192,7 +192,7 @@ const Dashboard = () => {
       >
         <div className={css.head}>
           <span>
-            <b>Dashboard</b>
+            <h3><b>Dashboard</b></h3>
           </span>
           <Switch
             className={css.themeSwitch}

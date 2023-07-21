@@ -152,7 +152,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       }
     },
     grid: {
-      left: windowWidth <= 768 ? '7%' : '3%',
+      left: windowWidth <= 768 ? '7%' : '2%',
       right: "3%",
       bottom: "15%",
       containLabel: true,
@@ -671,7 +671,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     >
       
       <Row className="text-left w-100">
-        <Col className="d-flex justify-content-start align-items-center fs-2" >Sales-Expense</Col>
+        <Col className="d-flex justify-content-start align-items-center fw-bold fs-4" >Sales-Expense</Col>
         <Col className="d-flex justify-content-end" ><div className={css.iconsContainer} ref={iconContainerRef}>
           {/* Data grid icon */}
           <div

@@ -5,7 +5,13 @@
     margin-top: 0px;
     position: relative;
     width: 100%; 
+    border: 2px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    
   }
+
+  
 
 @media screen and (max-width: 768px) {
 
@@ -34,8 +40,10 @@
   margin-left: auto;
   padding: 12px 12px;
   /* position: relative; */
+  margin-right: 23px;
+
  
-  top: 10px; 
+
   background-color: #239dab;
   border: 2px solid white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -75,8 +83,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
-  top: 40px;
-  right: 20px;
+  right: 50px;
   z-index: 1;
   width: 190px;
   font-size: 18px;
@@ -91,8 +98,8 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
-    top: 30px;
-    right: 20px;
+
+    right: 50px;
     z-index: 1;
     width: 125px;
     font-size: 11px;
@@ -137,8 +144,8 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
-  top: 40px;
-  right: 20px;
+
+  right: 50px;
   z-index: 1;
   width: 190px;
   font-size: 18px;
@@ -154,8 +161,8 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
-    top: 30px;
-    right: 20px;
+
+    right: 50px;
     z-index: 1;
     width: 125px;
     font-size: 11px;
@@ -258,7 +265,7 @@
   font-size: 14px;
   border: none;
   position: relative;
-  top: -30px;
+  top: -50px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -277,6 +284,8 @@
 .legendButton {
   padding: 5px 5px;
   background-color: #009AEE;
+  position: relative;
+  top: -30px;
   color: #ffffff;
   font-size: 10px;
   border: none;
