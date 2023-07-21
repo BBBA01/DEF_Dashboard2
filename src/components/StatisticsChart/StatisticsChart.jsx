@@ -20,6 +20,8 @@ import "rsuite/dist/rsuite.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import { differenceInDays } from 'date-fns';
+
 
 const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) => {
   const [chartData, setChartData] = useState([]);
@@ -29,6 +31,10 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
   const iconRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isBarChart, setIsBarChart] = useState(true); // State to track the chart type
+  const [selectedRangeDays, setSelectedRangeDays] = useState(7);
+
+  
 
   // Function to update the window width state on window resize
   const handleWindowResize = () => {
@@ -83,6 +89,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       });
   };
 
+
   
 
   const nonZeroSalesData = chartData.filter((item) => item.sales > 0);
@@ -91,10 +98,24 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     nonZeroSalesData.length
   ).toFixed(2);
 
-  const last7DaysData = chartData.slice(-7);
-  const remainingData = chartData.slice(0, -7);
 
- 
+  
+
+  
+
+  useEffect(() => {
+    // Calculate the number of days between start and end dates
+    if (selectedRange[0] && selectedRange[1]) {
+      const startDate = new Date(selectedRange[0]);
+      const endDate = new Date(selectedRange[1]);
+      const days = differenceInDays(endDate, startDate) + 1; // +1 to include the end date
+  
+      // Check if the number of days is 7 or less to decide the chart type
+      setIsBarChart(days <= 7);
+      setSelectedRangeDays(days);
+    }
+  }, [selectedRange]);
+  
 
   const option = {
     color: ["#FF7043", "#2979FF", "#FFC107"],
@@ -202,61 +223,61 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
         show: false,
       },
     ],
-    series: [
-      {
-        name: "Sales",
-        type: "bar",
-        barWidth: 20,
-        data: last7DaysData.map((item) => item.sales),
-        yAxisIndex: 0,
-      },
-      {
-        name: "Expense",
-        type: "bar",
-        barWidth: 20,
-        
-        data: last7DaysData.map((item) => item.expense),
-        yAxisIndex: 0,
-      },
-      {
-        name: "Average Sales",
-        type: "line",
-        yAxisIndex: 0,
-        smooth: true,
-        lineStyle: {
-          color: "#FFC107",
-          width: 2,
-          type: "dashed",
-        },
-        data: last7DaysData.map(() => averageSales),
-      },
-      {
-        name: "Sales",
-        type: "line",
-        smooth: true,
-        data: remainingData.map((item) => item.sales),
-        yAxisIndex: 0,
-      },
-      {
-        name: "Expense",
-        type: "line",
-        smooth: true,
-        data: remainingData.map((item) => item.expense),
-        yAxisIndex: 0,
-      },
-      {
-        name: "Average Sales",
-        type: "line",
-        yAxisIndex: 0,
-        smooth: true,
-        lineStyle: {
-          color: "#FFC107",
-          width: 2,
-          type: "dashed",
-        },
-        data: remainingData.map(() => averageSales),
-      },
-    ],
+    series: isBarChart // Conditional check for the chart type
+      ? [
+          {
+            name: "Sales",
+            type: "bar", // Display as a bar chart if the selected range is 7 days or less
+            data: chartData.map((item) => item.sales),
+            yAxisIndex: 0,
+          },
+          {
+            name: "Expense",
+            type: "bar", // Display as a bar chart if the selected range is 7 days or less
+            data: chartData.map((item) => item.expense),
+            yAxisIndex: 0,
+          },
+          {
+            name: "Average Sales",
+            type: "line", // Display as a line chart if the selected range is 7 days or less
+            yAxisIndex: 0,
+            smooth: true,
+            lineStyle: {
+              color: "#FFC107",
+              width: 2,
+              type: "dashed",
+            },
+            data: chartData.map(() => averageSales),
+          },
+        ]
+      : [
+          {
+            name: "Sales",
+            type: "line", // Display as a line chart if the selected range is more than 7 days
+            smooth: true,
+            data: chartData.map((item) => item.sales),
+            yAxisIndex: 0,
+          },
+          {
+            name: "Expense",
+            type: "line", // Display as a line chart if the selected range is more than 7 days
+            smooth: true,
+            data: chartData.map((item) => item.expense),
+            yAxisIndex: 0,
+          },
+          {
+            name: "Average Sales",
+            type: "line", // Display as a line chart if the selected range is more than 7 days
+            yAxisIndex: 0,
+            smooth: true,
+            lineStyle: {
+              color: "#FFC107",
+              width: 2,
+              type: "dashed",
+            },
+            data: chartData.map(() => averageSales),
+          },
+        ],
   };
 
   const exportToExcel = async () => {
@@ -650,7 +671,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     >
       
       <Row className="text-left w-100">
-        <Col className="d-flex justify-content-start align-items-center fs-4" >Sales-Expense</Col>
+        <Col className="d-flex justify-content-start align-items-center fs-2" >Sales-Expense</Col>
         <Col className="d-flex justify-content-end" ><div className={css.iconsContainer} ref={iconContainerRef}>
           {/* Data grid icon */}
           <div
