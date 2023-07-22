@@ -11,6 +11,7 @@ import axios from 'axios';
 import OrdersPieChart from '../OrdersPieChart/OrdersPieChart';
 import {  DateRangePicker } from 'rsuite';
 import { subDays, toDate } from 'date-fns';
+import Form from 'react-bootstrap/Form';
 
 
 
@@ -153,12 +154,14 @@ const Statistics = ({ themeMode }) => {
               alignItems: "center",
               flexDirection: "row",
               marginRight: "7px",
+           
              
             }}
             className={`${css.dateFilter} ${
               themeMode === "dark" ? css.darkMode : css.lightMode
             }`}
           >
+            
              <label>Date Range:</label> 
             <DateRangePicker
               style={{ color: 'black'}}
@@ -177,7 +180,7 @@ const Statistics = ({ themeMode }) => {
           >
             <label htmlFor="office">Office:</label>
             <div>
-              <select
+              <Form.Select 
                 name="office"
                 id="office"
                 className="form-control"
@@ -267,7 +270,7 @@ const Statistics = ({ themeMode }) => {
                     {retailp.OfficeName}
                   </option>
                 ))}
-              </select>
+              </Form.Select>
             </div>
           </div>
         </div>

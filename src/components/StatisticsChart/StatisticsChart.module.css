@@ -417,6 +417,15 @@
 .table td {
   border: 1px solid #ddd;
   padding: 8px;
+
+}
+
+.summaryHeader {
+  text-align: center;
+}
+
+.periodHeader {
+  text-align: center;
 }
 
 /* Light Mode */

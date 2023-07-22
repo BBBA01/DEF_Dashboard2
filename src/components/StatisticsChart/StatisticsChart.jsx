@@ -92,12 +92,10 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
 
   
 
-  const nonZeroSalesData = chartData.filter((item) => item.sales > 0);
   const averageSales = (
-    nonZeroSalesData.reduce((total, item) => total + item.sales, 0) /
-    nonZeroSalesData.length
+    chartData.reduce((total, item) => total + item.sales, 0) / chartData.length
   ).toFixed(2);
-
+  
 
   
 
@@ -115,6 +113,10 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       setSelectedRangeDays(days);
     }
   }, [selectedRange]);
+
+  
+
+  
   
 
   const option = {
@@ -548,7 +550,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     const tableHeader = document.createElement("thead");
     const tableHeaderRow = document.createElement("tr");
     tableHeaderRow.innerHTML = `
-      <th colspan="3" class="${css.summaryHeader}">Sales-Expense Summary</th>
+      <th colspan="3" class="${css.summaryHeader}">Sales-Expense Summary Data</th>
     `;
     tableHeader.appendChild(tableHeaderRow);
 

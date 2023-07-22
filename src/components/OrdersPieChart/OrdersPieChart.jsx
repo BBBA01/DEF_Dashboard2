@@ -129,7 +129,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
       left: '0px',
       top: '0px',
       show: showLegend,
-      itemGap: 8, // Adjust the itemGap to create a gap
+      itemGap: 5, // Adjust the itemGap to create a gap
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
         fontSize: window.innerWidth <= 900 ? 10 : 16,
@@ -162,7 +162,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
         name: "Product Sales",
         type: "pie",
         radius:["40%", "60%"],
-        center: windowWidth <= 768 ? ['75%', '50%'] : ["50%", "50%"],
+        center: windowWidth <= 768 ? ['78%', '50%'] : ["50%", "50%"],
         selectedMode: "single",
         avoidLabelOverlap: false,
         label: {
@@ -360,38 +360,45 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
   const exportToTable = () => {
     const startDate = formatDate(selectedRange[0]);
     const endDate = formatDate(selectedRange[1]);
-
+  
     // Hide the graph
     const graphContainer = document.querySelector(`.${css.chartContainer}`);
     graphContainer.style.opacity = "0";
     graphContainer.style.transition = "opacity 0.3s";
     graphContainer.style.display = "none";
-
+  
     // Generate the table data (replace sellData with your actual data)
     const tableData = sellData.map((item) => ({
       "Product Name": item.productName,
       "Total Sale": item.totalSale,
     }));
-
+  
     // Create a new element to hold the table
     const tableContainer = document.createElement("div");
     tableContainer.className = css.tableContainer;
     tableContainer.style.opacity = "0";
     tableContainer.style.transition = "opacity 0.3s";
-
+  
     // Create the table element
     const table = document.createElement("table");
     table.className = css.table;
-
+  
     // Create the table header
     const tableHeader = document.createElement("thead");
     const tableHeaderRow = document.createElement("tr");
     tableHeaderRow.innerHTML = `
+      <th colspan="2" class="${css.summaryHeader}">Product Wise Summary Data</th>
+    `;
+    tableHeader.appendChild(tableHeaderRow);
+  
+    // Create the second row for the column headers
+    const columnHeaderRow = document.createElement("tr");
+    columnHeaderRow.innerHTML = `
       <th class="${css.headerCell}">Product Name</th>
       <th class="${css.headerCell}">Total Sale</th>
     `;
-    tableHeader.appendChild(tableHeaderRow);
-
+    tableHeader.appendChild(columnHeaderRow);
+  
     // Create the table body
     const tableBody = document.createElement("tbody");
     tableData.forEach((rowData) => {
@@ -403,14 +410,14 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
       });
       tableBody.appendChild(tableRow);
     });
-
+  
     // Append the table header and body to the table
     table.appendChild(tableHeader);
     table.appendChild(tableBody);
-
+  
     // Append the table to the table container
     tableContainer.appendChild(table);
-
+  
     // Create a close button to hide the table and show the graph
     const closeButton = document.createElement("button");
     closeButton.textContent = "Close";
@@ -419,7 +426,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
       // Add a fade-out animation to the table wrapper and close button
       tableWrapper.style.opacity = "0";
       tableWrapper.style.transition = "opacity 0.3s";
-
+  
       // Remove the table wrapper after the animation completes
       setTimeout(() => {
         tableWrapper.remove();
@@ -432,24 +439,25 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
         }, 10);
       }, 300);
     });
-
+  
     // Create a wrapper element to hold the table and close button
     const tableWrapper = document.createElement("div");
     tableWrapper.className = css.tableWrapper;
     tableWrapper.appendChild(tableContainer);
     tableWrapper.appendChild(closeButton);
-
+  
     // Insert the table wrapper below the graph container
     graphContainer.parentNode.insertBefore(
       tableWrapper,
       graphContainer.nextSibling
     );
-
+  
     // Show the table with a smooth animation
     setTimeout(() => {
       tableContainer.style.opacity = "1";
     }, 10);
   };
+  
 
   useEffect(() => {
     function handleClick(event) {
