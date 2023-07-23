@@ -136,7 +136,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
       itemGap: 5, // Adjust the itemGap to create a gap
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: window.innerWidth <= 900 ? 10 : 12,
+        fontSize: window.innerWidth <= 900 ? 10 : 14,
       },
      
       type: 'scroll', // Set the type of scrollbar (can be 'scroll' or 'slider')
