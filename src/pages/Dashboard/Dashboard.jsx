@@ -183,7 +183,7 @@ const Dashboard = () => {
   return (
   
     <div className={`${css.container} ${themeMode === 'dark' ? css.darkMode : css.lightMode} ${css.scrollableContainer}`}>
-    {/* left side */}
+    
     <div className={`${css.dashboard} `}>
       <div
         className={`${css.dashboardHead} ${

@@ -12,6 +12,7 @@ import {
   faFilePdf,
 } from '@fortawesome/free-solid-svg-icons';
 import css from './OrdersPieChart.module.css';
+import logo from "../../logo.png";
 
 
 
@@ -26,20 +27,23 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
 
 
 
-  // Function to update the window width state on window resize
-  const handleWindowResize = () => {
-    setWindowWidth(window.innerWidth);
-  };
-
   useEffect(() => {
+    // Function to update the window width state on window resize
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+  
     // Add a window resize event listener
     window.addEventListener('resize', handleWindowResize);
-
+  
     // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
   }, []);
+
+  
+  
 
   useEffect(() => {
     const startDate = formatDate(selectedRange[0]);
@@ -132,7 +136,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
       itemGap: 5, // Adjust the itemGap to create a gap
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: window.innerWidth <= 900 ? 10 : 16,
+        fontSize: window.innerWidth <= 900 ? 10 : 12,
       },
      
       type: 'scroll', // Set the type of scrollbar (can be 'scroll' or 'slider')
@@ -162,7 +166,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
         name: "Product Sales",
         type: "pie",
         radius:["40%", "60%"],
-        center: windowWidth <= 768 ? ['78%', '50%'] : ["50%", "50%"],
+        center: windowWidth <= 768 ? ['78%', '50%'] : ["50%", "60%"],
         selectedMode: "single",
         avoidLabelOverlap: false,
         label: {
@@ -200,34 +204,34 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
   const exportToExcel = () => {
     const startDate = formatDate(selectedRange[0]);
     const endDate = formatDate(selectedRange[1]);
-
+  
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Data");
-
+  
     // Fetch the image file (replace "logo.png" with the correct path/URL)
-    fetch("logo.png")
+    fetch(logo)
       .then((response) => response.blob())
       .then((blob) => {
         const fileReader = new FileReader();
         fileReader.onload = function () {
           const imageBase64 = fileReader.result;
-
+  
           // Add the image to the worksheet
           const logoImage = workbook.addImage({
             base64: imageBase64,
             extension: "png",
           });
-
+  
           // Set the image position and size with padding
           worksheet.addImage(logoImage, {
             tl: { col: 0, row: 0 }, // Adjusted offset values for padding
-            ext: { width: 25, height: 25 },
+            ext: { width: 100, height: 56 },
           });
-
+  
           // Continue with the rest of the function
-
-          const extraHeaderCell = worksheet.getCell("A1");
-          extraHeaderCell.value = "Sales-Expense Summary";
+  
+          const extraHeaderCell = worksheet.getCell("A2"); // Shifted down by one row
+          extraHeaderCell.value = "Product Wise Summary Data";
           extraHeaderCell.font = {
             bold: true,
             color: { argb: "000000" }, // Black color
@@ -237,12 +241,12 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
             vertical: "middle",
             horizontal: "center",
           };
-          worksheet.mergeCells("A1:B1");
-
+          worksheet.mergeCells("A2:B2"); // Shifted down by one row
+  
           // Set column widths
-          worksheet.getColumn(1).width = 25;
+          worksheet.getColumn(1).width = 50;
           worksheet.getColumn(2).width = 15;
-
+  
           // Add headers
           const headerRow = worksheet.addRow(["Product Name", "Total Sale"]);
           headerRow.font = {
@@ -250,7 +254,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
             color: { argb: "000000" }, // Black color
             size: 12,
           };
-
+  
           // Apply underline and border style to each cell
           headerRow.eachCell((cell) => {
             cell.font = {
@@ -262,24 +266,25 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
               bottom: { style: "thin", color: { argb: "000000" } }, // Black color
             };
           });
-
+  
           // Add data rows
           sellData.forEach((item) => {
             worksheet.addRow([item.productName, `₹${item.totalSale}`]); // Add "₹" symbol before the totalSale value
           });
-
+  
           // Generate a unique filename
           const fileName = `export_${Date.now()}.xlsx`;
-
+  
           // Save the workbook
           workbook.xlsx.writeBuffer().then((buffer) => {
             saveAs(new Blob([buffer]), fileName);
           });
         };
-
+  
         fileReader.readAsDataURL(blob);
       });
   };
+  
 
   const formatDate = (date) => {
     if (!date) {
@@ -314,13 +319,13 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
     };
 
     // Add the image
-    const imgData = "logo.png"; // Replace with the path or URL of your image file
-    const imgWidth = 20;
+    const imgData = logo; // Replace with the path or URL of your image file
+    const imgWidth = 35;
     const imgHeight = 20;
-    doc.addImage(imgData, "PNG", 15, 5, imgWidth, imgHeight);
+    doc.addImage(imgData, "PNG", 15, 12, imgWidth, imgHeight);
 
     // Add Sales-Expense Summary header
-    const summaryHeader = [["Sales-Expense Summary"]];
+    const summaryHeader = [["Product Wise Summary Data"]];
     doc.autoTable({
       head: summaryHeader,
       body: [],
@@ -483,6 +488,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
   const handleIconClick = () => {
     setShowExportOptions(true);
   };
+  
 
   return (
     <div
@@ -540,7 +546,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
           <ReactECharts
             key={sellData.length}
             option={option}
-            style={{ marginTop: "-2%", height: "500px", width: "100%", maxWidth: "2300px"}}
+            style={{ marginTop: "-2%", height: "475px", width: "100%", maxWidth: "2300px"}}
             className={css.piechart}
             // className={themeMode === "dark" ? css.darkMode : css.lightMode}
           />

@@ -288,10 +288,10 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Graph Data");
 
-    // Fetch the image file
-    const response = await axios.get("logo.png", {
+    const response = await axios.get(logo, {
       responseType: "blob",
     });
+    
 
     // Convert image file to base64 string
     const fileReader = new FileReader();
@@ -305,7 +305,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       });
       worksheet.addImage(logoImage, {
         tl: { col: 0, row: 0 }, // Adjusted offset values for padding
-        ext: { width: 40, height: 40 },
+        ext: { width: 100, height: 60 },
       });
 
       // Add extra header - Sales-Expense Summary
@@ -410,10 +410,10 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     const doc = new jsPDF();
 
     // Add the image
-    const imgData = "logo.png"; // Replace with the path or URL of your image file
-    const imgWidth = 20;
+    const imgData = logo; // Replace with the path or URL of your image file
+    const imgWidth = 35;
     const imgHeight = 20;
-    doc.addImage(imgData, "PNG", 15, 5, imgWidth, imgHeight);
+    doc.addImage(imgData, "PNG", 15, 9, imgWidth, imgHeight);
 
     // Add Sales-Expense Summary header
     const summaryHeader = [["Sales-Expense Summary"]];
@@ -470,8 +470,8 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     if (salesTotal !== 0 || expenseTotal !== 0) {
       tableData.push([
         "Total",
-        `₹${salesTotal.toFixed(2)}`,
-        `₹${expenseTotal.toFixed(2)}`,
+        `${salesTotal.toFixed(2)}`,
+        `${expenseTotal.toFixed(2)}`,
       ]);
     }
 
@@ -671,10 +671,11 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
         themeMode === "dark" ? css.darkMode : css.lightMode
       }`}
     >
-      
-      <Row className="text-left w-100">
-        <Col className="d-flex justify-content-start align-items-center fw-bold fs-4" >Sales-Expense</Col>
-        <Col className="d-flex justify-content-end" ><div className={css.iconsContainer} ref={iconContainerRef}>
+      <Container fluid >
+     
+      <Row className="text-left w-100 g-0 align-items-center">
+        <Col  className="fw-bold fs-4 d-flex label-text" >Sales-Expense</Col>
+        <Col  className=" text-end justify-content-end d-flex g-0" ><div className={css.iconsContainer} ref={iconContainerRef}>
           {/* Data grid icon */}
           <div
             className={`${css.icon} ${
@@ -708,6 +709,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
           )}
         </div></Col>
       </Row>
+      </Container>
      
      
         

@@ -19,6 +19,8 @@
       width: 100%;
     }
   }
+
+  @media screen and (max-width:480px) { .lightMode .label-text{ font-size: 14px !important;}}
   
   .dateFilter {
     margin-bottom: 30px;
@@ -264,6 +266,7 @@
   
 
   @media screen and (max-width:768px) {
+
     .iconsContainer {
       padding: 7px 8px;
       height: 35px;
@@ -486,11 +489,6 @@
   font-style: italic;
 }
 
- .date-range-picker .rs-picker-toggle-value {
-  color: black !important;
-}
 
-.rs-stack-item > span {
-  color: #000!important;
-}
+
 

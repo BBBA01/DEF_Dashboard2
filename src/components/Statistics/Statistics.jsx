@@ -12,6 +12,9 @@ import OrdersPieChart from '../OrdersPieChart/OrdersPieChart';
 import {  DateRangePicker } from 'rsuite';
 import { subDays, toDate } from 'date-fns';
 import Form from 'react-bootstrap/Form';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 
 
@@ -164,7 +167,7 @@ const Statistics = ({ themeMode }) => {
             
              <label>Date Range:</label> 
             <DateRangePicker
-              style={{ color: 'black'}}
+              style={{ color: 'black', }}
 
               value={selectedRange}
               onChange={handleDateRange}
@@ -193,7 +196,7 @@ const Statistics = ({ themeMode }) => {
                   data-isretail="-1"
                   data-isadmin="6"
                   className={`${css.boldOption}`}
-                  selected={isAdmin === "6"}
+                  
                 >
                   All Entities
                 </option>
@@ -202,7 +205,7 @@ const Statistics = ({ themeMode }) => {
                   data-isretail="0"
                   data-isadmin="4"
                   className={`${css.boldOption}`}
-                  selected={isAdmin === "4"}
+                  
                 >
                   &nbsp;&nbsp;&nbsp;&nbsp;All Companies
                 </option>
@@ -223,7 +226,7 @@ const Statistics = ({ themeMode }) => {
                   data-isretail="-1"
                   data-isadmin="1"
                   className={`${css.boldOption}`}
-                  selected={isAdmin === "1"}
+                  
                 >
                   &nbsp;&nbsp;&nbsp;&nbsp;All Pumps
                 </option>
@@ -232,7 +235,7 @@ const Statistics = ({ themeMode }) => {
                   data-isretail="0"
                   data-isadmin="3"
                   className={`${css.boldOption}`}
-                  selected={isAdmin === "3"}
+                  
                 >
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wholesale
                   Pumps
@@ -254,7 +257,7 @@ const Statistics = ({ themeMode }) => {
                   data-isretail="1"
                   data-isadmin="2"
                   className={`${css.boldOption}`}
-                  selected={isAdmin === "2"}
+                  
                 >
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Retail Pumps
                 </option>
@@ -275,9 +278,14 @@ const Statistics = ({ themeMode }) => {
           </div>
         </div>
        
-       
-      <StatisticsChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} />
-      <OrdersPieChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin}/>
+      
+      
+         <StatisticsChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} />
+          <OrdersPieChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin}/>
+      
+      
+      
+      
     
       {/* <StatisticsChart2 selectedRange={selectedRange} themeMode={themeMode} />
       <StatisticsChart3 selectedRange={selectedRange} themeMode={themeMode} />
