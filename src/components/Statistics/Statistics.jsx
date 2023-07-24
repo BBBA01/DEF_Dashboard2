@@ -76,7 +76,7 @@ const Statistics = ({ themeMode }) => {
         // Update the state with the fetched data
         // Assuming the API response contains an array of office objects
         // with properties: OfficeId, OfficeName, OfficeTypeName, OfficeTypeId
-        console.log(officeDataFromApi);
+      
         setOfficeData(officeDataFromApi); // You should define the state for officeData
       } catch (error) {
         console.error('Error fetching office data:', error);
@@ -165,9 +165,10 @@ const Statistics = ({ themeMode }) => {
             }`}
           >
             
-             <label>Date Range:</label> 
-            <DateRangePicker
-              style={{ color: 'black', }}
+             <label>Period:</label> 
+            <DateRangePicker 
+            showOneCalendar
+              style={{ color: 'black'}}
 
               value={selectedRange}
               onChange={handleDateRange}
@@ -278,12 +279,15 @@ const Statistics = ({ themeMode }) => {
           </div>
         </div>
        
-      
-      
-         <StatisticsChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} />
-          <OrdersPieChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin}/>
-      
-      
+      <Container fluid>
+        <Row>
+          <Col md={12} lg={8} ><StatisticsChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} /></Col>
+          <Col md={12} lg={4} ><OrdersPieChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin}/></Col>
+        </Row>
+      </Container>
+
+      {/* <StatisticsChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} />
+      <OrdersPieChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin}/> */}
       
       
     

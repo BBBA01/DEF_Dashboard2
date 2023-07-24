@@ -154,7 +154,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       }
     },
     grid: {
-      left: windowWidth <= 768 ? '7%' : '2%',
+      left: windowWidth <= 768 ? '7%' : '3%',
       right: "3%",
       bottom: "15%",
       containLabel: true,
@@ -672,7 +672,6 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       }`}
     >
       <Container fluid >
-     
       <Row className="text-left w-100 g-0 align-items-center">
         <Col  className="fw-bold fs-4 d-flex label-text" >Sales-Expense</Col>
         <Col  className=" text-end justify-content-end d-flex g-0" ><div className={css.iconsContainer} ref={iconContainerRef}>
@@ -728,7 +727,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
         option={option}
         style={{
     
-          height: "500px",
+          height: "350px",
           width: "100%",
           maxWidth: "2300px",
         }}

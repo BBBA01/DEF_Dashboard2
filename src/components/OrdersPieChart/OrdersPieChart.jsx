@@ -13,10 +13,17 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import css from './OrdersPieChart.module.css';
 import logo from "../../logo.png";
+import codeBlockIcon from "../../code-block.png";
 
 
 
-const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) => {
+
+const OrdersPieChart = ({
+  themeMode,
+  selectedRange,
+  selectedOffice,
+  isAdmin,
+}) => {
   const [sellData, setSellData] = useState([]);
   const [showExportOptions, setShowExportOptions] = useState(false);
   const iconContainerRef = useRef(null);
@@ -24,26 +31,22 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
   const iconRef = useRef(null);
   const [showLegend, setShowLegend] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-
+  const [totalQuantity, setTotalQuantity] = useState(0);
 
   useEffect(() => {
     // Function to update the window width state on window resize
     const handleWindowResize = () => {
       setWindowWidth(window.innerWidth);
     };
-  
+
     // Add a window resize event listener
-    window.addEventListener('resize', handleWindowResize);
-  
+    window.addEventListener("resize", handleWindowResize);
+
     // Clean up the event listener when the component unmounts
     return () => {
-      window.removeEventListener('resize', handleWindowResize);
+      window.removeEventListener("resize", handleWindowResize);
     };
   }, []);
-
-  
-  
 
   useEffect(() => {
     const startDate = formatDate(selectedRange[0]);
@@ -60,10 +63,15 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
         console.log("Order <:", response.data);
 
         // Perform the desired operation on the fetched data
+        let totalQty = 0; // Initialize the total quantity
+
+        // Perform the desired operation on the fetched data
         const sell = graph2Data.reduce((result, item) => {
           const { lstproduct } = item;
           lstproduct.forEach((product) => {
-            const { productName, totalSale } = product;
+            const { productName, totalSale, qty } = product;
+            totalQty += qty;
+
             if (result[productName]) {
               result[productName] += totalSale;
             } else {
@@ -76,11 +84,13 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
         const sellData = Object.entries(sell).map(
           ([productName, totalSale]) => ({
             productName,
+            totalQty,
             totalSale,
           })
         );
 
         setSellData(sellData);
+        setTotalQuantity(totalQty);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -88,9 +98,9 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
   }, [selectedRange, selectedOffice, isAdmin]);
 
   const toggleLegend = () => {
-  setShowLegend(!showLegend); // Toggle the state for showLegend
- // Toggle the state for showScrollbar
-};
+    setShowLegend(!showLegend); // Toggle the state for showLegend
+    // Toggle the state for showScrollbar
+  };
 
   const colors = [
     "#009AEE",
@@ -108,18 +118,15 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
 
   const legendFormatter = (value) => {
     // Custom logic to make labels shorter, e.g., show only the first 5 characters
-    return windowWidth <= 1000 && value.length > 7 ? value.substring(0, 7) + '...' : value;
+    return windowWidth <= 1000 && value.length > 7
+      ? value.substring(0, 7) + "..."
+      : value;
   };
 
-
-
   // Calculate the tooltip formatter based on the window width
-  
-  
 
   const option = {
     color: colors,
-   
 
     tooltip: {
       trigger: "item",
@@ -129,34 +136,32 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
       },
     },
     legend: {
-      orient: 'vertical',
-      left: '0px',
-      top: '0px',
+      orient: "vertical",
+      left: "5px",
+      top: "0px",
       show: showLegend,
       itemGap: 5, // Adjust the itemGap to create a gap
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: window.innerWidth <= 900 ? 10 : 14,
+        fontSize: window.innerWidth <= 1496 ? 9 : 12,
       },
-     
-      type: 'scroll', // Set the type of scrollbar (can be 'scroll' or 'slider')
+
+      type: "scroll", // Set the type of scrollbar (can be 'scroll' or 'slider')
       // You can also adjust other scrollbar properties here if needed
       scroll: {
         show: true,
-        orient: 'vertical', // Scroll orientation (can be 'vertical' or 'horizontal')
+        orient: "vertical", // Scroll orientation (can be 'vertical' or 'horizontal')
       },
-
-      
     },
 
     graphic: {
       type: "text",
-      left: 'center',
-      top: 'top',
+      left: "center",
+      top: "top",
       style: {
-       text:"Product Wise Sales",
+        text: "Product Wise Sales",
         fill: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: windowWidth <= 608 ? 15 : 25,
+        fontSize: windowWidth <= 1496 ? 15 : 23,
         fontWeight: "bold",
         heigth: "400px",
       },
@@ -165,14 +170,22 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
       {
         name: "Product Sales",
         type: "pie",
-        radius:["40%", "60%"],
-        center: windowWidth <= 768 ? ['78%', '50%'] : ["50%", "60%"],
+        radius: ["40%", "60%"],
+        center: windowWidth <= 768 ? ["77%", "50%"] : ["50%", "60%"],
         selectedMode: "single",
-        avoidLabelOverlap: false,
+        avoidLabelOverlap:  false,
         label: {
-          show: true,
+          show: false,
           position: "center",
         },
+        emphasis : {
+          label: {
+              show: true,
+              fontSize: 9,
+              fontWeight: "bold",
+             
+          }
+      },
         data: sellData.map((item, index) => ({
           value: item.totalSale,
           name: item.productName,
@@ -180,15 +193,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
             color: colors[index % colors.length],
           },
         })),
-        label: {
-          show: false,
-          textStyle: {
-            fontSize: window.innerWidth <= 768 ? 10 : 16,
-          },
-          formatter: "{b}: {c}",
-          color: themeMode === "dark" ? "#ffffff" : "#000000", // Set text color to white
-          borderWidth: 0,
-        },
+        
         labelLine: {
           length: 30,
           length2: 10,
@@ -204,10 +209,10 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
   const exportToExcel = () => {
     const startDate = formatDate(selectedRange[0]);
     const endDate = formatDate(selectedRange[1]);
-  
+
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Data");
-  
+
     // Fetch the image file (replace "logo.png" with the correct path/URL)
     fetch(logo)
       .then((response) => response.blob())
@@ -215,21 +220,21 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
         const fileReader = new FileReader();
         fileReader.onload = function () {
           const imageBase64 = fileReader.result;
-  
+
           // Add the image to the worksheet
           const logoImage = workbook.addImage({
             base64: imageBase64,
             extension: "png",
           });
-  
+
           // Set the image position and size with padding
           worksheet.addImage(logoImage, {
             tl: { col: 0, row: 0 }, // Adjusted offset values for padding
             ext: { width: 100, height: 56 },
           });
-  
+
           // Continue with the rest of the function
-  
+
           const extraHeaderCell = worksheet.getCell("A2"); // Shifted down by one row
           extraHeaderCell.value = "Product Wise Summary Data";
           extraHeaderCell.font = {
@@ -242,19 +247,24 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
             horizontal: "center",
           };
           worksheet.mergeCells("A2:B2"); // Shifted down by one row
-  
+
           // Set column widths
           worksheet.getColumn(1).width = 50;
           worksheet.getColumn(2).width = 15;
-  
+
           // Add headers
-          const headerRow = worksheet.addRow(["Product Name", "Total Sale"]);
+          const headerRow = worksheet.addRow([
+            "Product Name",
+            "Quantity",
+            "Total Sale",
+          ]);
+
           headerRow.font = {
             bold: true,
             color: { argb: "000000" }, // Black color
             size: 12,
           };
-  
+
           // Apply underline and border style to each cell
           headerRow.eachCell((cell) => {
             cell.font = {
@@ -266,25 +276,28 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
               bottom: { style: "thin", color: { argb: "000000" } }, // Black color
             };
           });
-  
+
           // Add data rows
           sellData.forEach((item) => {
-            worksheet.addRow([item.productName, `₹${item.totalSale}`]); // Add "₹" symbol before the totalSale value
+            worksheet.addRow([
+              item.productName,
+              `${item.totalQty} ltr`,
+              `₹${item.totalSale}`,
+            ]); // Add "₹" symbol before the totalSale value
           });
-  
+
           // Generate a unique filename
           const fileName = `export_${Date.now()}.xlsx`;
-  
+
           // Save the workbook
           workbook.xlsx.writeBuffer().then((buffer) => {
             saveAs(new Blob([buffer]), fileName);
           });
         };
-  
+
         fileReader.readAsDataURL(blob);
       });
   };
-  
 
   const formatDate = (date) => {
     if (!date) {
@@ -304,7 +317,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
     const doc = new jsPDF();
 
     // Set table headers
-    const headers = [["Product Name", "Total Sale"]];
+    const headers = [["Product Name", "Quantity", "Total Sale"]];
 
     const headerStyles = {
       fontSize: 12,
@@ -338,7 +351,11 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
     });
 
     // Set table rows
-    const rows = sellData.map((item) => [item.productName, item.totalSale]);
+    const rows = sellData.map((item) => [
+      item.productName,
+      `${item.totalQty} ltr`,
+      item.totalSale.toFixed(2),
+    ]);
 
     // AutoTable configuration
     const tableConfig = {
@@ -365,45 +382,47 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
   const exportToTable = () => {
     const startDate = formatDate(selectedRange[0]);
     const endDate = formatDate(selectedRange[1]);
-  
+
     // Hide the graph
     const graphContainer = document.querySelector(`.${css.chartContainer}`);
     graphContainer.style.opacity = "0";
     graphContainer.style.transition = "opacity 0.3s";
     graphContainer.style.display = "none";
-  
+
     // Generate the table data (replace sellData with your actual data)
     const tableData = sellData.map((item) => ({
       "Product Name": item.productName,
+      Quantity: `${item.totalQty} ltr`,
       "Total Sale": item.totalSale,
     }));
-  
+
     // Create a new element to hold the table
     const tableContainer = document.createElement("div");
     tableContainer.className = css.tableContainer;
     tableContainer.style.opacity = "0";
     tableContainer.style.transition = "opacity 0.3s";
-  
+
     // Create the table element
     const table = document.createElement("table");
     table.className = css.table;
-  
+
     // Create the table header
     const tableHeader = document.createElement("thead");
     const tableHeaderRow = document.createElement("tr");
     tableHeaderRow.innerHTML = `
-      <th colspan="2" class="${css.summaryHeader}">Product Wise Summary Data</th>
+      <th colspan="3" class="${css.summaryHeader}">Product Wise Summary Data</th>
     `;
     tableHeader.appendChild(tableHeaderRow);
-  
+
     // Create the second row for the column headers
     const columnHeaderRow = document.createElement("tr");
     columnHeaderRow.innerHTML = `
       <th class="${css.headerCell}">Product Name</th>
+      <th class="${css.headerCell}">Quantity</th>
       <th class="${css.headerCell}">Total Sale</th>
     `;
     tableHeader.appendChild(columnHeaderRow);
-  
+
     // Create the table body
     const tableBody = document.createElement("tbody");
     tableData.forEach((rowData) => {
@@ -415,14 +434,14 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
       });
       tableBody.appendChild(tableRow);
     });
-  
+
     // Append the table header and body to the table
     table.appendChild(tableHeader);
     table.appendChild(tableBody);
-  
+
     // Append the table to the table container
     tableContainer.appendChild(table);
-  
+
     // Create a close button to hide the table and show the graph
     const closeButton = document.createElement("button");
     closeButton.textContent = "Close";
@@ -431,7 +450,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
       // Add a fade-out animation to the table wrapper and close button
       tableWrapper.style.opacity = "0";
       tableWrapper.style.transition = "opacity 0.3s";
-  
+
       // Remove the table wrapper after the animation completes
       setTimeout(() => {
         tableWrapper.remove();
@@ -444,25 +463,24 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
         }, 10);
       }, 300);
     });
-  
+
     // Create a wrapper element to hold the table and close button
     const tableWrapper = document.createElement("div");
     tableWrapper.className = css.tableWrapper;
     tableWrapper.appendChild(tableContainer);
     tableWrapper.appendChild(closeButton);
-  
+
     // Insert the table wrapper below the graph container
     graphContainer.parentNode.insertBefore(
       tableWrapper,
       graphContainer.nextSibling
     );
-  
+
     // Show the table with a smooth animation
     setTimeout(() => {
       tableContainer.style.opacity = "1";
     }, 10);
   };
-  
 
   useEffect(() => {
     function handleClick(event) {
@@ -488,7 +506,6 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
   const handleIconClick = () => {
     setShowExportOptions(true);
   };
-  
 
   return (
     <div
@@ -498,6 +515,7 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
     >
       {sellData.length > 0 ? (
         <>
+        
           <div className={css.iconsContainer} ref={iconContainerRef}>
             {/* Data grid icon */}
             <div
@@ -531,22 +549,32 @@ const OrdersPieChart = ({ themeMode, selectedRange, selectedOffice, isAdmin }) =
               </div>
             )}
           </div>
-          <div className={css.legendButtonContainer}>
+         
             {" "}
             {/* Add a container for the legend button */}
             <button
               className={css.legendButton}
               onClick={toggleLegend} // Call the toggleLegend function when the button is clicked
             >
-              {showLegend ? "Collapse Legend" : "Expand Legend"}{" "}
+              <img
+                src={codeBlockIcon}
+                alt="Code Block Icon"
+                className={css.codeBlockIcon}
+                title="Legends"
+              />{" "}
               {/* Display different text based on the showLegend state */}
             </button>
-          </div>
+          
 
           <ReactECharts
             key={sellData.length}
             option={option}
-            style={{ marginTop: "-2%", height: "475px", width: "100%", maxWidth: "2300px"}}
+            style={{
+              marginTop: window.innerWidth <= 1496? "-6%" : "-6%",
+              height: "350px",
+              width: "100%",
+              maxWidth: "2300px",
+            }}
             className={css.piechart}
             // className={themeMode === "dark" ? css.darkMode : css.lightMode}
           />

@@ -192,9 +192,9 @@ const Dashboard = () => {
       >
         <div className={css.head}>
           <span>
-            <h3><b>Dashboard</b></h3>
+            <h5><b>Dashboard</b></h5>
           </span>
-          <Switch
+          {/* <Switch
             className={css.themeSwitch}
             checked={themeMode === 'dark'}
             onChange={handleThemeChange}
@@ -205,7 +205,7 @@ const Dashboard = () => {
             height={26}
             width={50}
             handleDiameter={24}
-          />
+          /> */}
         </div>
         
         <div className={`${css.cards} ${themeMode === 'dark' ? css.darkMode : css.lightMode}`}> 

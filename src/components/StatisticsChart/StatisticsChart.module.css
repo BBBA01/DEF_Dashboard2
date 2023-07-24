@@ -17,6 +17,7 @@
   @media screen and (max-width:1380px) {
     .chartContainer {
       width: 100%;
+      margin-bottom: 18px;
     }
   }
 
@@ -241,16 +242,17 @@
 
 
   .iconsContainer {
-   right: 0;
-    padding: 12px 12px;
-   
-    width: 50px;
+    right: 0;
+    padding: 8px 10px;
+    width: 45px;
     background-color: #239dab;
     border: 2px solid white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     cursor: pointer;
-  }
+    height: 45px;
+}
+  
 
   .lightMode .icon {
     cursor: pointer;
@@ -287,11 +289,10 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
-
   right: 50px;
   z-index: 1;
-  width: 190px;
-  font-size: 18px;
+  width: 149px;
+  font-size: 14px;
 
 }
 
@@ -306,7 +307,7 @@
     top: 30px;
     right: 40px;
     z-index: 1;
-    width: 125px;
+    width: 123px;
     font-size: 11px;
   
   }
@@ -348,11 +349,10 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
-
   right: 50px;
   z-index: 1;
-  width: 190px;
-  font-size: 18px;
+  width: 149px;
+  font-size: 14px;
 
 }
 
@@ -365,10 +365,10 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
-    top: 20px;
+    top: 30px;
     right: 40px;
     z-index: 1;
-    width: 125px;
+    width: 123px;
     font-size: 11px;
   
   }
