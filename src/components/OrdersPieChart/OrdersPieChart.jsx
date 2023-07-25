@@ -136,14 +136,14 @@ const OrdersPieChart = ({
       },
     },
     legend: {
-      orient: "vertical",
-      left: "5px",
-      top: "0px",
+      orient: "horizontal",
+      left: "0px",
+      top: "bottom",
       show: showLegend,
       itemGap: 5, // Adjust the itemGap to create a gap
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: window.innerWidth <= 1496 ? 9 : 12,
+        fontSize: window.innerWidth <= 1496 ? 10 : 12,
       },
 
       type: "scroll", // Set the type of scrollbar (can be 'scroll' or 'slider')
@@ -161,9 +161,9 @@ const OrdersPieChart = ({
       style: {
         text: "Product Wise Sales",
         fill: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: windowWidth <= 1496 ? 15 : 23,
+        fontSize: windowWidth <= 1496 ? 16 : 18,
         fontWeight: "bold",
-        heigth: "400px",
+       
       },
     },
     series: [
@@ -171,7 +171,7 @@ const OrdersPieChart = ({
         name: "Product Sales",
         type: "pie",
         radius: ["40%", "60%"],
-        center: windowWidth <= 768 ? ["77%", "50%"] : ["50%", "60%"],
+        center: ["50%", "50%"],
         selectedMode: "single",
         avoidLabelOverlap:  false,
         label: {
@@ -557,7 +557,7 @@ const OrdersPieChart = ({
               onClick={toggleLegend} // Call the toggleLegend function when the button is clicked
             >
               <img
-                src={codeBlockIcon}
+                src="http://115.124.120.251:5007/images/code-block.png"
                 alt="Code Block Icon"
                 className={css.codeBlockIcon}
                 title="Legends"
@@ -570,8 +570,8 @@ const OrdersPieChart = ({
             key={sellData.length}
             option={option}
             style={{
-              marginTop: window.innerWidth <= 1496? "-6%" : "-6%",
-              height: "350px",
+              marginTop: window.innerWidth <= 1496? "-8%" : "-6%",
+              height: "291px",
               width: "100%",
               maxWidth: "2300px",
             }}

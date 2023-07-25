@@ -39,7 +39,7 @@
   
 .iconsContainer {
   margin-left: auto;
-  padding: 8px 10px;
+  padding: 6px 8px;
   /* position: relative; */
   margin-right: 12px;
   background-color: #239dab;
@@ -47,8 +47,8 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   cursor: pointer;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
 
  
 }
@@ -56,13 +56,13 @@
 .lightMode .icon {
   cursor: pointer;
   color: #fcfcfc;/* Adjust the color as needed */
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .darkMode .icon {
   cursor: pointer;
   color: #000000;/* Adjust the color as needed */
-  font-size: 18px;
+  font-size: 16px;
 }
 
 
@@ -272,7 +272,7 @@
   font-size: 14px;
   border: none;
   position: relative;
-  top: -50px;
+  top: -40px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;

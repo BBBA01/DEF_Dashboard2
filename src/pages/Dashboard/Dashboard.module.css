@@ -72,7 +72,7 @@
 }
 
 .lightMode .card1 {
-  width: 25rem;
+  width: 24rem;
   background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
   padding: 1rem;
   border-radius: 10px;
@@ -81,7 +81,7 @@
   color: #fff;
 }
 .lightMode .card2 {
-  width: 25rem;
+  width: 24rem;
   background: linear-gradient(195deg, rgb(41 179 195), rgb(34 142 155));
   padding: 1rem;
   border-radius: 10px;
@@ -90,7 +90,7 @@
   color: #fff;
 }
 .lightMode .card3 {
-  width: 25rem;
+  width: 24rem;
   background: linear-gradient(195deg, rgb(102, 187, 106), rgb(67, 160, 71));
   padding: 1rem;
 
@@ -100,7 +100,7 @@
   color: #fff;
 }
 .lightMode .card4 {
-  width: 25rem;
+  width: 24rem;
   background: linear-gradient(195deg, rgb(223, 104, 104), rgb(232, 26, 26));
   padding: 1rem;
 
@@ -142,7 +142,7 @@
 
 
 .lightMode .cardHead {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   display: flex;
   margin-bottom: 10px ;
   align-items: center;
@@ -158,30 +158,28 @@
 }
 
 .lightMode .cardAmount > :nth-child(1) {
-  font-size: 1.0rem;
+  font-size: 80%;
   position: relative;
   bottom: 1px;
   margin-right: 10px;
  
   
- 
-  
 }
 
 .lightMode .cardAmount > :nth-child(2) {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: bold;
   color: #fff;
 }
 
 .lightMode .cardAmount > :nth-child(3) {
   margin-right: 50px;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   color: #fff;
 }
 .lightMode .cardAmount > :nth-child(4) {
   
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   margin-right: 5px;
   
   
@@ -189,22 +187,25 @@
 }
 .lightMode .cardAmount > :nth-child(5) {
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   
   color: #fff;
 }
 
 .lightMode .card3 .cardAmount  {
-  margin-top: 50px;
+  margin-top: 40px;
 }
 .lightMode .card4 .cardAmount  {
-  margin-top: 50px;
+  margin-top: 40px;
 }
+
+
+
 .darkMode .card3 .cardAmount  {
-  margin-top: 50px;
+  margin-top: 40px;
 }
 .darkMode .card4 .cardAmount  {
-  margin-top: 50px;
+  margin-top: 40px;
 }
 
 
@@ -247,7 +248,7 @@
 
 
 .darkMode .card1 {
-  width: 25rem;
+  width: 24rem;
   background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
   padding: 1rem;
   border-radius: 10px;
@@ -255,7 +256,7 @@
   transition: box-shadow 0.3s ease;
 }
 .darkMode .card2 {
-  width: 25rem;
+  width: 24rem;
   background: linear-gradient(195deg, rgb(41 179 195), rgb(34 142 155));
   padding: 1rem;
   border-radius: 10px;
@@ -263,7 +264,7 @@
   transition: box-shadow 0.3s ease;
 }
 .darkMode .card3 {
-  width: 25rem;
+  width: 24rem;
   background: linear-gradient(195deg, rgb(102, 187, 106), rgb(67, 160, 71));
   padding: 1rem;
   border-radius: 10px;
@@ -271,7 +272,7 @@
   transition: box-shadow 0.3s ease;
 }
 .darkMode .card4 {
-  width: 25rem;
+  width: 24rem;
   background: linear-gradient(195deg, rgb(223, 104, 104), rgb(232, 26, 26));
   padding: 1rem;
   border-radius: 10px;
@@ -309,7 +310,7 @@
 }
 
 .darkMode .cardHead {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   display: flex;
   margin-bottom: 10px;
   align-items: center;
@@ -323,7 +324,7 @@
 }
 
 .darkMode .cardAmount > :nth-child(1) {
-  font-size: 1.0rem;
+  font-size: 80%;
   position: relative;
   bottom: 1px;
   margin-right: 10px;
@@ -333,28 +334,26 @@
 }
 
 .darkMode .cardAmount > :nth-child(2) {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: bold;
   color: #fff;
 }
 
 .darkMode .cardAmount > :nth-child(3) {
   margin-right: 50px;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   color: #fff;
 }
 .darkMode .cardAmount > :nth-child(4) {
   
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   margin-right: 5px;
-  
-  
   color: #fff;
 }
 
 .darkMode .cardAmount > :nth-child(5) {
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   
   color: #fff;
 }

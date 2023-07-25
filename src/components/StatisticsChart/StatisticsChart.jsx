@@ -154,8 +154,9 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       }
     },
     grid: {
-      left: windowWidth <= 768 ? '7%' : '3%',
+      left: windowWidth <= 768 ? '7%' : '4%',
       right: "3%",
+      top: "10%",
       bottom: "15%",
       containLabel: true,
     },
@@ -167,7 +168,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       nameTextStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
         fontWeight: "bold",
-        fontSize: windowWidth <= 768 ? 14 : 20,
+        fontSize: windowWidth <= 768 ? 14 : 16,
       },
       boundaryGap: true,
       data: chartData.map((item) => item.requestedDate),
@@ -191,7 +192,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
         nameTextStyle: {
           color: themeMode === "dark" ? "#ffffff" : "#000000",
           fontWeight: "bold",
-          fontSize: windowWidth <= 768 ? 14 : 20,
+          fontSize: windowWidth <= 768 ? 14 : 16,
         },
         axisLine: {
           lineStyle: {
@@ -673,7 +674,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     >
       <Container fluid >
       <Row className="text-left w-100 g-0 align-items-center">
-        <Col  className="fw-bold fs-4 d-flex label-text" >Sales-Expense</Col>
+        <Col  className="fw-bold fs-5 d-flex label-text" >Sales-Expense</Col>
         <Col  className=" text-end justify-content-end d-flex g-0" ><div className={css.iconsContainer} ref={iconContainerRef}>
           {/* Data grid icon */}
           <div
@@ -727,7 +728,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
         option={option}
         style={{
     
-          height: "350px",
+          height: "300px",
           width: "100%",
           maxWidth: "2300px",
         }}

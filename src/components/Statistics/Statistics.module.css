@@ -98,7 +98,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     margin-bottom: 40px;
-    height: 43px;
+    height: 42px;
     width: 335px
   }
 
@@ -118,7 +118,7 @@
 .lightMode .dateFilter label {
     color: white;
     padding: 5px;
-    font-size: 12px;
+    font-size: 13px;
   
   }
 
@@ -142,7 +142,7 @@
    background: #239dab;
     display: flex;
     padding: 9px;
-    height: 43px;
+    height: 42px;
     width: 338px;
     top: -72px;
     border-radius: 10px;
@@ -160,8 +160,8 @@
     align-items: center;
     position: relative;
     padding: 2px;
-    width: 280px;
-    top: 0px;
+    width: 275px;
+    top: -1px;
     margin-left: 5px;
     border: none;
     outline: none;
@@ -169,7 +169,7 @@
     background-color: #239dab;
     color: rgb(255, 255, 255);
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px;
     height: 23px;
   }
   
@@ -180,9 +180,9 @@
   }
 
   .lightMode .officefilter label {
-    top: 2px;
+    top: 1px;
     position: relative;
-    font-size: 12px;
+    font-size: 13px;
   }
   
 
@@ -264,7 +264,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   margin-bottom: 30px;
-  height: 43px;
+  height: 42px;
   width: 335px
 
    
@@ -282,7 +282,7 @@
   .darkMode .dateFilter label {
     color: rgb(0, 0, 0);
     padding: 5px;
-    font-size: 12px;
+    font-size: 13px;
   
   }
 
@@ -290,7 +290,7 @@
     background: #239dab;
     display: flex;
     padding: 9px;
-    height: 43px;
+    height: 42px;
     width: 338px;
     top: -72px;
     border-radius: 10px;
@@ -308,8 +308,8 @@
     align-items: center;
     position: relative;
     padding: 2px;
-    width: 280px;
-    top: 0px;
+    width: 275px;
+    top: -1px;
     margin-left: 5px;
     border: none;
     outline: none;
@@ -317,7 +317,7 @@
     background-color: #239dab;
     color: rgb(0, 0, 0);
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px;
     height: 23px;
   }
   
@@ -328,9 +328,9 @@
   }
 
   .darkMode .officefilter label {
-    top: 2px;
+    top: 1px;
     position: relative;
-    font-size: 12px;
+    font-size: 13px;
   }
 
   @media (max-width: 768px) {
