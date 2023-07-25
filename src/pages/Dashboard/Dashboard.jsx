@@ -33,10 +33,6 @@ const Dashboard = () => {
   const [countExpense, setCountExpense] = useState(0);
   const [themeMode, setThemeMode] = useState(initialThemeMode);
   const [userId, setUserId] = useState(initialuserId);
-  const [officeId, setOfficeId] = useState();
-  const [roleName, setRoleName] = useState("");
-  const [roleName1, setRoleName1] = useState("");
-  const [officeName, setOfficeName] = useState("");
   const [userData, setUserData] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -59,7 +55,6 @@ const Dashboard = () => {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTk4OGU3ZS1lODVhLTRjOTQtMGY1Zi0wOGQ4ZjFmMWI3OTkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiU0FkbWluIiwianRpIjoiYjUwODU3OWEtMzg1OS00ZTlhLTg0MTgtM2Q3ZDZkNTMxYzYxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI1ZTk4OGU3ZS1lODVhLTRjOTQtMGY1Zi0wOGQ4ZjFmMWI3OTkiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlckFkbWluIiwiZXhwIjoxNzE5NTc4MTEzLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMxODcxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMTg3MSJ9.v3VG1otpCu71imrgb_mVrGkQmVduWNHu28HuikQcp2A";
   const apiKey = `http://115.124.120.251:5059/api/Auth/User/${userId}`;
 
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -99,7 +94,6 @@ const Dashboard = () => {
         setUserCountData(userCountData);
         setOfficeCountData(officeCountData);
 
-
         setTotalIncome(totalIncome);
         setTotalExpense(totalExpense);
         setCountIncome(countIncome);
@@ -111,8 +105,6 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
-
- 
 
   const handleThemeChange = (checked) => {
     const newThemeMode = checked ? "dark" : "light";
@@ -136,121 +128,127 @@ const Dashboard = () => {
   };
 
   return (
-  
-    <div className={`${css.container} ${themeMode === 'dark' ? css.darkMode : css.lightMode} ${css.scrollableContainer}`}>
-    
-    <div className={`${css.dashboard} `}>
-      <div
-        className={`${css.dashboardHead} ${
-          themeMode === 'dark' ? 'theme-container' : 'theme2-container'
-        }`}
-      >
-        <div className={css.head}>
-          <span>
-            <h5><b>Dashboard</b></h5>
-          </span>
-          <Switch
-            className={css.themeSwitch}
-            checked={themeMode === 'dark'}
-            onChange={handleThemeChange}
-            checkedIcon={renderSwitchIcon()}
-            uncheckedIcon={renderSwitchIcon()}
-            offColor="#2f3542"
-            onColor="#f1c40f"
-            height={26}
-            width={50}
-            handleDiameter={24}
-          />
-        </div>
-        
-        <div className={`${css.cards} ${themeMode === 'dark' ? css.darkMode : css.lightMode}`}> 
-        <div className={css.card1}>
-    <div className={css.cardHead}>
-      <span>Users</span>
-      <span><FaUser size={50} /></span>
-    </div>
-    {Array.isArray(userCountData) && userCountData.length > 0 ? (
-      userCountData.map((entry, index) => (
-        <div className={css.cardAmount} key={index}>
-          <span>{entry.roleName} :</span>
-          <span>{entry.userCount}</span>
-        </div>
-      ))
-    ) : (
-      <div className={css.cardAmount}>
-        <span>No user data available</span>
-      </div>
-    )}
-  </div>
-        <div className={css.card2}>
-  <div className={css.cardHead}>
-    <span>Office</span>
-    <span>
-      <FaBuilding size={50} />
-    </span>
-  </div>
-  {Array.isArray(officeCountData) && officeCountData.length > 0 ? (
-    officeCountData.map((entry, index) => (
-      <div className={css.cardAmount} key={index}>
-        <span>{entry.officeTypeName} :</span>
-        <span>{entry.officeCount}</span>
-      </div>
-    ))
-  ) : (
-    <div className={css.cardAmount}>
-      <span>No office data available</span>
-    </div>
-  )}
-</div>
+    <div
+      className={`${css.container} ${
+        themeMode === "dark" ? css.darkMode : css.lightMode
+      } ${css.scrollableContainer}`}
+    >
+      <div className={`${css.dashboard} `}>
+        <div
+          className={`${css.dashboardHead} ${
+            themeMode === "dark" ? "theme-container" : "theme2-container"
+          }`}
+        >
+          <div className={css.head}>
+            <span>
+              <h5>
+                <b>Dashboard</b>
+              </h5>
+            </span>
+            {/* <Switch
+              className={css.themeSwitch}
+              checked={themeMode === "dark"}
+              onChange={handleThemeChange}
+              checkedIcon={renderSwitchIcon()}
+              uncheckedIcon={renderSwitchIcon()}
+              offColor="#2f3542"
+              onColor="#f1c40f"
+              height={26}
+              width={50}
+              handleDiameter={24}
+            /> */}
+          </div>
 
-          <div className={css.card3}>
-                    <div className={css.cardHead}>
-                      <span>Sales</span>
-                      <span>
-                        <FaMoneyBill size={50} />
-                      </span>
-                    </div>
-                  
-                    <div className={css.cardAmount}>
-                      <span>Last 7 day's update</span>
-                      
-                      <span>{countIncome}</span>
-                      <i><FaArrowUp size={20} /></i>
-                      <span>₹</span>
-                      <span>{totalIncome}</span>
-                    </div>
-                    
+          <div
+            className={`${css.cards} ${
+              themeMode === "dark" ? css.darkMode : css.lightMode
+            }`}
+          >
+            <div className={css.card1}>
+              <div className={css.cardHead}>
+                <span>Users</span>
+                <span>
+                  <FaUser size={50} />
+                </span>
+              </div>
+              {Array.isArray(userCountData) && userCountData.length > 0 ? (
+                userCountData.map((entry, index) => (
+                  <div className={css.cardAmount} key={index}>
+                    <span>{entry.roleName} :</span>
+                    <span>{entry.userCount}</span>
                   </div>
-          <div className={css.card4}>
-                    <div className={css.cardHead}>
-                      <span>Expense</span>
-                      <span>
-                        <FaMoneyBillAlt size={50} />
-                      </span>
-                    </div>
-                    <div className={css.cardAmount}>
-                    <span>Last 7 day's update</span>
-                    <span>{countExpense}</span>
-                      <i><FaArrowUp size={20} /></i>
-                      <span>₹</span>
-                      <span>{totalExpense}</span>
-                      
-                    </div>
+                ))
+              ) : (
+                <div className={css.cardAmount}>
+                  <span>No user data available</span>
+                </div>
+              )}
+            </div>
+            <div className={css.card2}>
+              <div className={css.cardHead}>
+                <span>Office</span>
+                <span>
+                  <FaBuilding size={50} />
+                </span>
+              </div>
+              {Array.isArray(officeCountData) && officeCountData.length > 0 ? (
+                officeCountData.map((entry, index) => (
+                  <div className={css.cardAmount} key={index}>
+                    <span>{entry.officeTypeName} :</span>
+                    <span>{entry.officeCount}</span>
                   </div>
+                ))
+              ) : (
+                <div className={css.cardAmount}>
+                  <span>No office data available</span>
+                </div>
+              )}
+            </div>
+
+            <div className={css.card3}>
+              <div className={css.cardHead}>
+                <span>Sales</span>
+                <span>
+                  <FaMoneyBill size={50} />
+                </span>
+              </div>
+
+              <div className={css.cardAmount}>
+                <span>Last 7 day's update</span>
+
+                <span>{countIncome}</span>
+                <i>
+                  <FaArrowUp size={20} />
+                </i>
+                <span>₹</span>
+                <span>{totalIncome}</span>
+              </div>
+            </div>
+            <div className={css.card4}>
+              <div className={css.cardHead}>
+                <span>Expense</span>
+                <span>
+                  <FaMoneyBillAlt size={50} />
+                </span>
+              </div>
+              <div className={css.cardAmount}>
+                <span>Last 7 day's update</span>
+                <span>{countExpense}</span>
+                <i>
+                  <FaArrowUp size={20} />
+                </i>
+                <span>₹</span>
+                <span>{totalExpense}</span>
+              </div>
+            </div>
+          </div>
         </div>
-       
+
+        <Statistics themeMode={themeMode} />
+
+        {/* <Orders themeMode={themeMode} /> */}
       </div>
-
-    
-
-      <Statistics themeMode={themeMode} />
-    
-     
-    {/* <Orders themeMode={themeMode} /> */}
-  
     </div>
-    </div>
-    
   );
 };
 
