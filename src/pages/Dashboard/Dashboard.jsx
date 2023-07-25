@@ -24,12 +24,9 @@ const Dashboard = () => {
   const initialThemeMode = urlParams.get("theme") || "light"; // Read theme mode from URL parameter
   const initialuserId = urlParams.get("userId");
 
-  const [userCount, setUserCount] = useState(0);
-  const [userCount1, setUserCount1] = useState(0);
-  const [officeCount, setOfficeCount] = useState(0);
-  const [officeCount1, setOfficeCount1] = useState(0);
+  const [userCountData, setUserCountData] = useState(0);
+  const [officeCountData, setOfficeCountData] = useState(0);
   const [officeTypeName, setOfficeTypeName] = useState(0);
-  const [officeTypeName1, setOfficeTypeName1] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpense, setTotalExpense] = useState(0);
   const [countIncome, setCountIncome] = useState(0);
@@ -98,27 +95,10 @@ const Dashboard = () => {
         console.log(countIncome);
         console.log(totalExpense);
         console.log(countExpense);
-        // Update the state variables with the fetched data
-            // Update the state variables with the fetched data, but only if the data is available
-    if (userCountData.length > 0) {
-      setUserCount(userCountData[0].userCount); // Assuming you want the first entry for CompanyAdmin
-      setRoleName(userCountData[0].roleName); // Assuming you want the first entry for CompanyAdmin
-    }
 
-    if (userCountData.length > 1) {
-      setUserCount1(userCountData[1].userCount); // Assuming you want the second entry for CompanyAdmin
-      setRoleName1(userCountData[1].roleName); // Assuming you want the second entry for CompanyAdmin
-    }
+        setUserCountData(userCountData);
+        setOfficeCountData(officeCountData);
 
-    if (officeCountData.length > 0) {
-      setOfficeCount(officeCountData[0].officeCount); // Assuming you want the first entry for Retail Pumps
-      setOfficeTypeName(officeCountData[0].officeTypeName); // Assuming you want the first entry for Retail Pumps
-    }
-
-    if (officeCountData.length > 1) {
-      setOfficeCount1(officeCountData[1].officeCount); // Assuming you want the second entry for Retail Pumps
-      setOfficeTypeName1(officeCountData[1].officeTypeName); // Assuming you want the second entry for Retail Pumps
-    }
 
         setTotalIncome(totalIncome);
         setTotalExpense(totalExpense);
@@ -132,32 +112,7 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  const cardsData = [
-    {
-      title: "User Count",
-      amount: userCount,
-      icons: [<FaUser size={20} />],
-      backgroundColor: "red",
-    },
-    {
-      title: "Office Count",
-      amount: officeCount,
-      icons: [<FaBuilding size={20} />],
-      backgroundColor: "blue",
-    },
-    {
-      title: "Sales",
-      amount: totalIncome,
-      icons: [<FaMoneyBill size={20} />],
-      backgroundColor: "green",
-    },
-    {
-      title: "Expense",
-      amount: totalExpense,
-      icons: [<FaMoneyBillAlt size={20} />],
-      backgroundColor: "purple",
-    },
-  ];
+ 
 
   const handleThemeChange = (checked) => {
     const newThemeMode = checked ? "dark" : "light";
@@ -209,38 +164,45 @@ const Dashboard = () => {
         </div>
         
         <div className={`${css.cards} ${themeMode === 'dark' ? css.darkMode : css.lightMode}`}> 
-          <div className={css.card1}>
-            <div className={css.cardHead}>
-              <span>Users</span>
-              <span><FaUser size={50} /></span>
-            </div>
-            <div className={css.cardAmount}>
-              <span>{roleName} :</span>
-              <span>{userCount}</span>
-            </div>
-            <div className={css.cardAmount}>
-              <span>{roleName1} :</span>
-              <span>{userCount1}</span>
-            </div>
-          </div>
-         <div className={css.card2}>
-                    <div className={css.cardHead}>
-                      <span>Office</span>
-                      <span>
-                        <FaBuilding size={50} />
-                      </span>
-                    </div>
-                    <div className={css.cardAmount}>
-                      <span>{officeTypeName} :</span>
+        <div className={css.card1}>
+    <div className={css.cardHead}>
+      <span>Users</span>
+      <span><FaUser size={50} /></span>
+    </div>
+    {Array.isArray(userCountData) && userCountData.length > 0 ? (
+      userCountData.map((entry, index) => (
+        <div className={css.cardAmount} key={index}>
+          <span>{entry.roleName} :</span>
+          <span>{entry.userCount}</span>
+        </div>
+      ))
+    ) : (
+      <div className={css.cardAmount}>
+        <span>No user data available</span>
+      </div>
+    )}
+  </div>
+        <div className={css.card2}>
+  <div className={css.cardHead}>
+    <span>Office</span>
+    <span>
+      <FaBuilding size={50} />
+    </span>
+  </div>
+  {Array.isArray(officeCountData) && officeCountData.length > 0 ? (
+    officeCountData.map((entry, index) => (
+      <div className={css.cardAmount} key={index}>
+        <span>{entry.officeTypeName} :</span>
+        <span>{entry.officeCount}</span>
+      </div>
+    ))
+  ) : (
+    <div className={css.cardAmount}>
+      <span>No office data available</span>
+    </div>
+  )}
+</div>
 
-                      <span>{officeCount}</span>
-                    </div>
-                    <div className={css.cardAmount}>
-                      <span>{officeTypeName1} :</span>
-
-                      <span>{officeCount1}</span>
-                    </div>
-                  </div>
           <div className={css.card3}>
                     <div className={css.cardHead}>
                       <span>Sales</span>

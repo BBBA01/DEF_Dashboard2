@@ -59,7 +59,7 @@
 .lightMode .cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;  
+  gap: 2rem; 
   
 }
 
@@ -157,9 +157,9 @@
   
 }
 
+
 .lightMode .cardAmount > :nth-child(1) {
   font-size: 80%;
-  position: relative;
   bottom: 1px;
   margin-right: 10px;
  
@@ -193,11 +193,12 @@
 }
 
 .lightMode .card3 .cardAmount  {
-  margin-top: 40px;
+  margin-top: 45px;
 }
 .lightMode .card4 .cardAmount  {
-  margin-top: 40px;
+  margin-top: 45px;
 }
+
 
 
 
