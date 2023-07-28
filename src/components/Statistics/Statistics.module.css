@@ -237,7 +237,7 @@
     align-items: center;
     justify-content: flex-start;
     /* margin-bottom: 20px; */
-    transition: visibility 0s, opacity 1s,height 0.25s linear(0 0%, 1 100%);
+    transition: visibility 0.25s, opacity .5s,height 0.25s linear(0 0%, 1 100%);
     background:  rgb(13 110 253/85%);
   }
   

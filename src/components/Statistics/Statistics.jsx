@@ -17,6 +17,7 @@ import Col from "react-bootstrap/Col";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCalendar, faCalendarDays, faCoins, faFilter, faXmark } from '@fortawesome/free-solid-svg-icons';
 import './Statistics.module.css'
+import ProductQtyChart from '../ProductQtyChart/ProductQtyChart';
 
 
 
@@ -104,6 +105,9 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
         //console.log(officeDataFromApi.filter(
         //(office) => office.OfficeTypeName === "Company"
         //));
+        if(document.querySelector(`.${css.closeButton}`)){
+          document.querySelector(`.${css.closeButton}`).click()
+        }
 
       } catch (error) {
         console.error('Error fetching office data:', error);
@@ -179,31 +183,15 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
       </div>
       <div style={{ visibility: filterOn ? 'visible' : 'hidden', opacity: filterOn ? 1 : 0, height: filterOn ? windowWidth > 768 ?"85px":"130px" : 0, marginBottom: filterOn ? "10px" : 0 }} className={`${css.topContainer} ${themeMode === "dark" ? css.darkMode : css.lightMode
         }`}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "row",
-            marginRight: "7px",
+      
 
-
-          }}
-
-
-        >
-
-
-
-        </div>
-
-        <div className="row d-flex justify-content-center flex-wrap align-items-center mx-0 mx-sm-2 mx-md-0">
-          <div className="col-md-6 my-sm-2 mw-50 col-sm-7 my-2 d-flex justify-content-start align-items-center pw-md-0 mw-2 mw-xl-0" >
+        <div className="row d-flex justify-content-start flex-wrap align-items-center mx-0 mx-sm-2 mx-md-0">
+          <div className="col-md-5 col-lg-5 my-sm-2   my-2 d-flex justify-content-start align-items-center pw-md-0 me-2" >
           {windowWidth>400?<div className="me-2 mx-sm-3"><FontAwesomeIcon icon={faCalendarDays} style={{fontSize:'2.3rem',color:"white"}}/></div>:''}
             <DateRangePicker
               size="lg"
               showOneCalendar
-              style={{ color: 'black' }}
+              style={{ color: 'black',width:"100%" }}
 
               value={selectedRange}
               onChange={handleDateRange}
@@ -211,7 +199,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
               className={`${css.dateRangePicker}`}
             />
           </div>
-          <div className="col-md-6 my-sm-2 mw-50 col-sm-7  my-2 d-flex justify-content-center align-items-center mw-2">
+          <div className="col-md-6 col-lg-6 my-sm-2   my-2 d-flex justify-content-center align-items-center me-2">
             {windowWidth>400?<div className="me-2 mx-sm-3 mt-1"><FontAwesomeIcon icon={faBuilding} style={{fontSize:'2.3rem',color:"white"}}/></div>:''}
             <select className="form-select form-select-lg" aria-label="Default select example" id="office" onChange={handleOfficeChange} style={{ paddingBottom: "4px !important", paddingTop: "4px !important" }}>
               {companies.length > 1 ? <><option
@@ -256,7 +244,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
               >
                 &nbsp;&nbsp;All Pumps
               </option></> : ''}
-              {wholesales.length > 0 ? <><option
+              {wholesales.length > 0 && companies.length > 0 ? <><option
                 value={officeId}
                 data-isretail="0"
                 data-isadmin="3"
@@ -278,7 +266,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
                   {wholesalep.OfficeName}
                 </option>
               ))}
-              {retails.length > 0 ? <option
+              {(retails.length > 0 && companies.length > 0 ) ? <option
                 value={officeId}
                 data-isretail="1"
                 data-isadmin="2"
@@ -309,6 +297,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
         {selectedOffice.length > 0 ? <Row>
           <Col md={12} lg={8} ><StatisticsChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} /></Col>
           <Col md={12} lg={4} ><OrdersPieChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} /></Col>
+          <Col md={12} lg={4} className='mt-3'><ProductQtyChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} /></Col>
         </Row> : ''}
       </div>
 

@@ -13,14 +13,14 @@ import {
   faList,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import css from './OrdersPieChart.module.css';
+import css from './ProductQtyChart.module.css';
 import logo from "../../logo.png";
 import codeBlockIcon from "../../code-block.png";
 
 
 
 
-const OrdersPieChart = ({
+const ProductQtyChart= ({
   themeMode,
   selectedRange,
   selectedOffice,
@@ -140,14 +140,14 @@ const OrdersPieChart = ({
 
     tooltip: {
       trigger: "item",
-      formatter: "<b>{b}</b><br><b>Total Sales:</b> ₹{c}",
+      formatter: "<b>{b}</b><br><b>Total Qty:</b> {c}",
       textStyle: {
         fontSize: windowWidth <= 768 ? 10 : 14,
       },
     },
     legend: {
       orient: "vertical",
-      backgroundColor: themeMode === "dark" ? "#111111cf" : "rgb(249 249 249 / 97%)",
+      backgroundColor: themeMode === "dark" ? "#111111df" : "rgb(249 249 249 / 97%)",
       // shadowBlur: 2,
       left: "10%",
       top: "0",
@@ -178,7 +178,7 @@ const OrdersPieChart = ({
       left: "center",
       top: "top",
       style: {
-        text: "Product Volume",
+        text: "Product Quantity",
         fill: themeMode === "dark" ? "#ffffff" : "#000000",
         fontSize: windowWidth <= 1496 ? 16 : 18,
         fontWeight: "bold",
@@ -189,10 +189,11 @@ const OrdersPieChart = ({
       {
         name: "Product Sales",
         type: "pie",
-        radius: ["40%", "65%"],
+        radius: ["35%", "70%"],
         center: ["50%", "50%"],
         selectedMode: "single",
         avoidLabelOverlap: false,
+        roseType: 'radius',
         label: {
           show: false,
           position: "center",
@@ -206,7 +207,7 @@ const OrdersPieChart = ({
           }
         },
         data: sellData.length > 0 ? sellData.map((item, index) => ({
-          value: item.totalSale,
+          value: item.totalQty,
           name: item.productName,
           itemStyle: {
             color: item.color,
@@ -220,8 +221,8 @@ const OrdersPieChart = ({
         },
         itemStyle: {
           borderWidth: 2, // Set the border width
-          borderColor: '#ffffff00',
-          borderRadius:4 // Set the border color
+          borderColor: "#ffffff00", // Set the border color
+          borderRadius: 4
         },
       },
     ],
@@ -414,7 +415,7 @@ const OrdersPieChart = ({
     const tableData = sellData.map((item) => ({
       "Product Name": item.productName,
       Quantity: `${item.totalQty} ${item.unit}`,
-      "Total Sale": item.totalSale,
+      "Total Qty": item.totalSale,
     }));
 
     // Create a new element to hold the table
@@ -604,4 +605,4 @@ const OrdersPieChart = ({
   );
 };
 
-export default OrdersPieChart;
+export default ProductQtyChart;
