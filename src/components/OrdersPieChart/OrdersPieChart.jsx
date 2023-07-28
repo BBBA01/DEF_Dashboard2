@@ -10,6 +10,8 @@ import {
   faTable,
   faFileExcel,
   faFilePdf,
+  faList,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import css from './OrdersPieChart.module.css';
 import logo from "../../logo.png";
@@ -60,7 +62,7 @@ const OrdersPieChart = ({
         const data = response.data;
         const graph2Data = data.graph2;
 
-        console.log("Order <:", response.data);
+        // console.log("Order <:", response.data);
 
         // Perform the desired operation on the fetched data
         let totalQty = 0; // Initialize the total quantity
@@ -69,14 +71,17 @@ const OrdersPieChart = ({
         const sell = graph2Data.reduce((result, item) => {
           const { lstproduct } = item;
           lstproduct.forEach((product) => {
+    
             const { productName, totalSale, qty } = product;
+            if(totalSale!==0){
             totalQty += qty;
-
+            
             if (result[productName]) {
               result[productName] += totalSale;
             } else {
               result[productName] = totalSale;
             }
+          }
           });
           return result;
         }, {});
@@ -98,6 +103,7 @@ const OrdersPieChart = ({
   }, [selectedRange, selectedOffice, isAdmin]);
 
   const toggleLegend = () => {
+    if(sellData.length>0)
     setShowLegend(!showLegend); // Toggle the state for showLegend
     // Toggle the state for showScrollbar
   };
@@ -136,21 +142,30 @@ const OrdersPieChart = ({
       },
     },
     legend: {
-      orient: "horizontal",
-      left: "0px",
-      top: "bottom",
+      orient: "vertical",
+      backgroundColor:themeMode === "dark"?"#11111196":"rgb(249 249 249 / 97%)",
+      // shadowBlur: 2,
+      left: "5px",
+      top: "10%",
+      borderRadius:10,
+      padding:10,
       show: showLegend,
-      itemGap: 5, // Adjust the itemGap to create a gap
+      shadowColor:"#ececec",
+      borderColor:"rgba(57, 50, 50, 0.7)",
+      borderWidth:1,
+
+      itemGap: 10, // Adjust the itemGap to create a gap
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: window.innerWidth <= 1496 ? 10 : 12,
+        fontSize: window.innerWidth <= 1496 ? 12 : 14,
+        padding:4
       },
 
       type: "scroll", // Set the type of scrollbar (can be 'scroll' or 'slider')
       // You can also adjust other scrollbar properties here if needed
       scroll: {
         show: true,
-        orient: "vertical", // Scroll orientation (can be 'vertical' or 'horizontal')
+        orient: "horizontal", // Scroll orientation (can be 'vertical' or 'horizontal')
       },
     },
 
@@ -186,13 +201,14 @@ const OrdersPieChart = ({
              
           }
       },
-        data: sellData.map((item, index) => ({
+        data: sellData.length>0?sellData.map((item, index) => ({
           value: item.totalSale,
           name: item.productName,
           itemStyle: {
             color: colors[index % colors.length],
           },
-        })),
+        })):[],
+        
         
         labelLine: {
           length: 30,
@@ -490,7 +506,7 @@ const OrdersPieChart = ({
           iconContainerRef.current.contains(event.target)) ||
         (iconRef.current && iconRef.current.contains(event.target))
       ) {
-        setShowExportOptions(true);
+        // setShowExportOptions(true);
       } else {
         setShowExportOptions(false);
       }
@@ -504,19 +520,20 @@ const OrdersPieChart = ({
   }, []);
 
   const handleIconClick = () => {
-    setShowExportOptions(true);
+    setShowExportOptions(!showExportOptions);
   };
 
   return (
-    <div
+    <>
+   <div
       className={`${css.chartContainer} ${
         themeMode === "dark" ? css.darkMode : css.lightMode
       }`}
     >
-      {sellData.length > 0 ? (
+      
         <>
         
-          <div className={css.iconsContainer} ref={iconContainerRef}>
+          <div className={`${css.iconsContainer} d-flex justify-content-center align-items-center`} ref={iconContainerRef}>
             {/* Data grid icon */}
             <div
               className={`${css.icon} ${
@@ -525,7 +542,7 @@ const OrdersPieChart = ({
               ref={iconRef}
               onClick={handleIconClick}
             >
-              <FontAwesomeIcon icon={faTable} size="lg" />
+              {showExportOptions?<FontAwesomeIcon icon={faXmark} size="lg" />:<FontAwesomeIcon icon={faList} size="lg" />}
             </div>
             {showExportOptions && (
               <div
@@ -579,10 +596,9 @@ const OrdersPieChart = ({
             // className={themeMode === "dark" ? css.darkMode : css.lightMode}
           />
         </>
-      ) : (
-        <div>Loading data...</div>
-      )}
+      
     </div>
+    </>
   );
 };
 

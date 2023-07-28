@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Lottie from "lottie-react";
 import { useLocation } from "react-router-dom";
 import {
   FaUser,
@@ -17,12 +18,21 @@ import css from "./Dashboard.module.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import loader from "../../assets/loader/loader.json"
 
 const Dashboard = () => {
   const location = useLocation();
+  
   const urlParams = new URLSearchParams(location.search);
   const initialThemeMode = urlParams.get("theme") || "light"; // Read theme mode from URL parameter
   const initialuserId = urlParams.get("userId");
+  if(initialThemeMode=="light"){
+    //change css variable --rs-body
+    document.documentElement.style.setProperty("--rs-body", "rgb(210 210 210)");
+  }
+  else{
+    document.documentElement.style.setProperty("--rs-body", "#111111");
+  }
 
   const [userCountData, setUserCountData] = useState(0);
   const [officeCountData, setOfficeCountData] = useState(0);
@@ -34,6 +44,7 @@ const Dashboard = () => {
   const [themeMode, setThemeMode] = useState(initialThemeMode);
   const [userId, setUserId] = useState(initialuserId);
   const [userData, setUserData] = useState("");
+  const [adminStatus, setAdminStatus] = useState("")
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   // Function to update the window width state on window resize
@@ -42,6 +53,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    
     // Add a window resize event listener
     window.addEventListener("resize", handleWindowResize);
 
@@ -66,11 +78,20 @@ const Dashboard = () => {
         const response = await axios.get(apiKey, { headers });
         const userData = response.data;
         setUserData(userData);
-
+        if(userData.roleName === "CompanyAdmin"){
+          setAdminStatus(6)
+        }
+        else if(userData.roleName === "PumpAdmin"){
+          setAdminStatus(0)
+        }
+        else{
+          setAdminStatus(0)
+        
+        }
         const officeId = userData.officeId;
 
         // Use the officeId to construct the second API endpoint
-        const apiUrl2 = `http://115.124.120.251:5059/api/Dashboard/AdminDashboradData/${officeId}/1`;
+        const apiUrl2 = `http://115.124.120.251:5059/api/Dashboard/AdminDashboradData/${officeId}/${userData.roleName === "PumpUser"?0:1}`;
 
         // Fetch data from the second API endpoint
         const response2 = await axios.get(apiUrl2, { headers });
@@ -84,12 +105,12 @@ const Dashboard = () => {
         const totalExpense = data2.expenseDetails.total;
         const countExpense = data2.expenseDetails.count;
 
-        console.log(userCountData);
-        console.log(officeCountData);
-        console.log(totalIncome);
-        console.log(countIncome);
-        console.log(totalExpense);
-        console.log(countExpense);
+        // console.log(userCountData);
+        // console.log(officeCountData);
+        // console.log(totalIncome);
+        // console.log(countIncome);
+        // console.log(totalExpense);
+        // console.log(countExpense);
 
         setUserCountData(userCountData);
         setOfficeCountData(officeCountData);
@@ -131,20 +152,20 @@ const Dashboard = () => {
     <div
       className={`${css.container} ${
         themeMode === "dark" ? css.darkMode : css.lightMode
-      } ${css.scrollableContainer}`}
+      } ${css.scrollableContainer} .container`}
     >
-      <div className={`${css.dashboard} `}>
+     {userData? <div className={`${css.dashboard} `}>
         <div
           className={`${css.dashboardHead} ${
             themeMode === "dark" ? "theme-container" : "theme2-container"
           }`}
         >
-          <div className={css.head}>
+          {/* <div className={css.head}>
             <span>
               <h5>
                 <b>Dashboard</b>
               </h5>
-            </span>
+            </span> */}
             {/* <Switch
               className={css.themeSwitch}
               checked={themeMode === "dark"}
@@ -157,14 +178,14 @@ const Dashboard = () => {
               width={50}
               handleDiameter={24}
             /> */}
-          </div>
+          {/* </div> */}
 
           <div
             className={`${css.cards} ${
               themeMode === "dark" ? css.darkMode : css.lightMode
             }`}
           >
-            <div className={css.card1}>
+            <div className={css.card1} style={{display:'flex', justifyContent:'space-between',flexDirection:'column'}}>
               <div className={css.cardHead}>
                 <span>Users</span>
                 <span>
@@ -184,7 +205,7 @@ const Dashboard = () => {
                 </div>
               )}
             </div>
-            <div className={css.card2}>
+            <div className={css.card2} style={{display:'flex', justifyContent:'space-between',flexDirection:'column'}}>
               <div className={css.cardHead}>
                 <span>Office</span>
                 <span>
@@ -205,49 +226,57 @@ const Dashboard = () => {
               )}
             </div>
 
-            <div className={css.card3}>
-              <div className={css.cardHead}>
+            <div className={css.card3} style={{display:'flex', justifyContent:'space-between',flexDirection:'column'}}>
+              <div className={css.cardHead} >
                 <span>Sales</span>
                 <span>
                   <FaMoneyBill size={50} />
                 </span>
               </div>
 
-              <div className={css.cardAmount}>
-                <span>Last 7 day's update</span>
-
-                <span>{countIncome}</span>
+              <div className={css.cardAmount} style={{display:'flex', justifyContent:'space-between'}}>
+              <div style={{display:'flex', alignItems:'center'}}>
+                <span style={{marginRight:"20px"}}>7 days</span>
+                <span style={{fontWeight:'bold',fontSize:'1.1rem'}}>{countIncome}</span>
                 <i>
                   <FaArrowUp size={20} />
                 </i>
+                </div>
+                <div>
                 <span>₹</span>
-                <span>{totalIncome}</span>
+                <span style={{fontWeight:'bold',fontSize:'1.1rem'}}>{totalIncome}</span>
+                </div>
               </div>
             </div>
-            <div className={css.card4}>
+            <div className={css.card4} style={{display:'flex',justifyContent:'space-between',flexDirection:'column'}}>
               <div className={css.cardHead}>
                 <span>Expense</span>
                 <span>
                   <FaMoneyBillAlt size={50} />
                 </span>
               </div>
-              <div className={css.cardAmount}>
-                <span>Last 7 day's update</span>
-                <span>{countExpense}</span>
+              <div className={css.cardAmount} style={{display:'flex', justifyContent:'space-between'}}>
+                <div style={{display:'flex', alignItems:'center'}}>
+                <span style={{marginRight:"20px"}}>7 days</span>
+                <span style={{fontWeight:'bold',fontSize:'1.1rem'}}>{countExpense}</span>
                 <i>
                   <FaArrowUp size={20} />
                 </i>
+                </div>
+                <div>
+
                 <span>₹</span>
-                <span>{totalExpense}</span>
+                <span style={{fontWeight:'bold',fontSize:'1.1rem'}}>{totalExpense}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <Statistics themeMode={themeMode} />
+        {userData?<Statistics themeMode={themeMode} officeId={userData.officeId} adminStatus={adminStatus}/>:''}
 
         {/* <Orders themeMode={themeMode} /> */}
-      </div>
+      </div>:<div className="d-flex justify-content-center align-items-center" style={{height:'100vh'}}><Lottie animationData={loader} style={{height:"300px"}} loop={true} /></div>}
     </div>
   );
 };

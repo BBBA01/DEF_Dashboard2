@@ -12,6 +12,8 @@ import {
   faFileExcel,
   faFilePdf,
   faSpinner,
+  faXmark,
+  faList,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../logo.png";
 import officeData from "../../data/officeData.json";
@@ -77,11 +79,11 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
 
           setChartData(filteredData);
         } else {
-          console.error("Invalid data format:", data);
+          // console.log("Invalid data format:", data);
         }
       })
       .catch((error) => {
-        console.error("Error fetching data:", error.response.data);
+        console.log("Error fetching data:", error);
         // You can display an error message to the user or handle the error in an appropriate way
       })
       .finally(() => {
@@ -92,10 +94,14 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
 
   
 
-  const averageSales = (
-    chartData.reduce((total, item) => total + item.sales, 0) / chartData.length
-  ).toFixed(2);
-  
+  // const averageSales = (
+  //   chartData.reduce((total, item) => total + item.sales, 0) / chartData.length
+  // ).toFixed(2);
+  // console.log(chartData)
+  //Find the average Sales of chartData if sales>0
+  const averageSales =( chartData.filter((item) => item.sales > 0).reduce((total, item) => total + item.sales, 0)/ chartData.filter((item) => item.sales > 0).length).toFixed(2); ;
+
+
 
   
 
@@ -112,7 +118,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       setIsBarChart(days <= 7);
       setSelectedRangeDays(days);
     }
-  }, [selectedRange]);
+  }, [selectedRange,selectedOffice]);
 
   
 
@@ -161,8 +167,9 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       containLabel: true,
     },
     xAxis: {
+      
       type: "category",
-      name: "Date",
+      name: window.innerWidth>550?"Date":"",
       nameLocation: "middle",
       nameGap: 35,
       nameTextStyle: {
@@ -184,7 +191,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     yAxis: [
       {
         type: "value",
-        name: "Sales",
+        name: window.innerWidth>550?"Sales":"",
         nameLocation: "middle",
         nameGap: 42,
         
@@ -224,7 +231,8 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       {
         type: "value",
         show: false,
-      },
+      }
+      
     ],
     series: isBarChart // Conditional check for the chart type
       ? [
@@ -636,7 +644,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
           iconContainerRef.current.contains(event.target)) ||
         (iconRef.current && iconRef.current.contains(event.target))
       ) {
-        setShowExportOptions(true);
+        // setShowExportOptions(true);
       } else {
         setShowExportOptions(false);
       }
@@ -650,7 +658,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
   }, []);
 
   const handleIconClick = () => {
-    setShowExportOptions(true);
+    setShowExportOptions(!showExportOptions);
   };
 
 
@@ -675,7 +683,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       <Container fluid >
       <Row className="text-left w-100 g-0 align-items-center">
         <Col  className="fw-bold fs-5 d-flex label-text" >Sales-Expense</Col>
-        <Col  className=" text-end justify-content-end d-flex g-0" ><div className={css.iconsContainer} ref={iconContainerRef}>
+        <Col  className=" text-end justify-content-end d-flex g-0" ><div className={`${css.iconsContainer} d-flex justify-content-center align-items-center`} ref={iconContainerRef}>
           {/* Data grid icon */}
           <div
             className={`${css.icon} ${
@@ -684,7 +692,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
             ref={iconRef}
             onClick={handleIconClick}
           >
-            <FontAwesomeIcon icon={faTable} size="lg" />
+            {showExportOptions?<FontAwesomeIcon icon={faXmark} size="lg" />:<FontAwesomeIcon icon={faList} size="lg" />}
           </div>
           {showExportOptions && (
             <div

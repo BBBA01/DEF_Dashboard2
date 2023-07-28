@@ -1,6 +1,4 @@
 
-
-
 .container{
     display: flex;
     flex-direction: column;
@@ -190,13 +188,14 @@
 
   .boldOption {
     font-weight: 800;
+    color: #0d6efd;
    
     
   }
   
-  .optionGroup {
-    font-style: italic;
-  }
+  /* .optionGroup { */
+    /* font-style: italic; */
+  /* } */
 
   @media (max-width: 768px) {
     .lightMode .officefilter {
@@ -235,9 +234,11 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: 'row';
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
-   
+    /* margin-bottom: 20px; */
+    transition: visibility 0s, opacity 1s,height 0.25s linear(0 0%, 1 100%);
+    background:  rgb(13 110 253/85%);
   }
   
   /* Dark mode styles */

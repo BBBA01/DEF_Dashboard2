@@ -1,11 +1,11 @@
-.container {
+/* .container {
   width: 100%;
   height: 100%;
   max-width: 150rem;
   padding: 0rem 0rem;
   display: flex;
   gap: 2rem;
-}
+} */
 
 @media (max-width: 768px) {
   .container {
@@ -25,7 +25,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  /* gap: 2rem; */
 }
 
 .dashboardHead > .head {
@@ -59,38 +59,42 @@
 .lightMode .cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem; 
-  
+  justify-content: space-evenly;
+  align-items: stretch;
+  background-color: transparent
 }
 
 .darkMode .cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  justify-content: space-evenly;
+  align-items: stretch;
   background-color: #00000000;
   
 }
 
 .lightMode .card1 {
-  width: 24rem;
+  width: 22%;
   background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   transition: box-shadow 0.3s ease;
   color: #fff;
+  margin: 10px
 }
 .lightMode .card2 {
-  width: 24rem;
+  width: 22%;
   background: linear-gradient(195deg, rgb(41 179 195), rgb(34 142 155));
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   transition: box-shadow 0.3s ease;
   color: #fff;
+  margin: 10px
 }
 .lightMode .card3 {
-  width: 24rem;
+  width: 22%;
   background: linear-gradient(195deg, rgb(102, 187, 106), rgb(67, 160, 71));
   padding: 1rem;
 
@@ -98,9 +102,10 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   transition: box-shadow 0.3s ease;
   color: #fff;
+  margin: 10px
 }
 .lightMode .card4 {
-  width: 24rem;
+  width: 22%;
   background: linear-gradient(195deg, rgb(223, 104, 104), rgb(232, 26, 26));
   padding: 1rem;
 
@@ -108,7 +113,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   transition: box-shadow 0.3s ease;
   color: #fff;
-  
+  margin: 10px
 }
 
 .lightMode .card1:hover {
@@ -173,7 +178,7 @@
 }
 
 .lightMode .cardAmount > :nth-child(3) {
-  margin-right: 50px;
+  /* margin-right: 50px; */
   font-size: 1.1rem;
   color: #fff;
 }
@@ -245,40 +250,171 @@
 
 }
 
+@media screen and (max-width:1680px) and (min-width:900px) {
+
+  .lightMode .card1 {
+    width: 22.5%;
+
+  }
+  .lightMode .card2 {
+    width: 22.5%;
+  }
+  .lightMode .card3 {
+    width: 22.5%;
+  }
+  .lightMode .card4 {
+    width: 22.5%;
+  }
+
+  .lightMode .cardHead {
+    font-size: 1rem;
+  }
+
+  .lightMode .cardHead > span > svg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .lightMode .cardAmount > :nth-child(1) {
+    font-size: 0.8rem;
+  }
+  .lightMode .cardAmount > :nth-child(2) {
+    font-size: 1.1rem;
+  }
+  .darkMode .card1 {
+    width: 22.5%;
+
+  }
+  .darkMode .card2 {
+    width: 22.5%;
+  }
+  .darkMode .card3 {
+    width: 22.5%;
+  }
+  .darkMode .card4 {
+    width: 22.5%;
+  }
+
+  .darkMode .cardHead {
+    font-size: 1rem;
+  }
+
+  .darkMode .cardHead > span > svg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .darkMode .cardAmount > :nth-child(1) {
+    font-size: 0.8rem;
+  }
+  .darkMode .cardAmount > :nth-child(2) {
+    font-size: 1.1rem;
+  }
+
+
+}
+@media screen and (max-width:900px) and (min-width:768px) {
+
+  .lightMode .card1 {
+    width: 45%;
+
+  }
+  .lightMode .card2 {
+    width: 45%;
+  }
+  .lightMode .card3 {
+    width: 45%;
+  }
+  .lightMode .card4 {
+    width: 45%;
+  }
+
+  .lightMode .cardHead {
+    font-size: 1rem;
+  }
+
+  .lightMode .cardHead > span > svg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .lightMode .cardAmount > :nth-child(1) {
+    font-size: 0.8rem;
+  }
+  .lightMode .cardAmount > :nth-child(2) {
+    font-size: 1.1rem;
+  }
+  .darkMode .card1 {
+    width: 45%;
+
+  }
+  .darkMode .card2 {
+    width: 45%;
+  }
+  .darkMode .card3 {
+    width: 45%;
+  }
+  .darkMode .card4 {
+    width: 45%;
+  }
+
+  .darkMode .cardHead {
+    font-size: 1rem;
+  }
+
+  .darkMode .cardHead > span > svg {
+    width: 35px;
+    height: 35px;
+  }
+
+  .darkMode .cardAmount > :nth-child(1) {
+    font-size: 0.8rem;
+  }
+  .darkMode .cardAmount > :nth-child(2) {
+    font-size: 1.1rem;
+  }
+
+
+}
+
 
 
 
 .darkMode .card1 {
-  width: 24rem;
+  width: 22%;
   background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgb(0, 0, 0);
   transition: box-shadow 0.3s ease;
+  margin: 10px
 }
 .darkMode .card2 {
-  width: 24rem;
+  width: 22%;
   background: linear-gradient(195deg, rgb(41 179 195), rgb(34 142 155));
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+  margin: 10px
 }
 .darkMode .card3 {
-  width: 24rem;
+  width: 22%;
   background: linear-gradient(195deg, rgb(102, 187, 106), rgb(67, 160, 71));
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+  margin: 10px
 }
 .darkMode .card4 {
-  width: 24rem;
+  width: 22%;
   background: linear-gradient(195deg, rgb(223, 104, 104), rgb(232, 26, 26));
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+  margin: 10px
 }
 
 .darkMode .card1:hover {
@@ -341,7 +477,7 @@
 }
 
 .darkMode .cardAmount > :nth-child(3) {
-  margin-right: 50px;
+  /* margin-right: 50px; */
   font-size: 1.1rem;
   color: #fff;
 }
@@ -397,8 +533,8 @@
 
 /* Light mode styles */
 .lightMode {
-  background-color: #f0f0f0dd;
-  color: #000;
+  background-color: #ffffffe8;
+  color: #282829d4;
 }
 
 /* Dark mode styles */
@@ -422,11 +558,11 @@
   padding-right: 4px;
 }
 
-.scrollableContainer {
+/* .scrollableContainer { */
 
-  overflow-y: auto;
+  /* overflow-y: ; */
   /* Adjust the max-height to your preference */
-}
+/* } */
 
 .switchIcon{
   color: rgb(255, 255, 255);
