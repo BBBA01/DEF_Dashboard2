@@ -23,7 +23,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import { differenceInDays } from 'date-fns';
-
+import MUIDataTable from "mui-datatables";
 
 const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) => {
   const [chartData, setChartData] = useState([]);
@@ -35,8 +35,34 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isBarChart, setIsBarChart] = useState(true); // State to track the chart type
   const [selectedRangeDays, setSelectedRangeDays] = useState(7);
+  const [tableData, setTableData] = useState([])
+  const [tableStatus, setTableStatus] = useState(false)
 
-  
+
+  const columns = [{name:"requestedDate",label:"date"}, "sales", "expense"];
+
+  const options = {
+    // filterType: 'checkbox',
+    selectableRowsHeader: false,
+    filter: false,
+    download: false,
+    print: false,
+    viewColumns: false,
+    search: false,
+    responsive: 'standard',
+    selectableRows: false,
+    rowsPerPage: 10,
+    rowsPerPageOptions: [10, 25, 50],
+    tableBodyHeight: "228px",
+    elevation: 0,
+    fixedHeader: false,
+    textLabels: {
+      pagination: {
+        rowsPerPage: "Rows"
+      }
+    }
+  };
+
 
   // Function to update the window width state on window resize
   const handleWindowResize = () => {
@@ -76,6 +102,8 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
             sales: item.totalIncome,
             expense: item.totalExpense,
           }));
+          
+          setTableData(filteredData.filter((item) => item.sales !== 0 || item.expense !== 0))
 
           setChartData(filteredData);
         } else {
@@ -92,20 +120,20 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
   };
 
 
-  
+
 
   // const averageSales = (
   //   chartData.reduce((total, item) => total + item.sales, 0) / chartData.length
   // ).toFixed(2);
   // console.log(chartData)
   //Find the average Sales of chartData if sales>0
-  const averageSales =( chartData.filter((item) => item.sales > 0).reduce((total, item) => total + item.sales, 0)/ chartData.filter((item) => item.sales > 0).length).toFixed(2); ;
+  const averageSales = (chartData.filter((item) => item.sales > 0).reduce((total, item) => total + item.sales, 0) / chartData.filter((item) => item.sales > 0).length).toFixed(2);;
 
 
 
-  
 
-  
+
+
 
   useEffect(() => {
     // Calculate the number of days between start and end dates
@@ -113,22 +141,22 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       const startDate = new Date(selectedRange[0]);
       const endDate = new Date(selectedRange[1]);
       const days = differenceInDays(endDate, startDate) + 1; // +1 to include the end date
-  
+
       // Check if the number of days is 7 or less to decide the chart type
       setIsBarChart(days <= 7);
       setSelectedRangeDays(days);
     }
-  }, [selectedRange,selectedOffice]);
+  }, [selectedRange, selectedOffice]);
 
-  
 
-  
-  
+
+
+
 
   const option = {
     color: ["#FF7043", "#2979FF", "#FFC107"],
     title: {
-     
+
 
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
@@ -151,12 +179,12 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       },
     },
     legend: {
-      top: 465,
+      top: window.innerWidth > 550?0:270,
 
       data: ["Sales", "Expense", "Average Sales"],
       textStyle: {
         color: themeMode === "dark" ? "#ffffff" : "#000000",
-        fontSize: windowWidth <= 768 ? 12 : 18,
+        fontSize: windowWidth <= 768 ? 10 : 12,
       }
     },
     grid: {
@@ -167,9 +195,8 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       containLabel: true,
     },
     xAxis: {
-      
       type: "category",
-      name: window.innerWidth>550?"Date":"",
+      name: window.innerWidth > 550 ? "Date" : "",
       nameLocation: "middle",
       nameGap: 35,
       nameTextStyle: {
@@ -191,11 +218,11 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     yAxis: [
       {
         type: "value",
-        name: window.innerWidth>550?"Sales":"",
+        name: window.innerWidth > 550 ? "Sales" : "",
         nameLocation: "middle",
         nameGap: 42,
-        
-       
+
+
         nameTextStyle: {
           color: themeMode === "dark" ? "#ffffff" : "#000000",
           fontWeight: "bold",
@@ -232,63 +259,63 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
         type: "value",
         show: false,
       }
-      
+
     ],
     series: isBarChart // Conditional check for the chart type
       ? [
-          {
-            name: "Sales",
-            type: "bar", // Display as a bar chart if the selected range is 7 days or less
-            data: chartData.map((item) => item.sales),
-            yAxisIndex: 0,
+        {
+          name: "Sales",
+          type: "bar", // Display as a bar chart if the selected range is 7 days or less
+          data: chartData.map((item) => item.sales),
+          yAxisIndex: 0,
+        },
+        {
+          name: "Expense",
+          type: "bar", // Display as a bar chart if the selected range is 7 days or less
+          data: chartData.map((item) => item.expense),
+          yAxisIndex: 0,
+        },
+        {
+          name: "Average Sales",
+          type: "line", // Display as a line chart if the selected range is 7 days or less
+          yAxisIndex: 0,
+          smooth: true,
+          lineStyle: {
+            color: "#FFC107",
+            width: 2,
+            type: "dashed",
           },
-          {
-            name: "Expense",
-            type: "bar", // Display as a bar chart if the selected range is 7 days or less
-            data: chartData.map((item) => item.expense),
-            yAxisIndex: 0,
-          },
-          {
-            name: "Average Sales",
-            type: "line", // Display as a line chart if the selected range is 7 days or less
-            yAxisIndex: 0,
-            smooth: true,
-            lineStyle: {
-              color: "#FFC107",
-              width: 2,
-              type: "dashed",
-            },
-            data: chartData.map(() => averageSales),
-          },
-        ]
+          data: chartData.map(() => averageSales),
+        },
+      ]
       : [
-          {
-            name: "Sales",
-            type: "line", // Display as a line chart if the selected range is more than 7 days
-            smooth: true,
-            data: chartData.map((item) => item.sales),
-            yAxisIndex: 0,
+        {
+          name: "Sales",
+          type: "line", // Display as a line chart if the selected range is more than 7 days
+          smooth: true,
+          data: chartData.map((item) => item.sales),
+          yAxisIndex: 0,
+        },
+        {
+          name: "Expense",
+          type: "line", // Display as a line chart if the selected range is more than 7 days
+          smooth: true,
+          data: chartData.map((item) => item.expense),
+          yAxisIndex: 0,
+        },
+        {
+          name: "Average Sales",
+          type: "line", // Display as a line chart if the selected range is more than 7 days
+          yAxisIndex: 0,
+          smooth: true,
+          lineStyle: {
+            color: "#FFC107",
+            width: 2,
+            type: "dashed",
           },
-          {
-            name: "Expense",
-            type: "line", // Display as a line chart if the selected range is more than 7 days
-            smooth: true,
-            data: chartData.map((item) => item.expense),
-            yAxisIndex: 0,
-          },
-          {
-            name: "Average Sales",
-            type: "line", // Display as a line chart if the selected range is more than 7 days
-            yAxisIndex: 0,
-            smooth: true,
-            lineStyle: {
-              color: "#FFC107",
-              width: 2,
-              type: "dashed",
-            },
-            data: chartData.map(() => averageSales),
-          },
-        ],
+          data: chartData.map(() => averageSales),
+        },
+      ],
   };
 
   const exportToExcel = async () => {
@@ -300,7 +327,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     const response = await axios.get(logo, {
       responseType: "blob",
     });
-    
+
 
     // Convert image file to base64 string
     const fileReader = new FileReader();
@@ -676,52 +703,61 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
 
   return (
     <div
-      className={`${css.chartContainer} ${
-        themeMode === "dark" ? css.darkMode : css.lightMode
-      }`}
+      className={`${css.chartContainer} ${themeMode === "dark" ? css.darkMode : css.lightMode
+        }`}
     >
       <Container fluid >
-      <Row className="text-left w-100 g-0 align-items-center">
-        <Col  className="fw-bold fs-5 d-flex label-text" >Sales-Expense</Col>
-        <Col  className=" text-end justify-content-end d-flex g-0" ><div className={`${css.iconsContainer} d-flex justify-content-center align-items-center`} ref={iconContainerRef}>
-          {/* Data grid icon */}
-          <div
-            className={`${css.icon} ${
-              themeMode === "dark" ? css.darkMode : css.lightMode
-            }`}
-            ref={iconRef}
-            onClick={handleIconClick}
-          >
-            {showExportOptions?<FontAwesomeIcon icon={faXmark} size="lg" />:<FontAwesomeIcon icon={faList} size="lg" />}
-          </div>
-          {showExportOptions && (
+        <Row className="text-left w-100 g-0 align-items-center">
+          <Col className="fw-bold fs-5 d-flex label-text" >Sales-Expense</Col>
+          <Col className=" text-end justify-content-end d-flex g-0" ><div className={`${css.iconsContainer} d-flex justify-content-center align-items-center`} ref={iconContainerRef}>
+            {/* Data grid icon */}
+            {!tableStatus?
             <div
-              className={`${css.exportOptions} ${
-                themeMode === "dark" ? css.darkMode : css.lightMode
-              }`}
-              ref={exportOptionsRef}
+              className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
+                }`}
+              ref={iconRef}
+              onClick={handleIconClick}
             >
-              <div className={css.exportOption} onClick={exportToExcel}>
-                <FontAwesomeIcon icon={faFileExcel} size="lg" />
-                <span>Export to Excel</span>
-              </div>
-              <div className={css.exportOption} onClick={exportToPDF}>
-                <FontAwesomeIcon icon={faFilePdf} size="lg" />
-                <span>Export to PDF</span>
-              </div>
-              <div className={css.exportOption} onClick={exportToTable}>
-                <FontAwesomeIcon icon={faTable} size="lg" />
-                <span>Export to Table</span>
-              </div>
+              {showExportOptions ? <FontAwesomeIcon icon={faXmark} size="lg" /> : <FontAwesomeIcon icon={faList} size="lg" />}
+            </div>:
+             <div
+             className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
+               }`}
+             ref={iconRef}
+             onClick={()=>{setTableStatus(!tableStatus)}}
+           >
+            <div><FontAwesomeIcon icon={faXmark} size="lg" />
             </div>
-          )}
-        </div></Col>
-      </Row>
+            </div>
+            }
+            {showExportOptions && (
+              <div
+                className={`${css.exportOptions} ${themeMode === "dark" ? css.darkMode : css.lightMode
+                  }`}
+                ref={exportOptionsRef}
+              >
+                <div className={css.exportOption} onClick={exportToExcel}>
+                  <FontAwesomeIcon icon={faFileExcel} size="lg" />
+                  <span>Export to Excel</span>
+                </div>
+                <div className={css.exportOption} onClick={exportToPDF}>
+                  <FontAwesomeIcon icon={faFilePdf} size="lg" />
+                  <span>Export to PDF</span>
+                </div>
+                <div className={css.exportOption} onClick={()=>{setTableStatus(!tableStatus);setShowExportOptions(false)}}>
+                  <FontAwesomeIcon icon={faTable} size="lg" />
+                  <span>Export to Table</span>
+                </div>
+              </div>
+            )}
+          </div>
+          </Col>
+        </Row>
       </Container>
-     
-     
-        
-    
+
+
+
+
       {/* Loading spinner */}
       {isLoading && (
         <div className={css.loadingOverlay}>
@@ -732,7 +768,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
           />
         </div>
       )}
-      <ReactECharts
+      { !tableStatus?<ReactECharts
         option={option}
         style={{
     
@@ -741,7 +777,15 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
           maxWidth: "2300px",
         }}
         className={themeMode === "dark" ? css.darkMode : css.lightMode}
-      />
+      /> :
+      <div className="container-fluid mt-2">
+        <MUIDataTable
+          // title={"Employee List"}
+          data={tableData}
+          columns={columns}
+          options={options}
+        />
+      </div>}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 :root {
+  --text-color:#111111;
   --transparent-black: rgba(0, 0, 0, 0.294);
   --black: #111111;
   --grey: rgba(255, 255, 255, 0.597);
@@ -115,4 +116,26 @@ body {
   padding-top: 0.35rem !important;
   margin-top: 0.4rem !important;
   padding-bottom: 0.35rem !important;
+}
+.rs-picker-daterange-header{
+  display: none;
+}
+.MuiTableCell-root,.MuiTableCell-head{
+  padding: 5px !important;
+  background-color: inherit !important;
+  color:var(--text-color) !important;
+}
+.MuiTableHead-root,.MuiTable-root,.MuiPaper-root{
+  background-color: inherit !important;
+  color:var(--text-color) !important;
+}
+.MuiButton-root{
+  padding:5px 0px !important;
+  justify-content: flex-start !important;
+}
+.MuiButton-root{
+  font-weight: 600 !important;
+}
+.MuiToolbar-root,.MuiSvgIcon-root{
+  color: var(--text-color) !important;
 }

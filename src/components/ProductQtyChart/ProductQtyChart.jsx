@@ -149,8 +149,8 @@ const ProductQtyChart= ({
       orient: "vertical",
       backgroundColor: themeMode === "dark" ? "#111111df" : "rgb(249 249 249 / 97%)",
       // shadowBlur: 2,
-      left: "10%",
-      top: "0",
+      left: "5px",
+      top: "10%",
       borderRadius: 10,
       padding: 10,
       show: showLegend,
@@ -189,11 +189,11 @@ const ProductQtyChart= ({
       {
         name: "Product Sales",
         type: "pie",
-        radius: ["35%", "70%"],
+        radius: ["40%", "65%"],
         center: ["50%", "50%"],
         selectedMode: "single",
         avoidLabelOverlap: false,
-        roseType: 'radius',
+      
         label: {
           show: false,
           position: "center",

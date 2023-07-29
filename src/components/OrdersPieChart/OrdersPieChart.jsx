@@ -147,10 +147,10 @@ const OrdersPieChart = ({
     },
     legend: {
       orient: "vertical",
-      backgroundColor: themeMode === "dark" ? "#111111cf" : "rgb(249 249 249 / 97%)",
+      backgroundColor: themeMode === "dark" ? "#111111df" : "rgb(249 249 249 / 97%)",
       // shadowBlur: 2,
-      left: "10%",
-      top: "0",
+      left: "5px",
+      top: "10%",
       borderRadius: 10,
       padding: 10,
       show: showLegend,

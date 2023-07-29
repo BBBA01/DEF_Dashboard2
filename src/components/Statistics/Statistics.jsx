@@ -181,12 +181,12 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
         <div className='fs-2 mx-sm-0 mx-md-4 fw-bold'><span className='mx-2 text-primary'><FontAwesomeIcon icon={faCoins} /></span> Sales Overview</div>
         <button className="btn btn-primary btn-lg mx-2" type="submit" onClick={() => setFilterOn(!filterOn)}><span className='me-1'>{filterOn ? <FontAwesomeIcon icon={faXmark} size='lg' /> : <FontAwesomeIcon icon={faFilter} size='sm' />}</span>  {windowWidth > 500 ? filterOn ? 'Close' : `Filter` : ""}</button>
       </div>
-      <div style={{ visibility: filterOn ? 'visible' : 'hidden', opacity: filterOn ? 1 : 0, height: filterOn ? windowWidth > 768 ?"85px":"130px" : 0, marginBottom: filterOn ? "10px" : 0 }} className={`${css.topContainer} ${themeMode === "dark" ? css.darkMode : css.lightMode
+      <div style={{ visibility: filterOn ? 'visible' : 'hidden', opacity: filterOn ? 1 : 0, height: filterOn ? windowWidth >= 768 ?"85px":"130px" : 0, marginBottom: filterOn ? "10px" : 0 }} className={`${css.topContainer} ${themeMode === "dark" ? css.darkMode : css.lightMode
         }`}>
       
 
-        <div className="row d-flex justify-content-start flex-wrap align-items-center mx-0 mx-sm-2 mx-md-0">
-          <div className="col-md-5 col-lg-5 my-sm-2   my-2 d-flex justify-content-start align-items-center pw-md-0 me-2" >
+        <div className="row d-flex justify-content-start flex-wrap align-items-center mx-0 mx-sm-2 mx-md-0 w-100" style={{width:"100% !important"}}>
+          <div className="col-md-6 col-lg-5 my-sm-2   my-2 d-flex justify-content-center align-items-center pw-md-0 mx-0 mx-lg-3">
           {windowWidth>400?<div className="me-2 mx-sm-3"><FontAwesomeIcon icon={faCalendarDays} style={{fontSize:'2.3rem',color:"white"}}/></div>:''}
             <DateRangePicker
               size="lg"
@@ -199,7 +199,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
               className={`${css.dateRangePicker}`}
             />
           </div>
-          <div className="col-md-6 col-lg-6 my-sm-2   my-2 d-flex justify-content-center align-items-center me-2">
+          <div className="col-md-5 col-lg-5 my-sm-2   my-2 d-flex justify-content-center align-items-center mx-0 mx-lg-3">
             {windowWidth>400?<div className="me-2 mx-sm-3 mt-1"><FontAwesomeIcon icon={faBuilding} style={{fontSize:'2.3rem',color:"white"}}/></div>:''}
             <select className="form-select form-select-lg" aria-label="Default select example" id="office" onChange={handleOfficeChange} style={{ paddingBottom: "4px !important", paddingTop: "4px !important" }}>
               {companies.length > 1 ? <><option
@@ -275,7 +275,8 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
               >
                 &nbsp;&nbsp;&nbsp;Retail Pumps
               </option>: ''}
-              {retails.map((retailp) => (
+              
+              {(retails.length > 0 && companies.length >0 )?retails.map((retailp) => (
                 <option
                   key={retailp.OfficeId}
                   value={retailp.OfficeId}
@@ -284,6 +285,17 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
                   className={`${css.optionGroup}`}
                 >
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {retailp.OfficeName}
+                </option>
+              )):retails.map((retailp) => (
+                <option
+                  key={retailp.OfficeId}
+                  value={retailp.OfficeId}
+                  data-isretail={retailp.OfficeTypeId === 2 ? "1" : "0"}
+                  data-isadmin="0"
+                  className={`${css.optionGroup}`}
+                >
+                 
                   {retailp.OfficeName}
                 </option>
               ))}

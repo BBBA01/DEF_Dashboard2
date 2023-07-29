@@ -29,9 +29,11 @@ const Dashboard = () => {
   if(initialThemeMode=="light"){
     //change css variable --rs-body
     document.documentElement.style.setProperty("--rs-body", "rgb(210 210 210)");
+    document.documentElement.style.setProperty("--text-color", "#111111");
   }
   else{
     document.documentElement.style.setProperty("--rs-body", "#111111");
+    document.documentElement.style.setProperty("--text-color", "white");
   }
 
   const [userCountData, setUserCountData] = useState(0);
@@ -91,8 +93,8 @@ const Dashboard = () => {
         const officeId = userData.officeId;
 
         // Use the officeId to construct the second API endpoint
-        const apiUrl2 = `http://115.124.120.251:5059/api/Dashboard/AdminDashboradData/${officeId}/${userData.roleName === "PumpUser"?0:1}`;
-
+        const apiUrl2 = `http://115.124.120.251:5059/api/Dashboard/AdminDashboradData/${officeId}/${userData.roleName === "PumpUser"?1:userData.roleName==="CompanyAdmin"?1:1}`;
+        
         // Fetch data from the second API endpoint
         const response2 = await axios.get(apiUrl2, { headers });
         const data2 = response2.data;
