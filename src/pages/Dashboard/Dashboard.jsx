@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Lottie from "lottie-react";
-import { useLocation } from "react-router-dom";
+import 'react-loading-skeleton/dist/skeleton.css'
+// import Lottie from "lottie-react";
+// import { useLocation } from "react-router-dom";
 import {
   FaUser,
   FaBuilding,
@@ -11,29 +12,37 @@ import {
   FaMoon,
   FaArrowUp,
 } from "react-icons/fa";
-import Switch from "react-switch";
+// import Switch from "react-switch";
 import Statistics from "../../components/Statistics/Statistics";
-import Orders from "../../components/Orders/Orders";
 import css from "./Dashboard.module.css";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import loader from "../../assets/loader/loader.json"
+// import Container from "react-bootstrap/Container";
+// import Row from "react-bootstrap/Row";
+// import Col from "react-bootstrap/Col";
+// import loader from "../../assets/loader/loader.json"
+import { Suspense } from "react";
+import Skeleton from '@mui/material/Skeleton';
+
+const UserCard = React.lazy(() => import("./UserCard"));
+const OfficeCard = React.lazy(() => import("./OfficeCard"));
+const SalesCard = React.lazy(() => import("./SalesCard"));
+const ExpenseCard = React.lazy(() => import("./ExpenseCard"));
 
 const Dashboard = () => {
-  const location = useLocation();
-  
+  // const location = useLocation();
+
   const urlParams = new URLSearchParams(location.search);
   const initialThemeMode = urlParams.get("theme") || "light"; // Read theme mode from URL parameter
   const initialuserId = urlParams.get("userId");
-  if(initialThemeMode=="light"){
+  if (initialThemeMode == "light") {
     //change css variable --rs-body
     document.documentElement.style.setProperty("--rs-body", "rgb(210 210 210)");
     document.documentElement.style.setProperty("--text-color", "#111111");
+    document.documentElement.style.setProperty("--option-color", "white");
   }
-  else{
+  else {
     document.documentElement.style.setProperty("--rs-body", "#111111");
     document.documentElement.style.setProperty("--text-color", "white");
+    document.documentElement.style.setProperty("--option-color", "#111111");
   }
 
   const [userCountData, setUserCountData] = useState(0);
@@ -55,7 +64,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    
+
     // Add a window resize event listener
     window.addEventListener("resize", handleWindowResize);
 
@@ -80,21 +89,21 @@ const Dashboard = () => {
         const response = await axios.get(apiKey, { headers });
         const userData = response.data;
         setUserData(userData);
-        if(userData.roleName === "CompanyAdmin"){
+        if (userData.roleName === "CompanyAdmin") {
           setAdminStatus(6)
         }
-        else if(userData.roleName === "PumpAdmin"){
+        else if (userData.roleName === "PumpAdmin") {
           setAdminStatus(0)
         }
-        else{
+        else {
           setAdminStatus(0)
-        
+
         }
         const officeId = userData.officeId;
 
         // Use the officeId to construct the second API endpoint
-        const apiUrl2 = `http://115.124.120.251:5059/api/Dashboard/AdminDashboradData/${officeId}/${userData.roleName === "PumpUser"?1:userData.roleName==="CompanyAdmin"?1:1}`;
-        
+        const apiUrl2 = `http://115.124.120.251:5059/api/Dashboard/AdminDashboradData/${officeId}/${userData.roleName === "PumpUser" ? 1 : userData.roleName === "CompanyAdmin" ? 1 : 1}`;
+
         // Fetch data from the second API endpoint
         const response2 = await axios.get(apiUrl2, { headers });
         const data2 = response2.data;
@@ -152,42 +161,48 @@ const Dashboard = () => {
 
   return (
     <div
-      className={`${css.container} ${
-        themeMode === "dark" ? css.darkMode : css.lightMode
-      } ${css.scrollableContainer} .container`}
+      className={`${css.container} ${themeMode === "dark" ? css.darkMode : css.lightMode
+        } ${css.scrollableContainer} .container`}
     >
-     {userData? <div className={`${css.dashboard} `}>
+      <div className={`${css.dashboard} `}>
         <div
-          className={`${css.dashboardHead} ${
-            themeMode === "dark" ? "theme-container" : "theme2-container"
-          }`}
+          className={`${css.dashboardHead} ${themeMode === "dark" ? "theme-container" : "theme2-container"
+            }`} style={{minHeight:"185px",minWidth:"100%"}}
         >
-          {/* <div className={css.head}>
-            <span>
-              <h5>
-                <b>Dashboard</b>
-              </h5>
-            </span> */}
-            {/* <Switch
-              className={css.themeSwitch}
-              checked={themeMode === "dark"}
-              onChange={handleThemeChange}
-              checkedIcon={renderSwitchIcon()}
-              uncheckedIcon={renderSwitchIcon()}
-              offColor="#2f3542"
-              onColor="#f1c40f"
-              height={26}
-              width={50}
-              handleDiameter={24}
-            /> */}
-          {/* </div> */}
-
+           {/* <div className="d-flex w-100">
+              <div className="w-100">
+              <SkeletonTheme height={10} width={"40%"} highlightColor="#000" baseColor="#000">
+         
+                  <Skeleton count={1} style={{marginLeft:"5px",marginRight:"5px"}}/>
+ 
+              </SkeletonTheme>
+        
+              </div>
+              
+            </div> */}
+            {/* <Skeleton variant="rounded" width={"21%"} height={"100%"} /> */}
           <div
-            className={`${css.cards} ${
-              themeMode === "dark" ? css.darkMode : css.lightMode
-            }`}
+            className={`${css.cards} ${themeMode === "dark" ? css.darkMode : css.lightMode
+              }`}
           >
-            <div className={css.card1} style={{display:'flex', justifyContent:'space-between',flexDirection:'column'}}>
+            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}>
+              {userCountData?<UserCard userCountData={userCountData} />:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}
+            </Suspense>
+            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}>
+              {officeCountData?<OfficeCard officeCountData={officeCountData} />:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}
+            </Suspense>
+            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}>
+              {totalIncome?<SalesCard totalIncome={totalIncome} countIncome={countIncome}/>:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}
+            </Suspense>
+            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}>
+              {totalExpense?<ExpenseCard totalExpense={totalExpense} countExpense={countExpense}/>:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}
+            </Suspense>
+            
+            {/* <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"100%"} style={{borderRadius:"10px"}}/> */}
+            
+           
+            {/* <UserCard userCountData={userCountData} /> */}
+            {/* <div className={css.card1} style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
               <div className={css.cardHead}>
                 <span>Users</span>
                 <span>
@@ -206,8 +221,8 @@ const Dashboard = () => {
                   <span>No user data available</span>
                 </div>
               )}
-            </div>
-            <div className={css.card2} style={{display:'flex', justifyContent:'space-between',flexDirection:'column'}}>
+            </div> */}
+            {/* <div className={css.card2} style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
               <div className={css.cardHead}>
                 <span>Office</span>
                 <span>
@@ -226,9 +241,9 @@ const Dashboard = () => {
                   <span>No office data available</span>
                 </div>
               )}
-            </div>
+            </div> */}
 
-            <div className={css.card3} style={{display:'flex', justifyContent:'space-between',flexDirection:'column'}}>
+            {/* <div className={css.card3} style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
               <div className={css.cardHead} >
                 <span>Sales</span>
                 <span>
@@ -236,49 +251,49 @@ const Dashboard = () => {
                 </span>
               </div>
 
-              <div className={css.cardAmount} style={{display:'flex', justifyContent:'space-between'}}>
-              <div style={{display:'flex', alignItems:'center'}}>
-                <span style={{marginRight:"20px"}}>7 days</span>
-                <span style={{fontWeight:'bold',fontSize:'1.1rem'}}>{countIncome}</span>
-                <i>
-                  <FaArrowUp size={20} />
-                </i>
+              <div className={css.cardAmount} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{ marginRight: "20px" }}>7 days</span>
+                  <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{countIncome}</span>
+                  <i>
+                    <FaArrowUp size={20} />
+                  </i>
                 </div>
                 <div>
-                <span>₹</span>
-                <span style={{fontWeight:'bold',fontSize:'1.1rem'}}>{totalIncome}</span>
+                  <span>₹</span>
+                  <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{totalIncome}</span>
                 </div>
               </div>
-            </div>
-            <div className={css.card4} style={{display:'flex',justifyContent:'space-between',flexDirection:'column'}}>
+            </div> */}
+             {/* <div className={css.card4} style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
               <div className={css.cardHead}>
                 <span>Expense</span>
                 <span>
                   <FaMoneyBillAlt size={50} />
                 </span>
               </div>
-              <div className={css.cardAmount} style={{display:'flex', justifyContent:'space-between'}}>
-                <div style={{display:'flex', alignItems:'center'}}>
-                <span style={{marginRight:"20px"}}>7 days</span>
-                <span style={{fontWeight:'bold',fontSize:'1.1rem'}}>{countExpense}</span>
-                <i>
-                  <FaArrowUp size={20} />
-                </i>
+              <div className={css.cardAmount} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{ marginRight: "20px" }}>7 days</span>
+                  <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{countExpense}</span>
+                  <i>
+                    <FaArrowUp size={20} />
+                  </i>
                 </div>
                 <div>
 
-                <span>₹</span>
-                <span style={{fontWeight:'bold',fontSize:'1.1rem'}}>{totalExpense}</span>
+                  <span>₹</span>
+                  <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{totalExpense}</span>
                 </div>
               </div>
-            </div>
+            </div>   */}
+
           </div>
         </div>
 
-        {userData?<Statistics themeMode={themeMode} officeId={userData.officeId} adminStatus={adminStatus}/>:''}
+        {userData ? <Statistics themeMode={themeMode} officeId={userData.officeId} adminStatus={adminStatus} /> : ''}
 
-        {/* <Orders themeMode={themeMode} /> */}
-      </div>:<div className="d-flex justify-content-center align-items-center" style={{height:'100vh'}}><Lottie animationData={loader} style={{height:"300px"}} loop={true} /></div>}
+      </div>
     </div>
   );
 };

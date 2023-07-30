@@ -15,7 +15,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import css from './OrdersPieChart.module.css';
 import logo from "../../logo.png";
-import codeBlockIcon from "../../code-block.png";
+import MUIDataTable from "mui-datatables";
+import { set } from 'date-fns';
 
 
 
@@ -33,6 +34,31 @@ const OrdersPieChart = ({
   const iconRef = useRef(null);
   const [showLegend, setShowLegend] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [tableData, setTableData] = useState([])
+  const [tableStatus, setTableStatus] = useState(false)
+  const columns = [{ name: "Product Name", label: "Product" }, { name: "Quantity", label: "Quantity" }, { name: "Sales", label: "Sales(₹)" }];
+
+  const options = {
+    // filterType: 'checkbox',
+    selectableRowsHeader: false,
+    filter: false,
+    download: false,
+    print: false,
+    viewColumns: false,
+    search: false,
+    responsive: 'standard',
+    selectableRows: "none",
+    rowsPerPage: 10,
+    rowsPerPageOptions: [10, 25, 50],
+    tableBodyHeight: "228px",
+    elevation: 0,
+    fixedHeader: false,
+    textLabels: {
+      pagination: {
+        rowsPerPage: "Rows"
+      }
+    }
+  };
 
   useEffect(() => {
     // Function to update the window width state on window resize
@@ -63,22 +89,22 @@ const OrdersPieChart = ({
 
         let result = {}
         let colorlist = {}
-        let qtylist={}
-        let unitname={}
+        let qtylist = {}
+        let unitname = {}
         graph2Data.forEach((item) => {
           const { lstproduct } = item;
 
           lstproduct.forEach((product) => {
-            let { productName, totalSales, color,qty,unitShortName } = product;
+            let { productName, totalSales, color, qty, unitShortName } = product;
             if (totalSales !== 0) {
               if (result[productName]) {
                 result[productName] += totalSales;
-                qtylist[productName] +=qty
+                qtylist[productName] += qty
               } else {
                 result[productName] = totalSales;
                 colorlist[productName] = color
-                qtylist[productName] =qty
-                unitname[productName] =unitShortName
+                qtylist[productName] = qty
+                unitname[productName] = unitShortName
 
               }
             }
@@ -87,24 +113,25 @@ const OrdersPieChart = ({
 
         }
         )
-    
+
         if (result) {
           let temp = []
+          let tabletemp = []
           for (let key in result) {
-            temp.push({"productName":key,"totalSale":result[key],"color":colorlist[key],"totalQty":qtylist[key],"unit":unitname[key]})
+            temp.push({ "productName": key, "totalSale": result[key], "color": colorlist[key], "totalQty": qtylist[key], "unit": unitname[key] })
+            tabletemp.push({ "Product Name": key, "Sales": result[key], "Quantity": `${qtylist[key]} ${unitname[key]}` })
           }
+          setTableData(tabletemp)
           setSellData(temp)
         }
 
-       
+
       })
       .catch((error) => {
         // setSellData([])
         // console.error("Error fetching data:", error);
       });
-      if(document.querySelector(`.${css.closeButton}`)){
-        document.querySelector(`.${css.closeButton}`).click()
-      }
+    
 
   }, [selectedRange, selectedOffice, isAdmin]);
 
@@ -221,7 +248,7 @@ const OrdersPieChart = ({
         itemStyle: {
           borderWidth: 2, // Set the border width
           borderColor: '#ffffff00',
-          borderRadius:4 // Set the border color
+          borderRadius: 4 // Set the border color
         },
       },
     ],
@@ -536,56 +563,67 @@ const OrdersPieChart = ({
       >
 
         <>
-
-          <div className={`${css.iconsContainer} d-flex justify-content-center align-items-center`} ref={iconContainerRef}>
-            {/* Data grid icon */}
-            <div
-              className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
-                }`}
-              ref={iconRef}
-              onClick={handleIconClick}
-            >
-              {showExportOptions ? <FontAwesomeIcon icon={faXmark} size="lg" /> : <FontAwesomeIcon icon={faList} size="lg" />}
+          
+            <div className={`${css.iconsContainer} d-flex justify-content-center align-items-center`} ref={iconContainerRef}>
+              {/* Data grid icon */}
+              {!tableStatus ?
+                <div
+                  className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
+                    }`}
+                  ref={iconRef}
+                  onClick={handleIconClick}
+                >
+                  {showExportOptions ? <FontAwesomeIcon icon={faXmark} size="lg" /> : <FontAwesomeIcon icon={faList} size="lg" />}
+                </div> :
+                <div
+                  className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
+                    }`}
+                  ref={iconRef}
+                  onClick={() => { setTableStatus(!tableStatus) }}
+                >
+                  <div><FontAwesomeIcon icon={faXmark} size="lg" />
+                  </div>
+                </div>
+              }
+              {showExportOptions && (
+                <div
+                  className={`${css.exportOptions} ${themeMode === "dark" ? css.darkMode : css.lightMode
+                    }`}
+                  ref={exportOptionsRef}
+                >
+                  <div className={css.exportOption} onClick={exportToExcel}>
+                    <FontAwesomeIcon icon={faFileExcel} size="lg" />
+                    <span>Export to Excel</span>
+                  </div>
+                  <div className={css.exportOption} onClick={exportToPDF}>
+                    <FontAwesomeIcon icon={faFilePdf} size="lg" />
+                    <span>Export to PDF</span>
+                  </div>
+                  <div className={css.exportOption} onClick={() => {setTableStatus(!tableStatus);setShowExportOptions(false)}}>
+                    <FontAwesomeIcon icon={faTable} size="lg" />
+                    <span>Export to Table</span>
+                  </div>
+                </div>
+              )}
             </div>
-            {showExportOptions && (
-              <div
-                className={`${css.exportOptions} ${themeMode === "dark" ? css.darkMode : css.lightMode
-                  }`}
-                ref={exportOptionsRef}
-              >
-                <div className={css.exportOption} onClick={exportToExcel}>
-                  <FontAwesomeIcon icon={faFileExcel} size="lg" />
-                  <span>Export to Excel</span>
-                </div>
-                <div className={css.exportOption} onClick={exportToPDF}>
-                  <FontAwesomeIcon icon={faFilePdf} size="lg" />
-                  <span>Export to PDF</span>
-                </div>
-                <div className={css.exportOption} onClick={exportToTable}>
-                  <FontAwesomeIcon icon={faTable} size="lg" />
-                  <span>Export to Table</span>
-                </div>
-              </div>
-            )}
-          </div>
 
-          {" "}
-          {/* Add a container for the legend button */}
-          <button
-            className={css.legendButton}
-            onClick={toggleLegend} // Call the toggleLegend function when the button is clicked
-          >
-            <img
-              src="http://115.124.120.251:5007/images/code-block.png"
-              alt="Code Block Icon"
-              className={css.codeBlockIcon}
-              title="Legends"
-            />{" "}
-            {/* Display different text based on the showLegend state */}
-          </button>
+            {" "}
+            {/* Add a container for the legend button */}
+            <button
+              className={css.legendButton}
+              onClick={toggleLegend} // Call the toggleLegend function when the button is clicked
+            >
+              <img
+                src="http://115.124.120.251:5007/images/code-block.png"
+                alt="Code Block Icon"
+                className={css.codeBlockIcon}
+                title="Legends"
+              />{" "}
+              {/* Display different text based on the showLegend state */}
+            </button>
+          
 
-
-          <ReactECharts
+          {!tableStatus ? <ReactECharts
             key={sellData.length}
             option={option}
             style={{
@@ -596,7 +634,16 @@ const OrdersPieChart = ({
             }}
             className={css.piechart}
           // className={themeMode === "dark" ? css.darkMode : css.lightMode}
-          />
+          /> : <div className="container-fluid" style={{ marginTop: "-30px" }}>
+            <MUIDataTable
+              // title={"Employee List"}
+              data={tableData}
+              columns={columns}
+              options={options}
+            />
+          </div>
+
+          }
         </>
 
       </div>

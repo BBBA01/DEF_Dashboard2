@@ -16,11 +16,12 @@ import {
 import css from './ProductQtyChart.module.css';
 import logo from "../../logo.png";
 import codeBlockIcon from "../../code-block.png";
+import MUIDataTable from 'mui-datatables';
 
 
 
 
-const ProductQtyChart= ({
+const ProductQtyChart = ({
   themeMode,
   selectedRange,
   selectedOffice,
@@ -33,6 +34,32 @@ const ProductQtyChart= ({
   const iconRef = useRef(null);
   const [showLegend, setShowLegend] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [tableData, setTableData] = useState([])
+  const [tableStatus, setTableStatus] = useState(false)
+  const columns = [{ name: "Product Name", label: "Product" }, { name: "Quantity", label: "Quantity" }, { name: "Sales", label: "Sales(₹)" }];
+
+  const options = {
+    // filterType: 'checkbox',
+    selectableRowsHeader: false,
+    filter: false,
+    download: false,
+    print: false,
+    viewColumns: false,
+    search: false,
+    responsive: 'standard',
+    selectableRows: "none",
+    rowsPerPage: 10,
+    rowsPerPageOptions: [10, 25, 50],
+    tableBodyHeight: "228px",
+    elevation: 0,
+    fixedHeader: false,
+    textLabels: {
+      pagination: {
+        rowsPerPage: "Rows"
+      }
+    }
+  };
+
 
   useEffect(() => {
     // Function to update the window width state on window resize
@@ -63,22 +90,22 @@ const ProductQtyChart= ({
 
         let result = {}
         let colorlist = {}
-        let qtylist={}
-        let unitname={}
+        let qtylist = {}
+        let unitname = {}
         graph2Data.forEach((item) => {
           const { lstproduct } = item;
 
           lstproduct.forEach((product) => {
-            let { productName, totalSales, color,qty,unitShortName } = product;
+            let { productName, totalSales, color, qty, unitShortName } = product;
             if (totalSales !== 0) {
               if (result[productName]) {
                 result[productName] += totalSales;
-                qtylist[productName] +=qty
+                qtylist[productName] += qty
               } else {
                 result[productName] = totalSales;
                 colorlist[productName] = color
-                qtylist[productName] =qty
-                unitname[productName] =unitShortName
+                qtylist[productName] = qty
+                unitname[productName] = unitShortName
 
               }
             }
@@ -87,24 +114,25 @@ const ProductQtyChart= ({
 
         }
         )
-    
+
         if (result) {
           let temp = []
+          let tabletemp = []
           for (let key in result) {
-            temp.push({"productName":key,"totalSale":result[key],"color":colorlist[key],"totalQty":qtylist[key],"unit":unitname[key]})
+            temp.push({ "productName": key, "totalSale": result[key], "color": colorlist[key], "totalQty": qtylist[key], "unit": unitname[key] })
+            tabletemp.push({ "Product Name": key, "Sales": result[key], "Quantity": `${qtylist[key]} ${unitname[key]}` })
           }
+          setTableData(tabletemp)
           setSellData(temp)
         }
 
-       
+
       })
       .catch((error) => {
         // setSellData([])
         // console.error("Error fetching data:", error);
       });
-      if(document.querySelector(`.${css.closeButton}`)){
-        document.querySelector(`.${css.closeButton}`).click()
-      }
+    
 
   }, [selectedRange, selectedOffice, isAdmin]);
 
@@ -189,11 +217,12 @@ const ProductQtyChart= ({
       {
         name: "Product Sales",
         type: "pie",
-        radius: ["40%", "65%"],
+        radius: ["35%", "70%"],
         center: ["50%", "50%"],
+        roseType:"radius",
         selectedMode: "single",
         avoidLabelOverlap: false,
-      
+
         label: {
           show: false,
           position: "center",
@@ -540,14 +569,25 @@ const ProductQtyChart= ({
 
           <div className={`${css.iconsContainer} d-flex justify-content-center align-items-center`} ref={iconContainerRef}>
             {/* Data grid icon */}
-            <div
-              className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
-                }`}
-              ref={iconRef}
-              onClick={handleIconClick}
-            >
-              {showExportOptions ? <FontAwesomeIcon icon={faXmark} size="lg" /> : <FontAwesomeIcon icon={faList} size="lg" />}
-            </div>
+            {!tableStatus ?
+              <div
+                className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
+                  }`}
+                ref={iconRef}
+                onClick={handleIconClick}
+              >
+                {showExportOptions ? <FontAwesomeIcon icon={faXmark} size="lg" /> : <FontAwesomeIcon icon={faList} size="lg" />}
+              </div> :
+              <div
+                className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
+                  }`}
+                ref={iconRef}
+                onClick={() => { setTableStatus(!tableStatus) }}
+              >
+                <div><FontAwesomeIcon icon={faXmark} size="lg" />
+                </div>
+              </div>
+            }
             {showExportOptions && (
               <div
                 className={`${css.exportOptions} ${themeMode === "dark" ? css.darkMode : css.lightMode
@@ -562,7 +602,7 @@ const ProductQtyChart= ({
                   <FontAwesomeIcon icon={faFilePdf} size="lg" />
                   <span>Export to PDF</span>
                 </div>
-                <div className={css.exportOption} onClick={exportToTable}>
+                <div className={css.exportOption} onClick={() => { setTableStatus(!tableStatus); setShowExportOptions(false) }}>
                   <FontAwesomeIcon icon={faTable} size="lg" />
                   <span>Export to Table</span>
                 </div>
@@ -586,7 +626,7 @@ const ProductQtyChart= ({
           </button>
 
 
-          <ReactECharts
+          {!tableStatus ? <ReactECharts
             key={sellData.length}
             option={option}
             style={{
@@ -597,7 +637,16 @@ const ProductQtyChart= ({
             }}
             className={css.piechart}
           // className={themeMode === "dark" ? css.darkMode : css.lightMode}
-          />
+          /> :
+            <div className="container-fluid" style={{ marginTop: "-30px" }}>
+              <MUIDataTable
+                // title={"Employee List"}
+                data={tableData}
+                columns={columns}
+                options={options}
+              />
+            </div>
+          }
         </>
 
       </div>

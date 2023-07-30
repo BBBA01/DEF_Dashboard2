@@ -5,6 +5,7 @@
   --grey: rgba(255, 255, 255, 0.597);
   --orange: #ff805d;
   --green: rgb(54, 234, 54);
+  --option-color:"white";
   --orange-gradient: linear-gradient(
     268.35deg,
     rgba(255, 70, 70, 0.99) 3.47%,
@@ -120,8 +121,13 @@ body {
 .rs-picker-daterange-header{
   display: none;
 }
-.MuiTableCell-root,.MuiTableCell-head{
+.MuiTableCell-root{
   padding: 5px !important;
+  background-color: inherit !important;
+  color:var(--text-color) !important;
+}
+.MuiTableCell-head{
+  padding-left: 12px !important;
   background-color: inherit !important;
   color:var(--text-color) !important;
 }
@@ -138,4 +144,7 @@ body {
 }
 .MuiToolbar-root,.MuiSvgIcon-root{
   color: var(--text-color) !important;
+}
+.MuiMenu-paper{
+  background-color: var(--option-color) !important;
 }

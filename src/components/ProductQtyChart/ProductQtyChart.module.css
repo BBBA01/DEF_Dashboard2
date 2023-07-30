@@ -126,17 +126,17 @@
 
 }
 
-.lightMode .exportOption:not(:last-child)::after {
+/* .lightMode .exportOption:not(:last-child)::after {
   content: "";
   display: block;
-  width: 100px; /* Subtract left and right padding from width */
+  width: 100px; 
   height: 1px;
-  background-color: #ccc; /* Line separator color */
-  margin-right: 0px; /* Left padding */
+  background-color: #ccc; 
+  margin-right: 0px; 
   margin-bottom: -40px;
   margin-left: -105px;
   margin-top: 0px;
-}
+} */
 
 .lightMode .exportOption span {
   margin-left: 10px;
@@ -188,17 +188,17 @@
 
 }
 
-.darkMode .exportOption:not(:last-child)::after {
+/* .darkMode .exportOption:not(:last-child)::after {
   content: "";
   display: block;
-  width: 100px; /* Subtract left and right padding from width */
+  width: 100px; 
   height: 1px;
-  background-color: #ccc; /* Line separator color */
-  margin-right: 0px; /* Left padding */
+  background-color: #ccc; 
+  margin-right: 0px; 
   margin-bottom: -40px;
   margin-left: -105px;
-  margin-top: 0px;
-}
+  margin-top: 0px; 
+}*/
 
 .darkMode .exportOption span {
   margin-left: 10px;

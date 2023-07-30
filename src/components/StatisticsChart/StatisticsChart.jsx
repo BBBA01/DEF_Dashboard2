@@ -16,9 +16,6 @@ import {
   faList,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../logo.png";
-import officeData from "../../data/officeData.json";
-import { DateRangePicker } from 'rsuite';
-import "rsuite/dist/rsuite.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -39,7 +36,8 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
   const [tableStatus, setTableStatus] = useState(false)
 
 
-  const columns = [{name:"requestedDate",label:"date"}, "sales", "expense"];
+
+  const columns = [{ name: "requestedDate", label: "Date" }, {name:"sales",label:"Sales(₹)"}, {name:"expense",label:"Expense(₹)"}];
 
   const options = {
     // filterType: 'checkbox',
@@ -50,7 +48,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     viewColumns: false,
     search: false,
     responsive: 'standard',
-    selectableRows: false,
+    selectableRows: "none",
     rowsPerPage: 10,
     rowsPerPageOptions: [10, 25, 50],
     tableBodyHeight: "228px",
@@ -102,8 +100,16 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
             sales: item.totalIncome,
             expense: item.totalExpense,
           }));
-          
-          setTableData(filteredData.filter((item) => item.sales !== 0 || item.expense !== 0))
+          let addedFilteredData=filteredData.filter((item) => item.sales !== 0 || item.expense !== 0)
+          const salesTotal = filteredData.reduce((total, item) => total + item.sales, 0).toFixed(2);
+          const expenseTotal = filteredData.reduce(
+            (total, item) => total + item.expense,
+            0
+          ).toFixed(2);
+          addedFilteredData.push({"requestedDate":"Total","sales":salesTotal,"expense":expenseTotal})
+
+
+          setTableData(addedFilteredData)
 
           setChartData(filteredData);
         } else {
@@ -179,7 +185,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       },
     },
     legend: {
-      top: window.innerWidth > 550?0:270,
+      top: window.innerWidth > 550 ? 0 : 270,
 
       data: ["Sales", "Expense", "Average Sales"],
       textStyle: {
@@ -218,7 +224,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
     yAxis: [
       {
         type: "value",
-        name: window.innerWidth > 550 ? "Sales" : "",
+        name: window.innerWidth > 550 ? "" : "",
         nameLocation: "middle",
         nameGap: 42,
 
@@ -392,7 +398,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
       });
 
       // Filter chartData to exclude sales or expense values with zero
-      const filteredData = chartData.filter((item) => item.sales !== 0 && item.expense !== 0);
+      const filteredData = chartData.filter((item) => item.sales !== 0 || item.expense !== 0);
 
       // Add data rows
       filteredData.forEach((item) => {
@@ -711,24 +717,24 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
           <Col className="fw-bold fs-5 d-flex label-text" >Sales-Expense</Col>
           <Col className=" text-end justify-content-end d-flex g-0" ><div className={`${css.iconsContainer} d-flex justify-content-center align-items-center`} ref={iconContainerRef}>
             {/* Data grid icon */}
-            {!tableStatus?
-            <div
-              className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
-                }`}
-              ref={iconRef}
-              onClick={handleIconClick}
-            >
-              {showExportOptions ? <FontAwesomeIcon icon={faXmark} size="lg" /> : <FontAwesomeIcon icon={faList} size="lg" />}
-            </div>:
-             <div
-             className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
-               }`}
-             ref={iconRef}
-             onClick={()=>{setTableStatus(!tableStatus)}}
-           >
-            <div><FontAwesomeIcon icon={faXmark} size="lg" />
-            </div>
-            </div>
+            {!tableStatus ?
+              <div
+                className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
+                  }`}
+                ref={iconRef}
+                onClick={handleIconClick}
+              >
+                {showExportOptions ? <FontAwesomeIcon icon={faXmark} size="lg" /> : <FontAwesomeIcon icon={faList} size="lg" />}
+              </div> :
+              <div
+                className={`${css.icon} ${themeMode === "dark" ? css.darkMode : css.lightMode
+                  }`}
+                ref={iconRef}
+                onClick={() => { setTableStatus(!tableStatus) }}
+              >
+                <div><FontAwesomeIcon icon={faXmark} size="lg" />
+                </div>
+              </div>
             }
             {showExportOptions && (
               <div
@@ -744,7 +750,7 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
                   <FontAwesomeIcon icon={faFilePdf} size="lg" />
                   <span>Export to PDF</span>
                 </div>
-                <div className={css.exportOption} onClick={()=>{setTableStatus(!tableStatus);setShowExportOptions(false)}}>
+                <div className={css.exportOption} onClick={() => { setTableStatus(!tableStatus); setShowExportOptions(false) }}>
                   <FontAwesomeIcon icon={faTable} size="lg" />
                   <span>Export to Table</span>
                 </div>
@@ -768,24 +774,24 @@ const StatisticsChart = ({ selectedRange, themeMode, selectedOffice, isAdmin }) 
           />
         </div>
       )}
-      { !tableStatus?<ReactECharts
+      {!tableStatus ? <ReactECharts
         option={option}
         style={{
-    
+
           height: "300px",
           width: "100%",
           maxWidth: "2300px",
         }}
         className={themeMode === "dark" ? css.darkMode : css.lightMode}
       /> :
-      <div className="container-fluid mt-2">
-        <MUIDataTable
-          // title={"Employee List"}
-          data={tableData}
-          columns={columns}
-          options={options}
-        />
-      </div>}
+        <div className="container-fluid mt-2">
+          <MUIDataTable
+            // title={"Employee List"}
+            data={tableData}
+            columns={columns}
+            options={options}
+          />
+        </div>}
     </div>
   );
 };

@@ -4,12 +4,12 @@ import StatisticsChart from '../StatisticsChart/StatisticsChart';
 // import StatisticsChart3 from '../StatisticsChart3/StatisticsChart3';
 // import StatisticsChart4 from '../StatisticsChart4/StatisticsChart4';
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+// import { Link, useLocation, useParams } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OrdersPieChart from '../OrdersPieChart/OrdersPieChart';
 import { DateRangePicker } from 'rsuite';
-import { subDays, toDate } from 'date-fns';
+import { set, subDays, toDate } from 'date-fns';
 // import Form from 'react-bootstrap/Form';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -18,13 +18,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCalendar, faCalendarDays, faCoins, faFilter, faXmark } from '@fortawesome/free-solid-svg-icons';
 import './Statistics.module.css'
 import ProductQtyChart from '../ProductQtyChart/ProductQtyChart';
+import StatisticsChart2 from '../StatisticsChart2/StatisticsChart2';
 
 
 
 const Statistics = ({ themeMode, officeId, adminStatus }) => {
   const [selectedChart, setSelectedChart] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
+  // const navigate = useNavigate();
+  // const location = useLocation();
   const urlParams = new URLSearchParams(location.search);
   const [selectedRange, setSelectedRange] = useState([
     toDate(subDays(new Date(), 6)),
@@ -44,6 +45,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
   const [retails, setRetails] = useState([])
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [filterOn, setFilterOn] = useState(false)
+  const [officeName, setOfficeName] = useState("")
 
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
@@ -119,19 +121,15 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
   }, [userId]);
 
 
-
-
-  const handleChartSelection = event => {
-    const selectedValue = event.target.value;
-    setSelectedChart(selectedValue);
-    navigate(selectedValue);
-  };
-
+ 
   const handleDateRange = (value) => {
     if (value == null) {
       setSelectedRange([null, null]); // Clear the dateRange value
     } else {
       setSelectedRange(value);
+      setOfficeName(officeData.filter(
+        (office) => office.OfficeId === event.target.value
+        )[0].OfficeName)
     }
   };
 
@@ -154,8 +152,9 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
 
     setSelectedOffice(event.target.value);
     setIsAdmin(isAdmin);
-
-
+    setOfficeName(officeData.filter(
+      (office) => office.OfficeId === event.target.value
+      )[0].OfficeName)
 
   };
 
@@ -178,7 +177,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
 
     <div className={`${css.container} ${themeMode === 'dark' ? 'theme-container' : 'theme2-container'} pb-5`}>
       <div className='d-flex justify-content-between align-items-center mb-0'>
-        <div className='fs-2 mx-sm-0 mx-md-4 fw-bold'><span className='mx-2 text-primary'><FontAwesomeIcon icon={faCoins} /></span> Sales Overview</div>
+        <div className='fs-2 mx-sm-0 mx-md-3 fw-bold'><span className='me-2 ms-md-1  ms-2 text-primary'><FontAwesomeIcon icon={faCoins} /></span> Sales Overview</div>
         <button className="btn btn-primary btn-lg mx-2" type="submit" onClick={() => setFilterOn(!filterOn)}><span className='me-1'>{filterOn ? <FontAwesomeIcon icon={faXmark} size='lg' /> : <FontAwesomeIcon icon={faFilter} size='sm' />}</span>  {windowWidth > 500 ? filterOn ? 'Close' : `Filter` : ""}</button>
       </div>
       <div style={{ visibility: filterOn ? 'visible' : 'hidden', opacity: filterOn ? 1 : 0, height: filterOn ? windowWidth >= 768 ?"85px":"130px" : 0, marginBottom: filterOn ? "10px" : 0 }} className={`${css.topContainer} ${themeMode === "dark" ? css.darkMode : css.lightMode
@@ -186,8 +185,8 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
       
 
         <div className="row d-flex justify-content-start flex-wrap align-items-center mx-0 mx-sm-2 mx-md-0 w-100" style={{width:"100% !important"}}>
-          <div className="col-md-6 col-lg-5 my-sm-2   my-2 d-flex justify-content-center align-items-center pw-md-0 mx-0 mx-lg-3">
-          {windowWidth>400?<div className="me-2 mx-sm-3"><FontAwesomeIcon icon={faCalendarDays} style={{fontSize:'2.3rem',color:"white"}}/></div>:''}
+          <div className="col-md-6 col-lg-5 col-xl-4 col-xxl-4 my-sm-2   my-2 d-flex justify-content-center align-items-center pw-md-0 mx-0 ">
+          {windowWidth>400?<div className="me-2 me-sm-3  ms-1 ms-lg-2"><FontAwesomeIcon icon={faCalendarDays} style={{fontSize:'2.3rem',color:"white"}}/></div>:''}
             <DateRangePicker
               size="lg"
               showOneCalendar
@@ -199,8 +198,8 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
               className={`${css.dateRangePicker}`}
             />
           </div>
-          <div className="col-md-5 col-lg-5 my-sm-2   my-2 d-flex justify-content-center align-items-center mx-0 mx-lg-3">
-            {windowWidth>400?<div className="me-2 mx-sm-3 mt-1"><FontAwesomeIcon icon={faBuilding} style={{fontSize:'2.3rem',color:"white"}}/></div>:''}
+          <div className="col-md-6 col-lg-5 col-xl-4 col-xxl-4 my-sm-2   my-2 d-flex justify-content-center align-items-center mx-0">
+            {windowWidth>400?<div className="me-2 me-sm-3 ms-1 ms-lg-2 mt-1"><FontAwesomeIcon icon={faBuilding} style={{fontSize:'2.3rem',color:"white"}}/></div>:''}
             <select className="form-select form-select-lg" aria-label="Default select example" id="office" onChange={handleOfficeChange} style={{ paddingBottom: "4px !important", paddingTop: "4px !important" }}>
               {companies.length > 1 ? <><option
                 value={officeId}
@@ -310,6 +309,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
           <Col md={12} lg={8} ><StatisticsChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} /></Col>
           <Col md={12} lg={4} ><OrdersPieChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} /></Col>
           <Col md={12} lg={4} className='mt-3'><ProductQtyChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} /></Col>
+          <Col md={12} lg={8} className='mt-3'><StatisticsChart2 selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} SelectedOfficeName={officeName}/></Col>
         </Row> : ''}
       </div>
 
