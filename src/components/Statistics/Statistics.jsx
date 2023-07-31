@@ -107,7 +107,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
         //console.log(officeDataFromApi.filter(
         //(office) => office.OfficeTypeName === "Company"
         //));
-        if(document.querySelector(`.${css.closeButton}`)){
+        if (document.querySelector(`.${css.closeButton}`)) {
           document.querySelector(`.${css.closeButton}`).click()
         }
 
@@ -121,15 +121,19 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
   }, [userId]);
 
 
- 
+
   const handleDateRange = (value) => {
     if (value == null) {
       setSelectedRange([null, null]); // Clear the dateRange value
     } else {
       setSelectedRange(value);
-      setOfficeName(officeData.filter(
+      if (officeData.filter(
         (office) => office.OfficeId === event.target.value
+      ).length > 0) {
+        setOfficeName(officeData.filter(
+          (office) => office.OfficeId === event.target.value
         )[0].OfficeName)
+      }
     }
   };
 
@@ -152,10 +156,14 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
 
     setSelectedOffice(event.target.value);
     setIsAdmin(isAdmin);
-    setOfficeName(officeData.filter(
-      (office) => office.OfficeId === event.target.value
-      )[0].OfficeName)
 
+    if (officeData.filter(
+      (office) => office.OfficeId === event.target.value
+    ).length > 0) {
+      setOfficeName(officeData.filter(
+        (office) => office.OfficeId === event.target.value
+      )[0].OfficeName)
+    }
   };
 
   //fetching company, wholesale pumps, retail pumps data from officeData.json
@@ -180,17 +188,17 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
         <div className='fs-2 mx-sm-0 mx-md-3 fw-bold'><span className='me-2 ms-md-1  ms-2 text-primary'><FontAwesomeIcon icon={faCoins} /></span> Sales Overview</div>
         <button className="btn btn-primary btn-lg mx-2" type="submit" onClick={() => setFilterOn(!filterOn)}><span className='me-1'>{filterOn ? <FontAwesomeIcon icon={faXmark} size='lg' /> : <FontAwesomeIcon icon={faFilter} size='sm' />}</span>  {windowWidth > 500 ? filterOn ? 'Close' : `Filter` : ""}</button>
       </div>
-      <div style={{ visibility: filterOn ? 'visible' : 'hidden', opacity: filterOn ? 1 : 0, height: filterOn ? windowWidth >= 768 ?"85px":"130px" : 0, marginBottom: filterOn ? "10px" : 0 }} className={`${css.topContainer} ${themeMode === "dark" ? css.darkMode : css.lightMode
+      <div style={{ visibility: filterOn ? 'visible' : 'hidden', opacity: filterOn ? 1 : 0, height: filterOn ? windowWidth >= 768 ? "85px" : "130px" : 0, marginBottom: filterOn ? "10px" : 0 }} className={`${css.topContainer} ${themeMode === "dark" ? css.darkMode : css.lightMode
         }`}>
-      
 
-        <div className="row d-flex justify-content-start flex-wrap align-items-center mx-0 mx-sm-2 mx-md-0 w-100" style={{width:"100% !important"}}>
+
+        <div className="row d-flex justify-content-start flex-wrap align-items-center mx-0 mx-sm-2 mx-md-0 w-100" style={{ width: "100% !important" }}>
           <div className="col-md-6 col-lg-5 col-xl-4 col-xxl-4 my-sm-2   my-2 d-flex justify-content-center align-items-center pw-md-0 mx-0 ">
-          {windowWidth>400?<div className="me-2 me-sm-3  ms-1 ms-lg-2"><FontAwesomeIcon icon={faCalendarDays} style={{fontSize:'2.3rem',color:"white"}}/></div>:''}
+            {windowWidth > 400 ? <div className="me-2 me-sm-3  ms-1 ms-lg-2"><FontAwesomeIcon icon={faCalendarDays} style={{ fontSize: '2.3rem', color: "white" }} /></div> : ''}
             <DateRangePicker
               size="lg"
               showOneCalendar
-              style={{ color: 'black',width:"100%" }}
+              style={{ color: 'black', width: "100%" }}
 
               value={selectedRange}
               onChange={handleDateRange}
@@ -199,7 +207,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
             />
           </div>
           <div className="col-md-6 col-lg-5 col-xl-4 col-xxl-4 my-sm-2   my-2 d-flex justify-content-center align-items-center mx-0">
-            {windowWidth>400?<div className="me-2 me-sm-3 ms-1 ms-lg-2 mt-1"><FontAwesomeIcon icon={faBuilding} style={{fontSize:'2.3rem',color:"white"}}/></div>:''}
+            {windowWidth > 400 ? <div className="me-2 me-sm-3 ms-1 ms-lg-2 mt-1"><FontAwesomeIcon icon={faBuilding} style={{ fontSize: '2.3rem', color: "white" }} /></div> : ''}
             <select className="form-select form-select-lg" aria-label="Default select example" id="office" onChange={handleOfficeChange} style={{ paddingBottom: "4px !important", paddingTop: "4px !important" }}>
               {companies.length > 1 ? <><option
                 value={officeId}
@@ -209,8 +217,8 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
 
               >
                 All Entities
-                
-              </option> </>: ''}
+
+              </option> </> : ''}
               {companies.length > 0 ? <><option
                 value={officeId}
                 data-isretail="0"
@@ -234,7 +242,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
                 </option>
               ))}
 
-              {wholesales.length > 1 || retails.length > 1 ?<> <option
+              {wholesales.length > 1 || retails.length > 1 ? <> <option
                 value={officeId}
                 data-isretail="-1"
                 data-isadmin="1"
@@ -252,7 +260,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
               >
                 &nbsp;&nbsp;&nbsp;Wholesale
                 Pumps
-              </option></>: ''}
+              </option></> : ''}
               {wholesales.map((wholesalep) => (
                 <option
                   key={wholesalep.OfficeId}
@@ -265,7 +273,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
                   {wholesalep.OfficeName}
                 </option>
               ))}
-              {(retails.length > 0 && companies.length > 0 ) ? <option
+              {(retails.length > 0 && companies.length > 0) ? <option
                 value={officeId}
                 data-isretail="1"
                 data-isadmin="2"
@@ -273,9 +281,9 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
 
               >
                 &nbsp;&nbsp;&nbsp;Retail Pumps
-              </option>: ''}
-              
-              {(retails.length > 0 && companies.length >0 )?retails.map((retailp) => (
+              </option> : ''}
+
+              {(retails.length > 0 && companies.length > 0) ? retails.map((retailp) => (
                 <option
                   key={retailp.OfficeId}
                   value={retailp.OfficeId}
@@ -286,7 +294,7 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   {retailp.OfficeName}
                 </option>
-              )):retails.map((retailp) => (
+              )) : retails.map((retailp) => (
                 <option
                   key={retailp.OfficeId}
                   value={retailp.OfficeId}
@@ -294,22 +302,22 @@ const Statistics = ({ themeMode, officeId, adminStatus }) => {
                   data-isadmin="0"
                   className={`${css.optionGroup}`}
                 >
-                 
+
                   {retailp.OfficeName}
                 </option>
               ))}
             </select>
           </div>
-       
+
         </div>
       </div>
 
-      <div className={`${windowWidth>550?"container-fluid":""}`}>
+      <div className={`${windowWidth > 550 ? "container-fluid" : ""}`}>
         {selectedOffice.length > 0 ? <Row>
           <Col md={12} lg={8} ><StatisticsChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} /></Col>
           <Col md={12} lg={4} ><OrdersPieChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} /></Col>
           <Col md={12} lg={4} className='mt-3'><ProductQtyChart selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} /></Col>
-          <Col md={12} lg={8} className='mt-3'><StatisticsChart2 selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} SelectedOfficeName={officeName}/></Col>
+          <Col md={12} lg={8} className='mt-3'><StatisticsChart2 selectedRange={selectedRange} themeMode={themeMode} selectedOffice={selectedOffice} isAdmin={isAdmin} SelectedOfficeName={officeName} /></Col>
         </Row> : ''}
       </div>
 

@@ -138,7 +138,7 @@ const StatisticsChart2 = ({ themeMode, selectedRange, selectedOffice, isAdmin,Se
 
           setTableData(tabletemp)
           setChartData(temp)
-          console.log("chartData", temp.map((item) => item.sales))
+        
         }
         // if (Array.isArray(data.graph1)) {
         //   const filteredData = data.graph1.map((item) => {
