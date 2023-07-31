@@ -57,6 +57,7 @@ const Dashboard = () => {
   const [userData, setUserData] = useState("");
   const [adminStatus, setAdminStatus] = useState("")
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [officeData, setOfficeData] = useState({});
 
   // Function to update the window width state on window resize
   const handleWindowResize = () => {
@@ -107,6 +108,7 @@ const Dashboard = () => {
         // Fetch data from the second API endpoint
         const response2 = await axios.get(apiUrl2, { headers });
         const data2 = response2.data;
+        setOfficeData(data2);
 
         // Now you have all the data from apiUrl2 available in the 'data2' object
         const userCountData = data2.userCount || [];
@@ -185,17 +187,17 @@ const Dashboard = () => {
             className={`${css.cards} ${themeMode === "dark" ? css.darkMode : css.lightMode
               }`}
           >
-            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}>
-              {userCountData?<UserCard userCountData={userCountData} />:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}
+            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px",margin:"10px"}}/>}>
+              {officeData?<UserCard userCountData={userCountData} />:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px",margin:"10px"}}/>}
             </Suspense>
-            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}>
-              {officeCountData?<OfficeCard officeCountData={officeCountData} />:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}
+            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px",margin:"10px"}}/>}>
+              {officeData?<OfficeCard officeCountData={officeCountData} />:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px",margin:"10px"}}/>}
             </Suspense>
-            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}>
-              {totalIncome?<SalesCard totalIncome={totalIncome} countIncome={countIncome}/>:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}
+            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px",margin:"10px"}}/>}>
+              {officeData?<SalesCard totalIncome={totalIncome} countIncome={countIncome}/>:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px",margin:"10px"}}/>}
             </Suspense>
-            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}>
-              {totalExpense?<ExpenseCard totalExpense={totalExpense} countExpense={countExpense}/>:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px"}}/>}
+            <Suspense fallback={ <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px",margin:"10px"}}/>}>
+              {officeData?<ExpenseCard totalExpense={totalExpense} countExpense={countExpense}/>:<Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"auto"} style={{borderRadius:"10px",paddingTop:"135px",margin:"10px"}}/>}
             </Suspense>
             
             {/* <Skeleton variant="rounded" width={windowWidth>900?"22%":windowWidth>768?"45%":"100%"} height={"100%"} style={{borderRadius:"10px"}}/> */}
